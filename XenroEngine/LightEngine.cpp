@@ -35,6 +35,9 @@ void LightEngine::drawLight(Light light) {
 
 void LightEngine::renderAllLights() {
 
+	//Use Additive blending for the lights.
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
 	m_spriteBatch.begin();
 
 	for (size_t i = 0; i < m_lights.size(); i++) {
@@ -43,6 +46,9 @@ void LightEngine::renderAllLights() {
 
 	m_spriteBatch.end();
 	m_spriteBatch.renderBatch();
+
+	//Reset to regular alpha blending.
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void LightEngine::addLights(std::vector<Light>& lights) {

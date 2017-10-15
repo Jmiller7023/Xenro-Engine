@@ -12,5 +12,5 @@ out vec4 color;
 void main(){
 
 	float distance = length(fragmentUV);
-	color = vec4(fragmentColor.rgb, fragmentColor.a * (1.0 - distance));
+	color = vec4(fragmentColor.rgb, fragmentColor.a * (pow(0.01, distance) - 0.01));
 }

@@ -82,11 +82,11 @@ void GameplayScreen::onEntry() {
 	//Initialize the lights.
 	Xenro::Light playerLight(Xenro::ColorRGBA(255, 0, 255, 128),
 		glm::vec2(m_player->getPos().x + m_player->getDrawDims().x / 2.0f, m_player->getPos().y + m_player->getDrawDims().y / 2.0f),
-		glm::vec2(60.0f));
+		glm::vec2(150.0f));
 
 	Xenro::Light mouseLight(Xenro::ColorRGBA(0, 0, 255, 255),
 		m_camera.convertScreentoWorld(m_game->getInputManager()->getMouseCoords()),
-		glm::vec2(150.0f));
+		glm::vec2(300.0f));
 
 	m_playerLightIndex = m_lightEngine.addLight(playerLight);
 	m_mouselightIndex = m_lightEngine.addLight(mouseLight);
