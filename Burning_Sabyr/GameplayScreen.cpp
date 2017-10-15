@@ -8,6 +8,8 @@
 #include <XenroEngine\Game.h>
 #include <XenroEngine\Globals.h>
 #include <XenroEngine\Vertex.h>
+#include <CEGUI\CEGUI.h>
+#include <CEGUI/RendererMODULES/OpenGL/GL3Renderer.h>
 
 
 GameplayScreen::GameplayScreen(Xenro::Window* window)
@@ -91,6 +93,8 @@ void GameplayScreen::onEntry() {
 	m_playerLightIndex = m_lightEngine.addLight(playerLight);
 	m_mouselightIndex = m_lightEngine.addLight(mouseLight);
 
+	//TEMP UI
+	CEGUI::OpenGL3Renderer& myRenderer = CEGUI::OpenGL3Renderer::bootstrapSystem();
 }
 
 void GameplayScreen::onExit() {

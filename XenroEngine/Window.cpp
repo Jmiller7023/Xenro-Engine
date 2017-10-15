@@ -53,8 +53,8 @@ int Window::create(std::string windowName, int screenWidth, int screenHeight, un
 	//Check the OpenGL version.
 	std::printf("***   OpenGL Version: %s   ***\n", glGetString(GL_VERSION));
 
-	//Set window color to blue.
-	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+	//Set window color to black.
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	//Set VSYNC: 0 turns it off and 1 turns it on.
 	SDL_GL_SetSwapInterval(0);
