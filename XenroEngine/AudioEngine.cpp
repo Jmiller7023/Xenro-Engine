@@ -9,7 +9,7 @@ void SFX::play(int loops) {
 	if (m_channel == -1) {
 		//Overwrite channel 0 with SFX.
 		if(Mix_PlayChannel(0, m_chunk, loops) == -1){
-		error("failed to play SFX error: " + std::string(Mix_GetError()));
+		errorMessage("failed to play SFX error: " + std::string(Mix_GetError()));
 		}
 	}
 }
@@ -17,7 +17,7 @@ void SFX::play(int loops) {
 void Song::play(int loops) {
 
 	if(Mix_PlayMusic(m_music, loops) == -1) {
-		error("failed to play song error: " + std::string(Mix_GetError()));
+		errorMessage("failed to play song error: " + std::string(Mix_GetError()));
 	}
 }
 

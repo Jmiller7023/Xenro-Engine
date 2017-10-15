@@ -6,15 +6,15 @@
 
 namespace Xenro {
 
-extern void fatalError(std::string errorString) {
-	std::cout << errorString << std::endl;
+extern void fatalError(const std::string& errorMSG) {
+	std::cout << errorMSG << std::endl;
 	SDL_Quit();
 	exit(1);
 	}
 
 
-extern void error(std::string errorString) {
-	std::cout << errorString << std::endl;
+extern void errorMessage(const std::string& errorMSG) {
+	std::cout << errorMSG << std::endl;
 }
 
 }

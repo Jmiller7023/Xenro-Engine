@@ -1,23 +1,27 @@
 #include "LightEngine.h"
+#include "Errormessages.h"
 
 namespace Xenro{
 
 Light::Light(ColorRGBA Color, glm::vec2 Pos, glm::vec2 Size)
 	:color(Color), pos(Pos), size(Size)
 {
-
+	//Empty
 }
 
 LightEngine::LightEngine()
 {
+	//Empty
 }
 
 
 LightEngine::~LightEngine()
 {
+	//Empty
 }
 
 void LightEngine::drawLight(Light light) {
+
 	glm::vec4 DrawRect;
 	DrawRect.x = light.pos.x - light.size.x / 2.0f;
 	DrawRect.y = light.pos.y - light.size.y / 2.0f;
@@ -27,6 +31,7 @@ void LightEngine::drawLight(Light light) {
 }
 
 void LightEngine::renderAllLights() {
+
 	m_spriteBatch.begin();
 
 	for (size_t i = 0; i < m_lights.size(); i++) {
@@ -58,6 +63,9 @@ int LightEngine::addLight(ColorRGBA color, glm::vec2 pos, glm::vec2 size) {
 
 void LightEngine::modifyLight(int index, ColorRGBA color, glm::vec2 pos, glm::vec2 size) {
 
+	if (index >= (int)m_lights.size()) {
+		errorMessage("index is out of array size");
+	}
 }
 
 void LightEngine::modifyLightColor(int index, ColorRGBA color) {
