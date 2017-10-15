@@ -3,71 +3,6 @@
 
 namespace Xenro{
 
-
-Glyph::Glyph(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint Texture, float Depth, const ColorRGBA& color)
-	:texture(Texture), depth(Depth) {
-
-	topLeft.color = color;
-	topLeft.setPosition(destRect.x, destRect.y + destRect.w);
-	topLeft.setUV(uvRect.x, uvRect.y + uvRect.w);
-
-	topRight.color = color;
-	topRight.setPosition(destRect.x + destRect.z, destRect.y + destRect.w);
-	topRight.setUV(uvRect.x + uvRect.z, uvRect.y + uvRect.w);
-
-	bottomLeft.color = color;
-	bottomLeft.setPosition(destRect.x, destRect.y);
-	bottomLeft.setUV(uvRect.x, uvRect.y);
-
-	bottomRight.color = color;
-	bottomRight.setPosition(destRect.x + destRect.z, destRect.y);
-	bottomRight.setUV(uvRect.x + uvRect.z, uvRect.y);
-}
-
-Glyph::Glyph(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint Texture, float Depth, const ColorRGBA& color, float angle)
-	:texture(Texture), depth(Depth) {
-
-	glm::vec2 halfDims(destRect.z / 2.0f, destRect.y / 2.0f);
-
-	//center points at origin.
-	glm::vec2 tl(-halfDims.x, halfDims.y);
-	glm::vec2 bl(-halfDims.x, -halfDims.y);
-	glm::vec2 br(halfDims.x, -halfDims.y);
-	glm::vec2 tr(halfDims.x, halfDims.y);
-
-	//Rotate the points.
-
-	tl = rotatePoint(tl, angle) + halfDims;
-	bl = rotatePoint(bl, angle) + halfDims;
-	br = rotatePoint(br, angle) + halfDims;
-	tr = rotatePoint(tr, angle) + halfDims;
-
-	topLeft.color = color;
-	topLeft.setPosition(destRect.x + tl.x, destRect.y + tl.y);
-	topLeft.setUV(uvRect.x, uvRect.y + uvRect.w);
-
-	topRight.color = color;
-	topRight.setPosition(destRect.x + tr.x, destRect.y + tr.y);
-	topRight.setUV(uvRect.x + uvRect.z, uvRect.y + uvRect.w);
-
-	bottomLeft.color = color;
-	bottomLeft.setPosition(destRect.x + bl.x, destRect.y + bl.y);
-	bottomLeft.setUV(uvRect.x, uvRect.y);
-
-	bottomRight.color = color;
-	bottomRight.setPosition(destRect.x + br.x, destRect.y + br.y);
-	bottomRight.setUV(uvRect.x + uvRect.z, uvRect.y);
-}
-
-glm::vec2 Glyph::rotatePoint(glm::vec2 pos, float angle) {
-	glm::vec2 newpos;
-
-	newpos.x = pos.x * cos(angle) - pos.y * sin(angle);
-	newpos.y = pos.x * sin(angle) + pos.y * cos(angle);
-	
-	return newpos;
-}
-
 SpriteBatch::SpriteBatch()
 	:m_vbo(0), m_vao(0)
 {
@@ -79,18 +14,18 @@ SpriteBatch::~SpriteBatch()
 {
 }
 
-void SpriteBatch::begin(GlyphSortType sortType) {
+void SpriteBatch::begin(SpriteSortType sortType) {
 	m_sortType = sortType;
 
 	m_renderBatches.clear();
-	m_glyphs.clear();
+	m_sprites.clear();
 }
 
 void SpriteBatch::end() {
 	//set up all pointers for faster sorting.
-	m_glyphpointers.resize(m_glyphs.size());
-	for (size_t i = 0; i < m_glyphs.size(); i++) {
-		m_glyphpointers[i] = &m_glyphs[i];
+	m_spritePointers.resize(m_sprites.size());
+	for (size_t i = 0; i < m_sprites.size(); i++) {
+		m_spritePointers[i] = &m_sprites[i];
 	}
 
 	sortGlyphs();
@@ -99,18 +34,18 @@ void SpriteBatch::end() {
 
 void SpriteBatch::draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const ColorRGBA& color) {
 
-	m_glyphs.emplace_back(destRect, uvRect, texture, depth, color);
+	m_sprites.emplace_back(destRect, uvRect, texture, depth, color);
 }
 
 void SpriteBatch::draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const ColorRGBA& color, float angle) {
 
-	m_glyphs.emplace_back(destRect, uvRect, texture, depth, color, angle);
+	m_sprites.emplace_back(destRect, uvRect, texture, depth, color, angle);
 }
 
 void SpriteBatch::draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const ColorRGBA& color, glm::vec2 direction) {
 	float angle = calcAngle(direction);
 
-	m_glyphs.emplace_back(destRect, uvRect, texture, depth, color, angle);
+	m_sprites.emplace_back(destRect, uvRect, texture, depth, color, angle);
 }
 
 void SpriteBatch::renderBatch() {
@@ -128,38 +63,38 @@ void SpriteBatch::renderBatch() {
 
 void SpriteBatch::createRenderBatches() {
 	std::vector<Vertex> vertices;
-	vertices.resize(m_glyphpointers.size() * 6);
+	vertices.resize(m_spritePointers.size() * 6);
 
-	if (m_glyphpointers.empty()) {
+	if (m_spritePointers.empty()) {
 		return;
 	}
 	int offset = 0;
 	int currentVertex = 0;
 
 	//constructs our first render batch and pushes it back in the vector.
-	m_renderBatches.emplace_back(offset, 6, m_glyphpointers[0]->texture);
-	vertices[currentVertex++] = m_glyphpointers[0]->topLeft;
-	vertices[currentVertex++] = m_glyphpointers[0]->bottomLeft;
-	vertices[currentVertex++] = m_glyphpointers[0]->bottomRight;
-	vertices[currentVertex++] = m_glyphpointers[0]->bottomRight;
-	vertices[currentVertex++] = m_glyphpointers[0]->topRight;
-	vertices[currentVertex++] = m_glyphpointers[0]->topLeft;
+	m_renderBatches.emplace_back(offset, 6, m_spritePointers[0]->texture);
+	vertices[currentVertex++] = m_spritePointers[0]->topLeft;
+	vertices[currentVertex++] = m_spritePointers[0]->bottomLeft;
+	vertices[currentVertex++] = m_spritePointers[0]->bottomRight;
+	vertices[currentVertex++] = m_spritePointers[0]->bottomRight;
+	vertices[currentVertex++] = m_spritePointers[0]->topRight;
+	vertices[currentVertex++] = m_spritePointers[0]->topLeft;
 	offset += 6;
 	int cg = 1; //current glyph
 
-	for (int cg = 1; cg < m_glyphpointers.size(); cg++) {
-		if(m_glyphpointers[cg]->texture != m_glyphpointers[cg - 1]->texture){
-		m_renderBatches.emplace_back(offset, 6, m_glyphpointers[cg]->texture);
+	for (int cg = 1; cg < m_spritePointers.size(); cg++) {
+		if(m_spritePointers[cg]->texture != m_spritePointers[cg - 1]->texture){
+		m_renderBatches.emplace_back(offset, 6, m_spritePointers[cg]->texture);
 		}
 		else {
 			m_renderBatches.back().numVerts += 6;
 		}
-		vertices[currentVertex++] = m_glyphpointers[cg]->topLeft;
-		vertices[currentVertex++] = m_glyphpointers[cg]->bottomLeft;
-		vertices[currentVertex++] = m_glyphpointers[cg]->bottomRight;
-		vertices[currentVertex++] = m_glyphpointers[cg]->bottomRight;
-		vertices[currentVertex++] = m_glyphpointers[cg]->topRight;
-		vertices[currentVertex++] = m_glyphpointers[cg]->topLeft;
+		vertices[currentVertex++] = m_spritePointers[cg]->topLeft;
+		vertices[currentVertex++] = m_spritePointers[cg]->bottomLeft;
+		vertices[currentVertex++] = m_spritePointers[cg]->bottomRight;
+		vertices[currentVertex++] = m_spritePointers[cg]->bottomRight;
+		vertices[currentVertex++] = m_spritePointers[cg]->topRight;
+		vertices[currentVertex++] = m_spritePointers[cg]->topLeft;
 		offset += 6;
 	}
 	
@@ -207,29 +142,29 @@ void SpriteBatch::createVertexArray() {
 
 void SpriteBatch::sortGlyphs() {
 	switch (m_sortType) {
-	case GlyphSortType::BACK_TO_FRONT:
-	    std::stable_sort(m_glyphpointers.begin(), m_glyphpointers.end(), compareBackToFront);
+	case SpriteSortType::BACK_TO_FRONT:
+	    std::stable_sort(m_spritePointers.begin(), m_spritePointers.end(), compareBackToFront);
 		break;
-	case GlyphSortType::FRONT_TO_BACK:
-		std::stable_sort(m_glyphpointers.begin(), m_glyphpointers.end(), compareFrontToBack);
+	case SpriteSortType::FRONT_TO_BACK:
+		std::stable_sort(m_spritePointers.begin(), m_spritePointers.end(), compareFrontToBack);
 		break;
-	case GlyphSortType::TEXTURE:
-		std::stable_sort(m_glyphpointers.begin(), m_glyphpointers.end(), compareTexture);
+	case SpriteSortType::TEXTURE:
+		std::stable_sort(m_spritePointers.begin(), m_spritePointers.end(), compareTexture);
 		break;
 
 	}
 
 }
 
-bool SpriteBatch::compareFrontToBack(Glyph* a, Glyph* b) {
+bool SpriteBatch::compareFrontToBack(Sprite* a, Sprite* b) {
 	return (a->depth < b->depth);
  }
 
-bool SpriteBatch::compareBackToFront(Glyph* a, Glyph* b) {
+bool SpriteBatch::compareBackToFront(Sprite* a, Sprite* b) {
 	return (a->depth > b->depth);
  }
 
- bool SpriteBatch::compareTexture(Glyph* a, Glyph* b) {
+ bool SpriteBatch::compareTexture(Sprite* a, Sprite* b) {
 	 return (a->texture < b->texture);
 }
 

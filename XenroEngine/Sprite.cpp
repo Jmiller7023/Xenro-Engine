@@ -5,91 +5,69 @@
 
 namespace Xenro{
 
-Sprite::Sprite()
+Sprite::Sprite(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint Texture, float Depth, const ColorRGBA& color)
+	:texture(Texture), depth(Depth) 
 {
-	m_vboID = 0;
+
+	topLeft.color = color;
+	topLeft.setPosition(destRect.x, destRect.y + destRect.w);
+	topLeft.setUV(uvRect.x, uvRect.y + uvRect.w);
+
+	topRight.color = color;
+	topRight.setPosition(destRect.x + destRect.z, destRect.y + destRect.w);
+	topRight.setUV(uvRect.x + uvRect.z, uvRect.y + uvRect.w);
+
+	bottomLeft.color = color;
+	bottomLeft.setPosition(destRect.x, destRect.y);
+	bottomLeft.setUV(uvRect.x, uvRect.y);
+
+	bottomRight.color = color;
+	bottomRight.setPosition(destRect.x + destRect.z, destRect.y);
+	bottomRight.setUV(uvRect.x + uvRect.z, uvRect.y);
 }
 
-
-Sprite::~Sprite()
+Sprite::Sprite(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint Texture, float Depth, const ColorRGBA& color, float angle)
+	:texture(Texture), depth(Depth)
 {
-	if (m_vboID != 0) {
-		glDeleteBuffers(1, &m_vboID);
-	}
+
+	glm::vec2 halfDims(destRect.z / 2.0f, destRect.y / 2.0f);
+
+	//center points at origin.
+	glm::vec2 tl(-halfDims.x, halfDims.y);
+	glm::vec2 bl(-halfDims.x, -halfDims.y);
+	glm::vec2 br(halfDims.x, -halfDims.y);
+	glm::vec2 tr(halfDims.x, halfDims.y);
+
+	//Rotate the points.
+	tl = rotatePoint(tl, angle) + halfDims;
+	bl = rotatePoint(bl, angle) + halfDims;
+	br = rotatePoint(br, angle) + halfDims;
+	tr = rotatePoint(tr, angle) + halfDims;
+
+	topLeft.color = color;
+	topLeft.setPosition(destRect.x + tl.x, destRect.y + tl.y);
+	topLeft.setUV(uvRect.x, uvRect.y + uvRect.w);
+
+	topRight.color = color;
+	topRight.setPosition(destRect.x + tr.x, destRect.y + tr.y);
+	topRight.setUV(uvRect.x + uvRect.z, uvRect.y + uvRect.w);
+
+	bottomLeft.color = color;
+	bottomLeft.setPosition(destRect.x + bl.x, destRect.y + bl.y);
+	bottomLeft.setUV(uvRect.x, uvRect.y);
+
+	bottomRight.color = color;
+	bottomRight.setPosition(destRect.x + br.x, destRect.y + br.y);
+	bottomRight.setUV(uvRect.x + uvRect.z, uvRect.y);
 }
 
-void Sprite::init(float x, float y, float height, float width, std::string texturePath) {
-	m_x = x;
-	m_y = y;
-	m_width = width;
-	m_height = height;
+glm::vec2 Sprite::rotatePoint(glm::vec2 pos, float angle) {
 
-	m_texture = ResourceManager::getTexture(texturePath);
+	glm::vec2 newpos;
 
-	if (m_vboID == 0) {
-		glGenBuffers(1, &m_vboID);
-		
-		//come back and optimize this to just 4 vertices.
-		Vertex vertexData[6];
-		
-		//first triangle.
-		vertexData[0].setPosition(x + width, y + height);
-		vertexData[0].setUV(1.0f, 1.0f);
+	newpos.x = pos.x * cos(angle) - pos.y * sin(angle);
+	newpos.y = pos.x * sin(angle) + pos.y * cos(angle);
 
-		vertexData[1].setPosition(x, y + height);
-		vertexData[1].setUV(0.0f, 1.0f);
-
-		vertexData[2].setPosition(x, y);
-		vertexData[2].setUV(0.0f, 0.0f);
-
-		//second triangle.
-		vertexData[3].setPosition(x, y);
-		vertexData[3].setUV(0.0f, 0.0f);
-
-		vertexData[4].setPosition(x + width, y);
-		vertexData[4].setUV(1.0f, 0.0f);
-
-		vertexData[5].setPosition(x + width, y + height);
-		vertexData[5].setUV(1.0f, 1.0f);
-
-		//Assigning the color.
-		for (int i = 0; i < 6; i++) {
-			vertexData[i].setColor(255, 0, 255, 255);
-		}
-
-		vertexData[1].setColor(0, 255, 0, 255);
-
-		vertexData[4].setColor(15, 25, 201, 255);
-
-		//tell opengl to bind our vertex buffer object.
-		glBindBuffer(GL_ARRAY_BUFFER, m_vboID);
-
-		//Upload data to GPU.
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
-		
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-	}
-
-	
-	
+	return newpos;
 }
-
-void Sprite::draw() {
-
-	glBindTexture(GL_TEXTURE_2D, m_texture.ID);
-
-	//Bind the buffer object.
-	glBindBuffer(GL_ARRAY_BUFFER, m_vboID);
-
-	
-
-	//Draw the 6 vertices to the screen.
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-
-	//Disable the vertex attrib array. This is not optimal.
-	glDisableVertexAttribArray(0);
-
-	//Disable the VBO.
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	}
 }

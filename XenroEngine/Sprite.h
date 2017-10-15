@@ -1,28 +1,27 @@
 #pragma once
+#include <glm\glm.hpp>
 #include <GL\glew.h>
-#include "GLTexture.h"
-
+#include "Vertex.h"
 #include <string>
 
 namespace Xenro {
-	class Sprite
-	{
+
+	class Sprite {
 	public:
-		Sprite();
-		~Sprite();
+		Sprite() {}
+		Sprite(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint Texture, float Depth, const ColorRGBA& color);
+		Sprite(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint Texture, float Depth, const ColorRGBA& color, float angle);
 
-		//initialize our sprites.
-		void init(float x, float y, float height, float width, std::string texturePath);
+		GLuint texture;
+		float depth;
 
-		//draw our sprites to the screen.
-		void draw();
+		Vertex topLeft;
+		Vertex bottomLeft;
+		Vertex topRight;
+		Vertex bottomRight;
 
 	private:
-		float m_x;
-		float m_y;
-		float m_height;
-		float m_width;
-		GLuint m_vboID;
-		GLTexture m_texture;
+		glm::vec2 rotatePoint(glm::vec2 pos, float angle);
 	};
+
 }
