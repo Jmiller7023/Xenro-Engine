@@ -8,12 +8,10 @@
 #include <XenroEngine\Game.h>
 #include <XenroEngine\Globals.h>
 #include <XenroEngine\Vertex.h>
-#include <CEGUI\CEGUI.h>
-#include <CEGUI/RendererMODULES/OpenGL/GL3Renderer.h>
 
 
 GameplayScreen::GameplayScreen(Xenro::Window* window)
-	:m_window(window)
+	:m_window(window), m_GUI("GUI")
 {
 
 }
@@ -93,8 +91,12 @@ void GameplayScreen::onEntry() {
 	m_playerLightIndex = m_lightEngine.addLight(playerLight);
 	m_mouselightIndex = m_lightEngine.addLight(mouseLight);
 
-	//TEMP UI
-	CEGUI::OpenGL3Renderer& myRenderer = CEGUI::OpenGL3Renderer::bootstrapSystem();
+	//Init GUI.
+	m_GUI.loadScheme("AlfiskoSkin.scheme");
+	m_GUI.loadFont("DejaVuSans-10");
+	CEGUI::PushButton* testButton = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("AlfiskoSkin/Button", glm::vec4(0.5f, 0.5f, 0.15f, 0.05f), glm::vec4(0), "TestButton"));
+	testButton->setText("3 hours for this...");
+
 }
 
 void GameplayScreen::onExit() {
@@ -251,4 +253,6 @@ void GameplayScreen::draw() {
 	m_lightEngine.renderAllLights();
 
 	m_lightProgram.unuse();
+
+	m_GUI.draw();
 }

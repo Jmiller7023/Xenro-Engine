@@ -11,6 +11,7 @@
 #include <vector>
 #include "Bullet.h"
 #include "LevelLoader.h"
+#include <XenroEngine\GUI.h>
 
 class Player;
 class SpriteFont;
@@ -53,6 +54,7 @@ private:
 	std::vector<Bullet> m_bullets;
 	Xenro::OutlineRenderer m_outlineRenderer;
 	Xenro::LightEngine m_lightEngine;
+	Xenro::GUI m_GUI;
 
 	int m_mouselightIndex;
 	int m_playerLightIndex;

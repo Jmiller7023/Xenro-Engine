@@ -151,6 +151,7 @@
     <ClCompile Include="ErrorMessages.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GLSLProgram.cpp" />
+    <ClCompile Include="GUI.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="ImageLoader.cpp" />
     <ClCompile Include="InputManager.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="Globals.h" />
     <ClInclude Include="GLSLProgram.h" />
     <ClInclude Include="GLTexture.h" />
+    <ClInclude Include="GUI.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="ImageLoader.h" />
     <ClInclude Include="InputManager.h" />
