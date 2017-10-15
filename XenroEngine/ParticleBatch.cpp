@@ -4,6 +4,11 @@
 
 namespace Xenro {
 
+	void updateBloodParticles(Xenro::Particle& particle, float deltaTime) {
+		particle.position += particle.velocity * deltaTime;
+		particle.color.a = (GLubyte)(particle.lifeTime * 255.0f);
+	}
+
 	ParticleBatch::ParticleBatch(int maxParticles, float decayRate, GLTexture texture, std::function<void(Particle&, float)> updateFunc)
 		:m_decayRate(decayRate), m_maxParticles(maxParticles), m_lastFreeParticle(0), m_particles(nullptr), m_texture(texture), m_updateFunc(updateFunc)
 	{
