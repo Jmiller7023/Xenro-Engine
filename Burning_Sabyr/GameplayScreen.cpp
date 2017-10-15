@@ -79,6 +79,18 @@ void GameplayScreen::onEntry() {
 
 	m_player->initializeActor("Textures/aqua.png", color, SpriteSheetDims, m_levelLoader.getStartPlayerPos(), glm::vec2(60.0f), glm::vec2(30.0f, 40.0f));
 
+	//Initialize the lights.
+	Xenro::Light playerLight(Xenro::ColorRGBA(255, 0, 255, 128),
+		glm::vec2(m_player->getPos().x + m_player->getDrawDims().x / 2.0f, m_player->getPos().y + m_player->getDrawDims().y / 2.0f),
+		glm::vec2(60.0f));
+
+	Xenro::Light mouseLight(Xenro::ColorRGBA(0, 0, 255, 255),
+		m_camera.convertScreentoWorld(m_game->getInputManager()->getMouseCoords()),
+		glm::vec2(150.0f));
+
+	m_playerLightIndex = m_lightEngine.addLight(playerLight);
+	m_mouselightIndex = m_lightEngine.addLight(mouseLight);
+
 }
 
 void GameplayScreen::onExit() {
@@ -94,8 +106,9 @@ void GameplayScreen::update() {
 
 	m_camera.update();
 	
-	
-
+	m_lightEngine.modifyLightPos(m_mouselightIndex, m_camera.convertScreentoWorld(m_game->getInputManager()->getMouseCoords()));
+	m_lightEngine.modifyLightPos(m_playerLightIndex, glm::vec2(m_player->getPos().x + m_player->getDrawDims().x / 2.0f, m_player->getPos().y + m_player->getDrawDims().y / 2.0f));
+		
 	for (size_t i = 0; i < m_bullets.size();) {
 		if (m_bullets[i].updatePos() == true) {
 			m_bullets[i] = m_bullets.back();
@@ -224,20 +237,12 @@ void GameplayScreen::draw() {
 	}
 
 	//Render lights.
-	
-	Xenro::Light playerLight(Xenro::ColorRGBA(255, 0, 255, 128), 
-		glm::vec2(m_player->getPos().x + m_player->getDrawDims().x / 2.0f, m_player->getPos().y + m_player->getDrawDims().y / 2.0f),
-		glm::vec2(60.0f));
-
-	//Render lights.
-	Xenro::Light mouseLight(Xenro::ColorRGBA(0, 0, 255, 255),
-		m_camera.convertScreentoWorld(m_game->getInputManager()->getMouseCoords()), 
-		glm::vec2(150.0f));
-
 	m_lightProgram.use();
 
 	pLocation = m_textureProgram.getUniformLocation("P");
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
+
+	m_lightEngine.renderAllLights();
 
 	m_lightEngine.renderAllLights();
 

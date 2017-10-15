@@ -53,5 +53,8 @@ private:
 	std::vector<Bullet> m_bullets;
 	Xenro::OutlineRenderer m_outlineRenderer;
 	Xenro::LightEngine m_lightEngine;
+
+	int m_mouselightIndex;
+	int m_playerLightIndex;
 };
 
