@@ -2,26 +2,28 @@
 #include <SDL/SDL.h>
 #include <XenroEngine\GLTexture.h>
 
-Player::Player()
+Player::Player(float speed, glm::vec2 pos, Xenro::InputManager* inputManager)
+	: m_inputManager(inputManager)
 {
+	//Asign players color to white.
+	m_color.r = 255;
+	m_color.g = 255;
+	m_color.b = 255;
+	m_color.a = 255;
+
+	//Set Actor's speed
+	m_speed = speed;
+
+	//Set Actor's position
+	m_position = pos;
 }
 
 
 Player::~Player()
 {
+	//Empty
 }
 
-void Player::init(float speed, glm::vec2 pos, Xenro::InputManager* inputManager) {
-
-	m_speed = speed;
-	m_position = pos;
-	m_color.r = 255;
-	m_color.g = 255;
-	m_color.b = 255;
-	m_color.a = 255;
-	m_inputManager = inputManager;
-
-}
 
 void Player::update(const std::vector<std::string>& WorldData) {
 

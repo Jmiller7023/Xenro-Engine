@@ -44,7 +44,7 @@ void GameplayScreen::destroy() {
 void GameplayScreen::onEntry() {
 
 	//Start level music.
-	m_audioEngine.loadSong("Audio/Music/GoodZelda.ogg").play();
+	//m_audioEngine.loadSong("Audio/Music/GoodZelda.ogg").play();
 
 	//Set the camera properly.
 	m_camera.init(m_window->getScreenWidth(), m_window->getScreenHeight());
@@ -72,8 +72,7 @@ void GameplayScreen::onEntry() {
 	m_levelLoader.updateGameWorld();
 
 	//Allocate the player.
-	m_player = new Player;
-	m_player->init(8.0f, m_levelLoader.getStartPlayerPos(), m_game->getInputManager());
+	m_player = new Player(8.0f, m_levelLoader.getStartPlayerPos(), m_game->getInputManager());
 	Xenro::ColorRGBA color(255, 255, 255, 255);
 	glm::vec2 SpriteSheetDims(4, 9);
 

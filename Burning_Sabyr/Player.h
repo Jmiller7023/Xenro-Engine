@@ -8,11 +8,10 @@
 class Player :public Actor
 {
 public:
-	Player();
+	Player(float speed, glm::vec2 pos, Xenro::InputManager* inputManager);
+
 	virtual ~Player();
 	
-	void init(float speed, glm::vec2 pos, Xenro::InputManager* inputManager);
-
 	virtual void update(const std::vector<std::string>& WorldData);
 
 	//void draw(Xenro::SpriteBatch& spriteBatch);
