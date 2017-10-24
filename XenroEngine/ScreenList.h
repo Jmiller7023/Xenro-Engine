@@ -17,6 +17,7 @@ public:
 
 	IScreen* moveNext();
 	IScreen* movePrevious();
+	IScreen* moveToParticular(int nextScreen);
 
 	void setScreen(int nextScreen);
 	void addScreen(IScreen* newScreen);

@@ -3,7 +3,7 @@
 namespace Xenro{
 
 enum class ScreenState {
-		NONE, RUNNING, EXIT_APP, CHANGE_TO_NEXT, CHANGE_TO_PREVIOUS
+		NONE, RUNNING, EXIT_APP, CHANGE_TO_NEXT, CHANGE_TO_PREVIOUS, CHANGE_TO_PARTICULAR
 };
 
 class Game;
@@ -34,15 +34,18 @@ public:
 	//Getters.
 	int getScreenIndex() const { return m_screenIndex; }
 	ScreenState getScreenState() const { return m_currState; }
+	int getParticularScreenIndex() const { return m_changeToParticular; }
 	
 	//Setters.
 	void setGame(Game* game) { m_game = game; }
 	void setRunning() { m_currState = ScreenState::RUNNING; }
+	void setParticularScreenIndex(int index) { m_changeToParticular = index; }
 
 protected:
 	ScreenState m_currState = ScreenState::NONE;
 	Game* m_game = nullptr;
 	int m_screenIndex = -1;
+	int m_changeToParticular = -1;
 };
 
 

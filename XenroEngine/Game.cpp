@@ -95,6 +95,15 @@ void Game::update() {
 			m_currScreen->update();
 			break;
 
+		case ScreenState::CHANGE_TO_PARTICULAR:
+			m_currScreen->onExit();
+			m_currScreen = m_screenList->moveToParticular(m_currScreen->getParticularScreenIndex());
+			if (m_currScreen != nullptr) {
+				m_currScreen->setRunning();
+				m_currScreen->onEntry();
+			}
+			break;
+
 		default:
 			//Do nothing.
 			break;

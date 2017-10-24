@@ -37,6 +37,19 @@ IScreen* ScreenList::movePrevious() {
 	return nullptr;
 }
 
+IScreen* ScreenList::moveToParticular(int nextScreen) {
+
+	IScreen* currScreen = getCurrScreen();
+	if (currScreen->getScreenIndex() != NO_CURRENT_SCREEN_INDEX) {
+		m_currScreenIndex = nextScreen;
+		return getCurrScreen();
+	}
+
+	//There was no next screen so return nullptr.
+	return nullptr;
+
+}
+
 void ScreenList::setScreen(int nextScreen) {
 	m_currScreenIndex = nextScreen;
 }

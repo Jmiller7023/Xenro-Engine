@@ -5,11 +5,13 @@ namespace Xenro{
 Window::Window()
 	:m_screenWidth(0), m_screenHeight(0)
 {
+	//Empty.
 }
 
 
 Window::~Window()
 {
+	//Empty.
 }
 
 int Window::create(std::string windowName, int screenWidth, int screenHeight, unsigned int currentFlags) {
@@ -57,7 +59,7 @@ int Window::create(std::string windowName, int screenWidth, int screenHeight, un
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	//Set VSYNC: 0 turns it off and 1 turns it on.
-	SDL_GL_SetSwapInterval(0);
+	SDL_GL_SetSwapInterval(1);
 
 	//Enable alpha blending.
 	glEnable(GL_BLEND);
