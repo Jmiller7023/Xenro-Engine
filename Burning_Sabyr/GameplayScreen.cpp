@@ -8,12 +8,12 @@
 #include <XenroEngine\Game.h>
 #include <XenroEngine\Globals.h>
 #include <XenroEngine\Vertex.h>
-
+#include "globals.h"
 
 GameplayScreen::GameplayScreen(Xenro::Window* window)
 	:m_window(window), m_GUI("GUI")
 {
-
+	m_screenIndex = GAMEPLAY_SCREEN;
 }
 
 
@@ -29,22 +29,25 @@ int GameplayScreen::getNextScreenIndex() const {
 }
 
 int GameplayScreen::getPrevScrenIndex() const {
-	return NO_CURRENT_SCREEN_INDEX;
+	return MAINMENU_SCREEN;
 }
 
-//Called at beginning and end of application.
 void GameplayScreen::create() {
+	//Nothing right now.
 }
 
 void GameplayScreen::destroy() {
-
+	//Nothing right now.
 }
 
 //Called whenever a screen closes or opens.
 void GameplayScreen::onEntry() {
 
+	//initialize the Audio Engine.
+	m_audioEngine.openEngine();
+
 	//Start level music.
-	//m_audioEngine.loadSong("Audio/Music/GoodZelda.ogg").play();
+	m_audioEngine.loadSong("Audio/Music/GoodZelda.ogg").play();
 
 	//Set the camera properly.
 	m_camera.init(m_window->getScreenWidth(), m_window->getScreenHeight());
@@ -91,20 +94,35 @@ void GameplayScreen::onEntry() {
 	m_mouselightIndex = m_lightEngine.addLight(mouseLight);
 
 	//Init GUI.
-	m_GUI.loadScheme("AlfiskoSkin.scheme");
-	m_GUI.loadFont("DejaVuSans-10");
-	CEGUI::PushButton* testButton = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("AlfiskoSkin/Button", glm::vec4(0.5f, 0.5f, 0.15f, 0.05f), glm::vec4(0), "TestButton"));
-	testButton->setText("3 hours for this...");
+	m_GUI.loadScheme("TaharezLook.scheme");	
+	m_GUI.loadFont("Jura-10");
 
+	m_GUI.setMouseCursor("TaharezLook/MouseArrow");
+	m_GUI.showCursor();
+
+	//Disables normal mouse cursor.
+	SDL_ShowCursor(0);
 }
 
 void GameplayScreen::onExit() {
-
+	m_audioEngine.closeEngine();
 }
 
 //Called in Gameloop update function.
 void GameplayScreen::update() {
 
+	//for testing purposes. Delete afterwards.
+	SDL_Event evnt;
+	while (SDL_PollEvent(&evnt)) {
+		m_game->getInputManager()->processInput(evnt);
+		m_GUI.onEvent(evnt);
+		//Crappy work around. Fix later.
+		if (evnt.type == SDL_QUIT)
+			return;
+	}
+
+	//endtest
+	
 	m_player->update(m_levelLoader.getLevelData());
 
 	m_camera.setPosition(m_player->getPos());
@@ -124,6 +142,7 @@ void GameplayScreen::update() {
 		}
 	}
 
+
 	if (m_game->getInputManager()->isDown(SDLK_w)) {
 		m_camera.setPosition(m_camera.getPosition() + glm::vec2(0.0f, CAMERA_SPEED));
 	}
@@ -142,25 +161,10 @@ void GameplayScreen::update() {
 	if (m_game->getInputManager()->isDown(SDLK_e)) {
 		m_camera.setScale(m_camera.getScale() - SCALE_SPEED);
 	}
-
-
-	/*
-	if (m_game->getInputManager()->isPressed(SDLK_o)) {
-
-		m_gamestate = GameState::PAUSE;
-
-		m_audioEngine.loadSong("Audio/Music/Persona.ogg").stop();
-		m_audioEngine.loadSong("Audio/Music/song.ogg").play();
-
-		//Remember to release the key.
-		m_game->getInputManager()->keyRelease(SDLK_o);
-
-		pauseLoop();
-
-		m_audioEngine.loadSong("Audio/Music/song.ogg").stop();
-		m_audioEngine.loadSong("Audio/Music/Persona.ogg").play();
+	if (m_game->getInputManager()->isDown(SDLK_ESCAPE)) {
+		m_currState = Xenro::ScreenState::EXIT_APP;
 	}
-*/
+
 	if (m_game->getInputManager()->isPressed(SDL_BUTTON_LEFT)) {
 		glm::vec2 mouseCoords = m_game->getInputManager()->getMouseCoords();
 		mouseCoords = m_camera.convertScreentoWorld(mouseCoords);
@@ -170,7 +174,6 @@ void GameplayScreen::update() {
 		m_bullets.emplace_back(playerPosition, direction, 10.0f, 500);
 		m_audioEngine.loadSFX("Audio/SFX/shot.wav").play();
 	}
-
 
 }
 
@@ -218,12 +221,6 @@ void GameplayScreen::draw() {
 
 	m_hud.drawHUD((int)m_bullets.size(), "Num Bullets: ");
 
-	/*
-	if (m_gamestate == GameState::PAUSE) {
-		m_hud.setTextPos(m_screenwidth / 2 - 150, m_screenheight / 2);
-		m_hud.drawHUD("PAUSED");
-	}*/
-
 	//unbind the texture.
 	glBindTexture(GL_TEXTURE_2D, 0);
 	m_textureProgram.unuse();
@@ -254,4 +251,10 @@ void GameplayScreen::draw() {
 	m_lightProgram.unuse();
 
 	m_GUI.draw();
+}
+
+bool GameplayScreen::testButtonFunction(const CEGUI::EventArgs& args) {
+
+	m_currState = Xenro::ScreenState::EXIT_APP;
+	return true;
 }

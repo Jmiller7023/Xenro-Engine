@@ -38,6 +38,10 @@ public:
 	SFX loadSFX(const std::string& filePath);
 	Song loadSong(const std::string& filePath);
 
+	void openEngine();
+	//Meant to be called when all audioEngine is finished.
+	void closeEngine();
+
 private:
 	float m_temp = 100.0f;
 	std::map<std::string, Mix_Chunk*> m_SFXMap;

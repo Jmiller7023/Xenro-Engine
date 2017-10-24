@@ -20,9 +20,8 @@ InputManager::~InputManager()
 {
 }
 
-void InputManager::processInput() {
-	SDL_Event evnt;
-	while (SDL_PollEvent(&evnt)) {
+void InputManager::processInput(SDL_Event& evnt) {
+
 		switch (evnt.type) {
 		case SDL_QUIT:
 			m_game->exitGame();
@@ -44,8 +43,8 @@ void InputManager::processInput() {
 			break;
 			
 		}
-	}
 }
+
 
 void InputManager::update() {
 

@@ -176,6 +176,8 @@
   <ItemGroup>
     <ClInclude Include="AudioEngine.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="checked.h" />
+    <ClInclude Include="core.h" />
     <ClInclude Include="ErrorMessages.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Globals.h" />
@@ -201,6 +203,8 @@
     <ClInclude Include="SpriteSheet.h" />
     <ClInclude Include="TextureCache.h" />
     <ClInclude Include="Timing.h" />
+    <ClInclude Include="unchecked.h" />
+    <ClInclude Include="utf8.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="World.h" />

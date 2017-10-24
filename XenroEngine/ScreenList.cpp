@@ -15,6 +15,7 @@ ScreenList::~ScreenList() {
 }
 
 IScreen* ScreenList::moveNext() {
+
 	IScreen* currScreen = getCurrScreen();
 	if (currScreen->getScreenIndex() != NO_CURRENT_SCREEN_INDEX) {
 		m_currScreenIndex = currScreen->getNextScreenIndex();
@@ -25,11 +26,13 @@ IScreen* ScreenList::moveNext() {
 }
 
 IScreen* ScreenList::movePrevious() {
+
 	IScreen* currScreen = getCurrScreen();
 	if (currScreen->getScreenIndex() != NO_CURRENT_SCREEN_INDEX) {
 		m_currScreenIndex = currScreen->getPrevScrenIndex();
 		return getCurrScreen();
 	}
+
 	//There was no next screen so return nullptr.
 	return nullptr;
 }
@@ -39,6 +42,12 @@ void ScreenList::setScreen(int nextScreen) {
 }
 
 void ScreenList::addScreen(IScreen* newScreen) {
+
+	//Error checking
+	if (newScreen == nullptr) {
+		fatalError("Forgot to initialize screen!");
+	}
+
 	newScreen->m_screenIndex = m_screens.size();
 	m_screens.push_back(newScreen);
 	newScreen->create();
@@ -66,9 +75,11 @@ void ScreenList::destroyScreen(int screen) {
 }
 
 IScreen* ScreenList::getCurrScreen() {
+
 	if(m_currScreenIndex != NO_CURRENT_SCREEN_INDEX){
-	return m_screens[m_currScreenIndex];
+		return m_screens[m_currScreenIndex];
 	}
+
 	fatalError("Forgot to initialize screen!");
 	return nullptr;
 }

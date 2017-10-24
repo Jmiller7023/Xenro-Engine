@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\UTF 8">
+      <UniqueIdentifier>{1dbce9e4-9714-47a7-b6bf-399cc4a415a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GLSLProgram.cpp">
@@ -184,6 +187,18 @@
     </ClInclude>
     <ClInclude Include="GUI.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core.h">
+      <Filter>Header Files\UTF 8</Filter>
+    </ClInclude>
+    <ClInclude Include="checked.h">
+      <Filter>Header Files\UTF 8</Filter>
+    </ClInclude>
+    <ClInclude Include="unchecked.h">
+      <Filter>Header Files\UTF 8</Filter>
+    </ClInclude>
+    <ClInclude Include="utf8.h">
+      <Filter>Header Files\UTF 8</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 #pragma once
 #include <unordered_map>
 #include<glm\glm.hpp>
+#include <SDL/SDL_events.h>
 
 namespace Xenro{
 
@@ -14,7 +15,7 @@ public:
 
 	void update();
 
-	void processInput();
+	void processInput(SDL_Event& evnt);
 
 	//Checks if the key is currently down.
 	bool isDown(unsigned int keyID);

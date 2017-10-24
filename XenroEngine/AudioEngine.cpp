@@ -1,6 +1,6 @@
 #include "AudioEngine.h"
 #include "ErrorMessages.h"
-
+#include <iostream>
 namespace Xenro{
 
 void SFX::play(int loops) {
@@ -36,37 +36,13 @@ void Song::stop() {
 AudioEngine::AudioEngine()
 
 {
-	//Parameter is a combination of bitwise ors of the following flags.
-	//MIX_INIT_FLAC, MIX_INIT_MOD, MIX_INIT_MP3 and MIX_INIT_OGG.
-	//returns a -1 if it fails to init.
-	if (Mix_Init(MIX_INIT_OGG | MIX_INIT_MP3) == -1) {
-		fatalError("Failed to initialize Mixer!\n Mixer returned: " + std::string(Mix_GetError()));
-	}
-
-	//For third parameter, 1 enables mono and 2 enbales stereo.
-	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
-		fatalError("Failed to initialize Mixer!\n Mixer returned: " + std::string(Mix_GetError()));
-	}
-
+	openEngine();
 }
 
 
 AudioEngine::~AudioEngine()
 {
-	//free the memory
-	for (auto it = m_SFXMap.begin(); it != m_SFXMap.end(); it++) {
-		Mix_FreeChunk(it->second);
-	}
 
-	for (auto it = m_songMap.begin(); it != m_songMap.end(); it++) {
-		Mix_FreeMusic(it->second);
-	}	
-	
-	m_SFXMap.clear();
-	m_songMap.clear();
-
-	Mix_CloseAudio();
-	Mix_Quit();
 }
 
 SFX AudioEngine::loadSFX(const std::string& filePath) {
@@ -112,6 +88,35 @@ Song AudioEngine::loadSong(const std::string& filePath) {
 	return song;
 }
 
+void AudioEngine::openEngine() {
+	//Parameter is a combination of bitwise ors of the following flags.
+	//MIX_INIT_FLAC, MIX_INIT_MOD, MIX_INIT_MP3 and MIX_INIT_OGG.
+	//returns a -1 if it fails to init.
+	if (Mix_Init(MIX_INIT_OGG | MIX_INIT_MP3) == -1) {
+		fatalError("Failed to initialize Mixer!\n Mixer returned: " + std::string(Mix_GetError()));
+	}
 
+	//For third parameter, 1 enables mono and 2 enbales stereo.
+	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
+		fatalError("Failed to initialize Mixer!\n Mixer returned: " + std::string(Mix_GetError()));
+	}
+}
+
+void AudioEngine::closeEngine() {
+	//free the memory
+	for (auto it = m_SFXMap.begin(); it != m_SFXMap.end(); it++) {
+		Mix_FreeChunk(it->second);
+	}
+
+	for (auto it = m_songMap.begin(); it != m_songMap.end(); it++) {
+		Mix_FreeMusic(it->second);
+	}
+
+	m_SFXMap.clear();
+	m_songMap.clear();
+
+	Mix_CloseAudio();
+	Mix_Quit();
+}
 
 }

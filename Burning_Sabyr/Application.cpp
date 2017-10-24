@@ -1,29 +1,33 @@
 #include "Application.h"
 #include <XenroEngine\ScreenList.h>
 #include "GamePlayScreen.h"
+#include "MainMenuScreen.h"
 
 Application::Application()
-
 {
+	//Empty
 }
 
 
 Application::~Application()
 {
 	m_currScreen = nullptr;
-	//don't delete m_GameplayScreen since the desructor for ScreenList deletes it.
+	//don't delete m_GameplayScreen since the destructor for ScreenList deletes it.
 }
 
 void Application::onInit() {
 
-	return;
+	//Nothing for now.
 }
 
 void Application::addScreens() {
+
+	m_mainMenuScreen = new MainMenuScreen(&m_window);
 	m_gameplayScreen = new GameplayScreen(&m_window);
 
+	m_screenList->addScreen(m_mainMenuScreen);
 	m_screenList->addScreen(m_gameplayScreen);
-	m_screenList->setScreen(m_gameplayScreen->getScreenIndex());
+	m_screenList->setScreen(m_mainMenuScreen->getScreenIndex());
 }
 
 void Application::onExit() {

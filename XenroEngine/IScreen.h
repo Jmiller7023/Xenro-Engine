@@ -1,4 +1,5 @@
 #pragma once
+
 namespace Xenro{
 
 enum class ScreenState {
@@ -11,8 +12,8 @@ class IScreen
 {
 public:
 	friend class ScreenList;
-	IScreen()  { /*empty*/ }
-	virtual ~IScreen() { /*empty*/ }
+	IScreen() { }
+	virtual ~IScreen() { }
 
 	//Return index
 	virtual int getNextScreenIndex() const = 0;

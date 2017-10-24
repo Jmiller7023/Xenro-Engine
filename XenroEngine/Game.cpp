@@ -30,34 +30,19 @@ void Game::run() {
 	FPSlimiter limiter;
 	limiter.setTargetFPS(60.0f);
 
-	m_isRunning = true;
 	while (m_isRunning) {
 		limiter.calculateFPS();
-
-		m_InputManager->processInput();
-
-		if (m_InputManager->isDown(SDLK_ESCAPE)) {
-			exitGame();
-		}
 
 		update();
 
 		if(m_isRunning){
 
-		m_InputManager->update();
-
-		draw();
-
- 		m_fps = limiter.limitFPS();
-		m_window.swapBuffer();
-	}
-		//print only once every thousand frames
-		static int frameCounter = 0;
-		frameCounter++;
-		if (frameCounter == 60) {
-			std::cout << "Framerate: " << getFPS() << " FPS" << std::endl;
-			frameCounter = 0;
+			m_InputManager->update();
+			draw();
+ 			m_fps = limiter.limitFPS();
+			m_window.swapBuffer();
 		}
+		
 	}
 }
 
@@ -83,7 +68,7 @@ void Game::update() {
 		case ScreenState::CHANGE_TO_NEXT:
 			m_currScreen->onExit();
 			m_currScreen = m_screenList->moveNext();
-			if (m_currScreen == nullptr) {
+			if (m_currScreen != nullptr) {
 				m_currScreen->setRunning();
 				m_currScreen->onEntry();
 			}
@@ -92,7 +77,7 @@ void Game::update() {
 		case ScreenState::CHANGE_TO_PREVIOUS:
 			m_currScreen->onExit();
 			m_currScreen = m_screenList->movePrevious();
-			if (m_currScreen == nullptr) {
+			if (m_currScreen != nullptr) {
 				m_currScreen->setRunning();
 				m_currScreen->onEntry();
 			}
@@ -138,7 +123,7 @@ bool Game::init() {
 	//so we get no flickering.
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-	m_window.create("Burning Sabyr", 1024, 768, 0);
+	m_window.create("Burning Sabyr", 1920, 1080, 0);
 
 	onInit();
 	addScreens();

@@ -130,6 +130,7 @@
     <ClCompile Include="GameplayScreen.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainMenuScreen.cpp" />
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -137,7 +138,9 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="GameplayScreen.h" />
+    <ClInclude Include="globals.h" />
     <ClInclude Include="LevelLoader.h" />
+    <ClInclude Include="MainMenuScreen.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

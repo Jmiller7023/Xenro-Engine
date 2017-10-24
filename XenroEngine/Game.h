@@ -34,6 +34,7 @@ public:
  	InputManager* getInputManager() const { return m_InputManager; }
 	int getScreenWidth() const { return m_screenWidth; }
 	int getScreenHeight() const { return m_screenHeight; }
+	bool isRunning() const { return m_isRunning; }
 
 protected:
 
@@ -47,7 +48,7 @@ protected:
 
 	std::unique_ptr<ScreenList> m_screenList = nullptr;
 	IScreen* m_currScreen = nullptr;
-	bool m_isRunning = false;
+	bool m_isRunning = true;
 	float m_fps = 0.0f;
 	Window m_window;
 	InputManager* m_InputManager;

@@ -2,6 +2,7 @@
 #include <XenroEngine\Game.h>
 
 class GameplayScreen;
+class MainMenuScreen;
 
 class Application :public Xenro::Game
 {
@@ -20,5 +21,7 @@ public:
 
 private:
 	GameplayScreen* m_gameplayScreen;
+	MainMenuScreen* m_mainMenuScreen;
+
 };
 
