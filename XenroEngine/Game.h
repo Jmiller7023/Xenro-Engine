@@ -1,4 +1,6 @@
-#pragma once
+#ifndef XENRO_GAME_INCLUDED
+#define XENRO_GAME_INCLUDED
+
 #include <memory>
 #include "Window.h"
 
@@ -57,3 +59,5 @@ protected:
 };
 
 }
+
+#endif //XENRO_GAME_INCLUDED

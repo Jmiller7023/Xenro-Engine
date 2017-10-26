@@ -1,4 +1,6 @@
-#pragma once
+#ifndef XENRO_WINDOW_DEFINED
+#define XENRO_WINDOW_DEFINED
+
 #include <SDL/SDL.h>
 #include <GL/glew.h>
 #include <string>
@@ -28,3 +30,5 @@ namespace Xenro {
 	};
 
 }
+
+#endif //XENRO_WINDOW_DEFINED

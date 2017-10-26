@@ -1,4 +1,6 @@
-#pragma once
+#ifndef XENRO_SCREENLIST_DEFINED
+#define XENRO_SCREENLIST_DEFINED
+
 #include <vector>
 
 #define NO_CURRENT_SCREEN_INDEX -1
@@ -34,3 +36,5 @@ protected:
 };
 
 }
+
+#endif //XENRO_SCREENLIST_DEFINED

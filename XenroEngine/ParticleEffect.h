@@ -1,4 +1,6 @@
-#pragma once
+#ifndef XENRO_PARTICLEEFFECT_DEFINED
+#define XENRO_PARTICLEEFFECT_DEFINED
+
 #include <vector>
 
 namespace Xenro {
@@ -25,3 +27,5 @@ private:
 };
 
 }
+
+#endif //XENRO_PARTICLEEFFECT_DEFINED

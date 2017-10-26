@@ -1,4 +1,6 @@
-#pragma once
+#ifndef XENRO_WORLD_DEFINED
+#define XENRO_WORLD_DEFINED
+
 #include <vector>
 #include "SpriteBatch.h"
 #include "Globals.h"
@@ -41,3 +43,5 @@ private:
 };
 
 }
+
+#endif //XENRO_WORLD_DEFINED

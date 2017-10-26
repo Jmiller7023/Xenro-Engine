@@ -1,4 +1,6 @@
-#pragma once
+#ifndef XENRO_SPRITEBATCH_DEFINED
+#define XENRO_SPRITEBATCH_DEFINED
+
 #include <GL/glew.h>
 #include "Vertex.h"
 #include "Sprite.h"
@@ -58,3 +60,5 @@ private:
 	
 };
 }
+
+#endif //XENRO_SPRITEBATCH_DEFINED

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef XENRO_TEXTURECACHE_DEFINED
+#define XENRO_TEXTURECACHE_DEFINED
 #include <map>
 #include <string>
 #include "GLTexture.h"
@@ -16,3 +17,5 @@ namespace Xenro {
 	};
 
 }
+
+#endif //XENRO_TEXTURECACHE_DEFINED

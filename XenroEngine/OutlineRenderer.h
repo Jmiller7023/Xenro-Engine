@@ -1,4 +1,6 @@
-#pragma once
+#ifndef XENRO_OUTLINERENDERER_DEFINED
+#define XENRO_OUTLINERENDERER_DEFINED
+
 #include <glm\glm.hpp>
 #include <vector>
 #include "vertex.h"
@@ -29,3 +31,5 @@ private:
 };
 
 }
+
+#endif //XENRO_OUTLINERENDERER_DEFINED

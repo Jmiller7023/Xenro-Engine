@@ -17,8 +17,6 @@ Original Author: Cristian Zaloj
 Modified By: Benjamin Arnold
 */
 
-#pragma once
-
 #ifndef SpriteFont_h__
 #define SpriteFont_h__
 

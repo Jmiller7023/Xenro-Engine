@@ -1,4 +1,5 @@
-#pragma once
+#ifndef XENRO_DEFINED_PARTICLE
+#define XENRO_DEFINED_PARTICLE
 #include <glm\glm.hpp>
 #include "Vertex.h"
 
@@ -23,3 +24,5 @@ inline void defaultPArticleupdate(Particle& particle, float deltaTime) {
 }
 
 }
+
+#endif //XENRO_DEFINED_PARTICLE

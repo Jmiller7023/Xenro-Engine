@@ -1,4 +1,6 @@
-#pragma once
+#ifndef XENRO_SAVEMANAGER_DEFINED
+#define XENRO_SAVEMANAGER_DEFINED
+
 #include <string>
 #include <vector>
 
@@ -33,3 +35,5 @@ private:
 };
 
 }
+
+#endif //XENRO_SAVEMANAGER_DEFINED

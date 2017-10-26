@@ -1,4 +1,6 @@
-#pragma once
+#ifndef XENRO_IOMANAGER_DEFINED
+#define XENRO_IOMANAGER_DEFINED
+
 #include <vector>
 #include <string>
 
@@ -11,3 +13,4 @@ namespace Xenro {
 	};
 }
 
+#endif //XENRO_IOMANAGER_DEFINED

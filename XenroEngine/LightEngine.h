@@ -1,4 +1,6 @@
-#pragma once
+#ifndef XENRO_LIGHTENGINE_DEFINED
+#define XENRO_LIGHTENGINE_DEFINED
+
 #include <glm\glm.hpp>
 #include "vertex.h"
 #include "SpriteBatch.h"
@@ -39,10 +41,11 @@ public:
 	//Clear all lights.
 	void reset();
 
-
 private:
 	std::vector<Light> m_lights;
 	SpriteBatch m_spriteBatch;
 };
 
 }
+
+#endif //XENRO_LIGHTENGINE_DEFINED

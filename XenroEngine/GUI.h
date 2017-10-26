@@ -1,4 +1,6 @@
-#pragma once
+#ifndef XENRO_GUI_DEFINED
+#define XENRO_GUI_DEFINED
+
 #include <CEGUI/CEGUI.h>
 #include<CEGUI/RendererModules/OpenGL/GL3Renderer.h>
 #include <SDL\SDL_events.h>
@@ -42,3 +44,5 @@ private:
 };
 
 }
+
+#endif //XENRO_GUI_DEFINED

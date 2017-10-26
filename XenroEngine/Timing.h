@@ -1,4 +1,6 @@
-#pragma once
+#ifndef XENRO_TIMING_DEFINED
+#define XENRO_TIMING_DEFINED
+
 namespace Xenro{
 class FPSlimiter {
 public:
@@ -22,3 +24,5 @@ private:
 };
 
 }
+
+#endif //XENRO_TIMING_DEFINED

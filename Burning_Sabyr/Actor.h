@@ -1,4 +1,6 @@
-#pragma once
+#ifndef ACTOR_DEFINED
+#define ACTOR_DEFINED
+
 #include <vector>
 #include <glm\glm.hpp>
 #include <XenroEngine\SpriteBatch.h>
@@ -52,3 +54,4 @@ protected:
 	MoveDir m_moveDir = MoveDir::IDLE;
 };
 
+#endif //ACTOR_DEFINED

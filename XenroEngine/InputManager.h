@@ -1,4 +1,6 @@
-#pragma once
+#ifndef XENRO_INPUTMANAGER_DEFINED
+#define XENRO_INPUTMANAGER_DEFINED
+
 #include <unordered_map>
 #include<glm\glm.hpp>
 #include <SDL/SDL_events.h>
@@ -42,3 +44,5 @@ private:
 };
 
 }
+
+#endif //XENRO_INPUTMANAGER_DEFINED

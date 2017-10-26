@@ -1,4 +1,6 @@
-#pragma once
+#ifndef XENRO_PARTICLEBATCH_DEFINED
+#define XENRO_PARTICLEBATCH_DEFINED
+
 #include <functional>
 #include <glm\glm.hpp>
 #include "Vertex.h"
@@ -33,3 +35,5 @@ private:
 };
 
 }
+
+#endif //XENRO_PARTICLEBATCH_DEFINED

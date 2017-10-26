@@ -1,4 +1,5 @@
-#pragma once
+#ifndef XENRO_CAMERA_DEFINED
+#define XENRO_CAMERA_DEFINED
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -41,3 +42,4 @@ namespace Xenro {
 	};
 }
 
+#endif //XENRO_CAMERA_DEFINED

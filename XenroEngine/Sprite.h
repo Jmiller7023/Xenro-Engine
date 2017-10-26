@@ -1,4 +1,6 @@
-#pragma once
+#ifndef XENRO_SPRITE_DEFINED
+#define XENRO_SPRITE_DEFINED
+
 #include <glm\glm.hpp>
 #include <GL\glew.h>
 #include "Vertex.h"
@@ -25,3 +27,5 @@ namespace Xenro {
 	};
 
 }
+
+#endif //XENRO_SPRITE_DEFINED

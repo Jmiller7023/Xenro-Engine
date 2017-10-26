@@ -1,4 +1,6 @@
-#pragma once
+#ifndef LEVELLOADER_DEFINED
+#define LEVELLOADER_DEFINED
+
 #include <XenroEngine\World.h>
 class LevelLoader : public Xenro::World
 {
@@ -12,3 +14,4 @@ private:
 	bool m_loaded = false;
 };
 
+#endif //LEVELLOADER_DEFINED

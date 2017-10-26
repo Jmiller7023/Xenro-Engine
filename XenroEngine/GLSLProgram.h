@@ -1,4 +1,6 @@
-#pragma once
+#ifndef XENRO_GLSLPROGRAM_DEFINED
+#define XENRO_GLSLPROGRAM_DEFINED
+
 #include <string>
 #include <GL\glew.h>
 
@@ -31,3 +33,4 @@ namespace Xenro {
 	};
 }
 
+#endif //XENRO_GLSLPROGRAM_DEFINED

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BULLET_DEFINED
+#define BULLET_DEFINED
+
 #include <glm\glm.hpp>
 #include <XenroEngine\SpriteBatch.h>
 #include "Actor.h"
@@ -22,3 +24,4 @@ private:
 	glm::vec2 m_position;
 };
 
+#endif //BULLET_DEFINED

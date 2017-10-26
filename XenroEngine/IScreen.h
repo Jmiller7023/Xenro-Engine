@@ -1,4 +1,5 @@
-#pragma once
+#ifndef XENRO_ISCREEN_DEFINED
+#define XENRO_ISCREEN_DEFINED
 
 namespace Xenro{
 
@@ -50,3 +51,5 @@ protected:
 
 
 }
+
+#endif //XENRO_ISCREEN_DEFINED

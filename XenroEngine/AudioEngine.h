@@ -1,4 +1,6 @@
-#pragma once
+#ifndef XENRO_AUDIOENGINE_DEFINED
+#define XENRO_AUDIOENGINE_DEFINED
+
 #include <SDL/SDL_mixer.h>
 #include <string>
 #include <map>
@@ -51,3 +53,5 @@ private:
 
 
 }
+
+#endif //XENRO_AUDIOENGINE_DEFINED

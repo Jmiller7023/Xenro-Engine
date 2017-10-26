@@ -1,4 +1,6 @@
-#pragma once
+#ifndef PLAYER_DEFINED
+#define PLAYER_DEFINED
+
 #include "Actor.h"
 #include <glm\glm.hpp>
 #include <XenroEngine\InputManager.h>
@@ -24,3 +26,4 @@ private:
 	int m_wait = 0;
 };
 
+#endif //PLAYER_DEFINED

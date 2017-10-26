@@ -1,4 +1,5 @@
-#pragma once
+#ifndef XENRO_IMAGELOADER_DEFINED
+#define XENRO_IMAGELOADER_DEFINED
 
 #include <string>
 #include "GLTexture.h"
@@ -12,3 +13,4 @@ namespace Xenro {
 	};
 }
 
+#endif //XENRO_IMAGELOADER_DEFINED

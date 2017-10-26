@@ -1,4 +1,6 @@
-#pragma once
+#ifndef XENRO_VERTEX_DEFINED
+#define XENRO_VERTEX_DEFINED
+
 #include <GL\glew.h>
 
 namespace Xenro {
@@ -68,3 +70,5 @@ namespace Xenro {
 		}
 	};
 }
+
+#endif //XENRO_VERTEX_DEFINED

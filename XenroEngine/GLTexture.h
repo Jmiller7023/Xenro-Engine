@@ -1,4 +1,5 @@
-#pragma once
+#ifndef XENRO_GLTEXTURE_DEFINED
+#define XENRO_GLTEXTURE_DEFINED
 #include<GL\glew.h>
 
 namespace Xenro {
@@ -8,3 +9,5 @@ namespace Xenro {
 		int width;
 	};
 }
+
+#endif //XENRO_GLTEXTURE_DEFINED

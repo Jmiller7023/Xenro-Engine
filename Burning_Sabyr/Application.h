@@ -1,4 +1,6 @@
-#pragma once
+#ifndef APPLICATION_DEFINED
+#define APPLICATION_DEFINED
+
 #include <XenroEngine\Game.h>
 
 class GameplayScreen;
@@ -25,3 +27,4 @@ private:
 
 };
 
+#endif //APPLICATION_DEFINED

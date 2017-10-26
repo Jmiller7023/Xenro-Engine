@@ -1,4 +1,6 @@
-#pragma once
+#ifndef MAINMENUSCREEN_DEFINED
+#define MAINMENUSCREEN_DEFINED
+
 #include <XenroEngine\IScreen.h>
 #include <XenroEngine\GLSLProgram.h>
 #include <XenroEngine\AudioEngine.h>
@@ -45,3 +47,4 @@ private:
 	bool exitGame(const CEGUI::EventArgs& args);
 };
 
+#endif //MAINMENUSCREEN_DEFINED

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef GAMEPLAYSCREEN_DEFINED
+#define GAMEPLAYSCREEN_DEFINED
+
 #include <XenroEngine\IScreen.h>
 #include <XenroEngine\GLSLProgram.h>
 #include <XenroEngine\Camera.h>
@@ -62,3 +64,4 @@ private:
 	int m_playerLightIndex;
 };
 
+#endif //GAMEPLAYSCREEN_DEFINED

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef XENRO_LOADMANAGER_DEFINED
+#define XENRO_LOADMANAGER_DEFINED
+
 #include <vector>
 #include <string>
 
@@ -24,3 +26,5 @@ private:
 };
 
 }
+
+#endif //XENRO_LOADMANAGER_DEFINED

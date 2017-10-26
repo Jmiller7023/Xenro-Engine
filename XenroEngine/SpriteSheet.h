@@ -1,6 +1,9 @@
-#pragma once
+#ifndef XENRO_SPRITESHEET_DEFINED
+#define XENRO_SPRITESHEET_DEFINED
+
 #include "GLTexture.h"
 #include <glm\glm.hpp>
+
 namespace Xenro{
 
 class SpriteSheet
@@ -22,3 +25,5 @@ private:
 };
 
 }
+
+#endif //XENRO_SPRITESHEET_DEFINED

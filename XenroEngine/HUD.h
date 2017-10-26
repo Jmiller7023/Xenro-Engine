@@ -1,4 +1,6 @@
-#pragma once
+#ifndef XENRO_HUD_DEFINED
+#define XENRO_HUD_DEFINED
+
 #include "SpriteBatch.h"
 #include "Vertex.h"
 #include <glm\glm.hpp>
@@ -55,3 +57,5 @@ private:
 };
 
 }
+
+#endif //XENRO_HUD_DEFINED
