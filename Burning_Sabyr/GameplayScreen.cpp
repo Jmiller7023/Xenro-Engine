@@ -106,28 +106,6 @@ void GameplayScreen::onEntry() {
 	//Disables normal mouse cursor.
 	SDL_ShowCursor(0);
 
-	//Test file saving.
-	Xenro::SaveManager saveManager;
-	std::vector<std::string> saveFile;
-	saveFile.push_back("testing");
-	saveFile.push_back("multiple");
-	saveManager.addFile(saveFile);
-	saveManager.addEntry("Lines");
-	saveManager.saveFiletoDir("SaveData/SaveData1.sav");
-	saveManager.addEntry("test", 2);
-	saveManager.saveFiletoDir("SaveData/SaveData1.png");
-
-	//Test file loading.
-	Xenro::LoadManager loadManager;
-	std::vector<std::string> loadFile;
-
-	loadManager.loadData("SaveData/SaveData1.sav");
-	loadFile = loadManager.getLoadData();
-
-	for(size_t i = 0; i < loadFile.size(); i++){
-		std::cout << loadFile[i] << std::endl;
-	}
-
 }
 
 void GameplayScreen::onExit() {

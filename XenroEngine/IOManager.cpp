@@ -2,6 +2,7 @@
 #include <fstream>
 
 namespace Xenro {
+
 bool IOManager::readFileToBuffer(std::string filePath, std::vector<unsigned char>& buffer) {
 	//read in exact contents of file as binary
 	std::ifstream file(filePath, std::ios::binary);
