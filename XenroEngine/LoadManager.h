@@ -18,6 +18,9 @@ public:
 	//Empties the loadData vector.
 	void clearLoadData();
 
+	//Returns wheter or not the file successfully opened.
+	bool fileExists(const std::string& filePath) const;
+
 	//Getters.
 	std::vector<std::string> getLoadData() const { return m_loadData; }
 

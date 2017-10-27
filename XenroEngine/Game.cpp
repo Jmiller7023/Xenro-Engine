@@ -132,7 +132,7 @@ bool Game::init() {
 	//so we get no flickering.
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-	m_window.create("Burning Sabyr", 1920, 1080, 0);
+	m_window.create();
 
 	onInit();
 	addScreens();

@@ -29,7 +29,8 @@ public:
 
 	virtual void collideWithWorld(const std::vector<std::string>& worldData);
 
-	glm::vec2 getPos() const { return m_position; }
+	//Getters
+	glm::vec2 getPos() const {return m_position; }
 	glm::vec2 getDrawDims() const { return m_drawDims; }
 	glm::vec2 getHboxDims() const { return m_HitboxDims; }
 

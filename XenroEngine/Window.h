@@ -4,11 +4,9 @@
 #include <SDL/SDL.h>
 #include <GL/glew.h>
 #include <string>
+#include <vector>
 
 namespace Xenro {
-	enum WindowFlags {
-		INVISIBLE = 0x1, FULLSCREEN = 0x2, BORDERLESS = 0x4
-	};
 
 	class Window
 	{
@@ -16,8 +14,10 @@ namespace Xenro {
 		Window();
 		~Window();
 
-		int create(std::string windowName, int screenWidth, int screenHeight, unsigned int currentFlags);
+		//Creates window based on values from window initialization file.
+		int create();
 
+		//Swaps buffer.
 		void swapBuffer();
 
 		//Getters
@@ -25,8 +25,13 @@ namespace Xenro {
 		int getScreenHeight() { return m_screenHeight; }
 
 	private:
+		void createDefaultIni();
+		void loadValues(const std::vector<std::string>& setup);
 		SDL_Window* m_sdlWindow;
-		int m_screenWidth, m_screenHeight;
+		int m_screenWidth = 1920, m_screenHeight = 1080, m_vsync = 1;
+		std::string m_windowName;
+		bool m_hidden = false, m_fullscreen = false, m_borderless = false,
+			m_resizable = false, m_maximized = false, m_minimized = false;
 	};
 
 }
