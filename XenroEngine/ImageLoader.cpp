@@ -5,6 +5,7 @@
 #include <vector>
 
 namespace Xenro {
+
 GLTexture ImageLoader::loadPNG(std::string filePath) {
 	//Generate GLTexture and set its fields to 0.
 	GLTexture texture = {};

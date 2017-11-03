@@ -5,6 +5,7 @@
 
 class GameplayScreen;
 class MainMenuScreen;
+class OptionsScreen;
 
 class Application :public Xenro::Game
 {
@@ -24,7 +25,7 @@ public:
 private:
 	GameplayScreen* m_gameplayScreen;
 	MainMenuScreen* m_mainMenuScreen;
-
+	OptionsScreen* m_optionsScreen;
 };
 
 #endif //APPLICATION_DEFINED

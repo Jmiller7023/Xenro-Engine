@@ -6,6 +6,7 @@
 
 
 namespace Xenro{
+
 class ScreenList;
 class IScreen;
 class InputManager;
@@ -31,11 +32,15 @@ public:
 	//Called upon exiting.
 	virtual void onExit() = 0;
 
+	//Setters
+	void modifyWindowScreenHeight(int height) { m_window.setScreenHeight(height); }
+	void modifyWindowScreenWidth(int width) { m_window.setScreenWidth(width); }
+
 	//Getters
 	const float getFPS() const { return m_fps; }
  	InputManager* getInputManager() const { return m_InputManager; }
-	int getScreenWidth() const { return m_screenWidth; }
-	int getScreenHeight() const { return m_screenHeight; }
+	int getScreenWidth() const { return m_window.getScreenWidth(); }
+	int getScreenHeight() const { return m_window.getScreenHeight(); }
 	bool isRunning() const { return m_isRunning; }
 
 protected:
@@ -54,8 +59,6 @@ protected:
 	float m_fps = 0.0f;
 	Window m_window;
 	InputManager* m_InputManager;
-	int m_screenWidth = 1024;
-	int m_screenHeight = 768;
 };
 
 }

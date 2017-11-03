@@ -4,7 +4,7 @@
 #include <iomanip>
 //#include <Windows.h>
 
-int main(int argc, char** argv) {
+int main(int argc, char* argv[]) {
 
 	//auto myConsole = GetConsoleWindow();
 	//ShowWindow(myConsole, 0);

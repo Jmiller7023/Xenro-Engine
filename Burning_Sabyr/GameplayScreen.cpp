@@ -14,7 +14,7 @@
 #include "globals.h"
 
 GameplayScreen::GameplayScreen(Xenro::Window* window)
-	:m_window(window), m_GUI("GUI")
+	:m_window(window), m_GUI("GUI", window)
 {
 	m_screenIndex = GAMEPLAY_SCREEN;
 }
@@ -28,15 +28,23 @@ GameplayScreen::~GameplayScreen()
 
 //Return index
 int GameplayScreen::getNextScreenIndex() const {
+
 	return NO_CURRENT_SCREEN_INDEX;
 }
 
 int GameplayScreen::getPrevScrenIndex() const {
+
 	return MAINMENU_SCREEN;
 }
 
 void GameplayScreen::create() {
-	//Nothing right now.
+	
+	//Init GUI.
+	m_GUI.loadScheme("TaharezLook.scheme");
+	m_GUI.loadFont("Jura-10");
+
+	m_GUI.setMouseCursor("TaharezLook/MouseArrow");
+	m_GUI.showCursor();
 }
 
 void GameplayScreen::destroy() {
@@ -53,7 +61,7 @@ void GameplayScreen::onEntry() {
 	m_audioEngine.loadSong("Audio/Music/GoodZelda.ogg").play();
 
 	//Set the camera properly.
-	m_camera.init(m_window->getScreenWidth(), m_window->getScreenHeight());
+	m_camera.init(m_window);
 
 	//Intitialize the shaders.
 	m_textureProgram.compileShaders("Shaders/colorShading.vert", "Shaders/colorShading.frag");
@@ -72,7 +80,7 @@ void GameplayScreen::onEntry() {
 	m_spriteFont = new Xenro::SpriteFont("Fonts/Pixel_Bubble.ttf", 64);
 
 	//Initialize the HUD
-	m_hud.initHUD(m_spriteBatch, m_spriteFont, &m_textureProgram, m_window->getScreenWidth(), m_window->getScreenHeight());
+	m_hud.initHUD(m_spriteBatch, m_spriteFont, &m_textureProgram, m_window);
 
 	//Read in level data.
 	m_levelLoader.updateGameWorld();
@@ -96,12 +104,9 @@ void GameplayScreen::onEntry() {
 	m_playerLightIndex = m_lightEngine.addLight(playerLight);
 	m_mouselightIndex = m_lightEngine.addLight(mouseLight);
 
-	//Init GUI.
-	m_GUI.loadScheme("TaharezLook.scheme");	
-	m_GUI.loadFont("Jura-10");
-
-	m_GUI.setMouseCursor("TaharezLook/MouseArrow");
-	m_GUI.showCursor();
+	//Update mouse cursor.
+	glm::vec2 coords = m_game->getInputManager()->getMouseCoords();
+	m_GUI.setMousePos(coords.x, coords.y);
 
 	//Disables normal mouse cursor.
 	SDL_ShowCursor(0);

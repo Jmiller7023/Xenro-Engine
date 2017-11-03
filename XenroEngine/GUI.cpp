@@ -1,8 +1,9 @@
 #include "GUI.h"
+#include "Window.h"
 #include <SDL/SDL_timer.h>
 #include "utf8.h"
 
-namespace Xenro{
+namespace Xenro {
 
 CEGUI::Key::Scan SDLKeyToCEGUIKey(SDL_Keycode key) {
 	using namespace CEGUI;
@@ -118,8 +119,10 @@ CEGUI::MouseButton SDLButtonToCEGUIButton(Uint8 sdlButton) {
 
 CEGUI::OpenGL3Renderer* GUI::m_renderer = nullptr;
 
-GUI::GUI(const std::string& resourceFilePath)
+GUI::GUI(const std::string& resourceFilePath, Window* window)
 {
+	m_window = window;
+
 	//Check and initialize renderer and all the CEGUI subsystems.
 	if (m_renderer == nullptr) {
 		m_renderer = &CEGUI::OpenGL3Renderer::bootstrapSystem();
@@ -157,6 +160,14 @@ GUI::~GUI()
 }
 
 void GUI::draw() {
+
+	//Take into account changes in screenSize.
+	CEGUI::Sizef size;
+	size.d_height = (float)m_window->getScreenHeight();
+	size.d_width = (float)m_window->getScreenWidth();
+	m_renderer->setDisplaySize(size);
+
+	//Begine Rendering.
 	glDisable(GL_DEPTH_TEST);
 	m_renderer->beginRendering();
 	m_context->draw();
@@ -174,14 +185,22 @@ void GUI::draw() {
 }
 
 void GUI::setMouseCursor(const std::string& imageFile) {
+
 	m_context->getMouseCursor().setDefaultImage(imageFile);
 }
 
+void GUI::setMousePos(float x, float y) {
+
+	m_context->injectMousePosition(x, y);
+}
+
 void GUI::showCursor() {
+
 	m_context->getMouseCursor().show();
 }
 
 void GUI::hideCursor() {
+
 	m_context->getMouseCursor().hide();
 }
 
@@ -245,7 +264,13 @@ void GUI::update() {
 }
 
 void GUI::loadFont(const std::string& font) {
+
 	CEGUI::FontManager::getSingleton().createFromFile(font + ".font");
+
+	//Error checking.
+	if (m_context->getDefaultFont()->getName() == font) {
+		return;
+	}
 	m_context->setDefaultFont(font);
 }
 

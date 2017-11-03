@@ -6,7 +6,7 @@
 #include <iostream>
 #include "InputManager.h"
 
-namespace Xenro{
+namespace Xenro {
 
 Game::Game()
 {

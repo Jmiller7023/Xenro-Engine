@@ -4,20 +4,21 @@
 
 namespace Xenro{
 
-
-InputManager::InputManager()//Xenro::Game& game)
-	:m_mousecoords(0)//, m_game(&game)
+InputManager::InputManager()
+	:m_mousecoords(0)
 {
+	//Empty
 }
 InputManager::InputManager(Game* game)
 	:m_mousecoords(0), m_game(game)
 {
-
+	//Empty
 }
 
 
 InputManager::~InputManager()
 {
+	//Empty
 }
 
 void InputManager::processInput(SDL_Event& evnt) {
@@ -41,6 +42,19 @@ void InputManager::processInput(SDL_Event& evnt) {
 		case SDL_MOUSEMOTION:
 			setMouseCoords(evnt.motion.x, evnt.motion.y);
 			break;
+		case SDL_WINDOWEVENT:
+			switch (evnt.window.event) {
+			case SDL_WINDOWEVENT_RESIZED:
+				m_game->modifyWindowScreenWidth(evnt.window.data1);
+				m_game->modifyWindowScreenHeight(evnt.window.data2);
+				break;
+			case SDL_WINDOWEVENT_MAXIMIZED:
+				SDL_DisplayMode mode;
+				SDL_GetDesktopDisplayMode(0, &mode);
+				m_game->modifyWindowScreenWidth(mode.w);
+				m_game->modifyWindowScreenHeight(mode.h);
+				break;
+			}
 			
 		}
 }

@@ -4,17 +4,20 @@
 #include <string>
 #include <vector>
 #include "IOManager.h"
+
 namespace Xenro {
+
 GLSLProgram::GLSLProgram()
 	: m_numAttributes(0), m_programID(0), m_fragmentShaderID(0), m_vertexShaderID(0)
 {
+	//Empty
 }
 
 
 GLSLProgram::~GLSLProgram()
 {
-	if(m_programID != 0){
-	glDeleteProgram(m_programID);
+	if(m_programID != 0) {
+		glDeleteProgram(m_programID);
 	}
 }
 
@@ -121,19 +124,24 @@ void GLSLProgram::linkShaders() {
 
 //adds an attribute to the shader. Needs to be called between compiling and linking.
 void GLSLProgram::addAttribute(const std::string &attributeName) {
+
 	glBindAttribLocation(m_programID, m_numAttributes++, attributeName.c_str());
 }
 
 GLint GLSLProgram::getUniformLocation(const std::string& uniformName) {
+
 	GLint location = glGetUniformLocation(m_programID, uniformName.c_str());
 	if (location == GL_INVALID_INDEX) {
 		fatalError("Uniform " + uniformName + " not found in Shader!");
 	}
+
 	return location;
 }
 
 void GLSLProgram::use() {
+
 	glUseProgram(m_programID);
+
 	for (int i = 0; i < m_numAttributes; i++) {
 		glEnableVertexAttribArray(i);
 	}
@@ -141,11 +149,14 @@ void GLSLProgram::use() {
 
 //enable the shader, and all its attributes.
 void GLSLProgram::unuse() {
+
 	glUseProgram(0);
 
 	//enable all the attibutes we added with addAttribute.
 	for (int i = 0; i < m_numAttributes; i++) {
 		glDisableVertexAttribArray(i);
-		}
 	}
+}
+
+
 }

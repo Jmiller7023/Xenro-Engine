@@ -5,14 +5,16 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace Xenro {
+	class Window;
+
 	class Camera
 	{
 	public:
 		Camera();
-		Camera(int screenWidth, int screenHeight);
+		Camera(Window* window);
 		~Camera();
 
-		void init(int screenWidth, int screenHeight);
+		void init(Window* window);
 
 		void update();
 
@@ -32,12 +34,12 @@ namespace Xenro {
 		glm::mat4 getcamMatrix() const { return m_camMatrix; }
 
 	private: 
-		bool m_needsUpdate;
-		float m_scale;
+		bool m_needsUpdate = true;
+		float m_scale = 0.0f;
 		glm::vec2 m_position;
 		glm::mat4 m_camMatrix;
 		glm::mat4 m_orthoMatrix;
-		int m_screenWidth, m_screenHeight;
+		Window* m_window = nullptr;
 
 	};
 }

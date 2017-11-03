@@ -1,39 +1,41 @@
 #include "Camera.h"
+#include "Window.h"
 #include <algorithm>
-namespace Xenro{
+
+namespace Xenro {
 
 Camera::Camera()
-	:m_camMatrix(1.0f) , m_position(0.0f, 0.0f), m_orthoMatrix(1.0f),
-	m_needsUpdate(true), m_scale(1.0f), m_screenWidth(500), m_screenHeight(500)
+	:m_camMatrix(1.0f), m_position(0.0f, 0.0f), m_needsUpdate(true),
+	m_scale(1.0f)
 {
-	
+	//Empty
 }
 
-Camera::Camera(int screenWidth, int screenHeight) 
+Camera::Camera(Window* window)
 	:m_camMatrix(1.0f), m_position(0.0f, 0.0f), m_needsUpdate(true), 
-	 m_scale(1.0f), m_screenWidth(screenWidth), m_screenHeight(screenHeight)
+	 m_scale(1.0f), m_window(window)
 {
-	m_orthoMatrix = glm::ortho(0.0f, (float)m_screenWidth, 0.0f, (float)m_screenHeight);
+	m_orthoMatrix = glm::ortho(0.0f, (float)m_window->getScreenWidth(), 0.0f, (float)m_window->getScreenWidth());
 }
 
 
 Camera::~Camera()
 {
+	//Empty
 }
 
 //Initialiaze our camera with screen size info.
-void Camera::init(int screenWidth, int screenHeight) {
+void Camera::init(Window* window) {
 
-	m_screenWidth = screenWidth;
-	m_screenHeight = screenHeight;
-	m_orthoMatrix = glm::ortho(0.0f, (float)m_screenWidth, 0.0f, (float)m_screenHeight);
+	m_window = window;
+	m_orthoMatrix = glm::ortho(0.0f, (float)m_window->getScreenWidth(), 0.0f, (float)m_window->getScreenHeight());
 }
 
 //Move the camera when an update is needed.
 void Camera::update() {
 	if (m_needsUpdate) {
 		//Camera Translation
-		glm::vec3 translate(-m_position.x + m_screenWidth / 2, -m_position.y + m_screenHeight / 2, 0.0f);
+		glm::vec3 translate(-m_position.x + m_window->getScreenWidth() / 2.0f, -m_position.y + m_window->getScreenHeight() / 2.0f, 0.0f);
 		m_camMatrix = glm::translate(m_orthoMatrix, translate);
 
 		//Camera Scale
@@ -46,11 +48,12 @@ void Camera::update() {
 }
 
 glm::vec2 Camera::convertScreentoWorld(glm::vec2 screenCoords) {
+
 	//invert y direction.
-	screenCoords.y = m_screenHeight - screenCoords.y;
+	screenCoords.y = m_window->getScreenHeight() - screenCoords.y;
 
 	//Make zero the center.
-	screenCoords -= glm::vec2(m_screenWidth / 2, m_screenHeight / 2);
+	screenCoords -= glm::vec2(m_window->getScreenWidth() / 2.0f, m_window->getScreenHeight() / 2.0f);
 
 	//Scale the coordinates.
 	screenCoords /= m_scale;
@@ -63,7 +66,7 @@ glm::vec2 Camera::convertScreentoWorld(glm::vec2 screenCoords) {
 
 bool Camera::isInCam(const glm::vec2& position, const glm::vec2& dimensions) {
 
-	glm::vec2 camScaleDim = glm::vec2(m_screenWidth, m_screenHeight) / m_scale;
+	glm::vec2 camScaleDim = glm::vec2(m_window->getScreenWidth(), m_window->getScreenHeight()) / m_scale;
 
 	//divide dimensions by 2 since we are searching from center.
 	const float MIN_DISTANCEX = dimensions.x / 2.0f + camScaleDim.x / 2.0f;

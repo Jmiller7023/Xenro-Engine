@@ -1,8 +1,8 @@
 #include "OutlineRenderer.h"
-namespace Xenro{
+namespace Xenro {
 
-	//the namespace here prevents name collisions in other files.
-	namespace {
+//the namespace here prevents name collisions in other files.
+namespace {
 		const char* VERT_SRC = R"(#version 130
 //The vertex shader operates on each vertex
 //input data from the VBO. Each vertex is 2 floats
@@ -37,7 +37,7 @@ void main() {
 })";
 	}
 
-	const float pi = 3.14159265358979323f;
+const float pi = 3.14159265358979323f;
 
 OutlineRenderer::OutlineRenderer()
 {

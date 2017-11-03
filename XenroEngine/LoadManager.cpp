@@ -4,7 +4,7 @@
 #include <sstream>
 #include "ErrorMessages.h"
 
-namespace Xenro{
+namespace Xenro {
 
 LoadManager::LoadManager()
 {

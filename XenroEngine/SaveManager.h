@@ -34,10 +34,10 @@ public:
 	void clearSave(const std::string& filePath);
 
 	//Saves current file to saved directory.
-	void saveFiletoDir();
+	void saveFiletoDir(const std::string& filePath);
 
 	//Saves current file to specified directory.
-	void saveFiletoDir(const std::string& filePath);
+	void saveFiletoDir(const std::string& filePath, const std::string& dir);
 	
 private:
 	std::vector<std::string> m_saveFile;

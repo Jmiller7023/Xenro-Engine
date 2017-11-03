@@ -35,10 +35,22 @@ namespace Xenro {
 		void setInitMinimized(bool state);
 		void setInitVSYNC(bool state);
 
-		//Getters
-		int getScreenWidth() { return m_screenWidth; }
-		int getScreenHeight() { return m_screenHeight; }
+		//Setters
+		void setScreenWidth(int width) { m_screenWidth = width; }
+		void setScreenHeight(int height) { m_screenHeight = height; }
 
+		//Getters
+		int getScreenWidth() const { return m_screenWidth; }
+		int getScreenHeight() const { return m_screenHeight; }
+
+		//Window modifiers.
+		void modifyWindowSize();
+		void modifyWindowSize(int width, int height);
+		void setFullscreen();
+		void setFullscreen(int width, int height);
+		void setWindowBorder(bool isBordered);
+		void setVSYNC(bool on);
+		
 	private:
 		void createDefaultIni();
 		void loadValues();

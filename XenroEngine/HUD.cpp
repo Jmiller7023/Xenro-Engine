@@ -1,14 +1,16 @@
 #include "HUD.h"
 #include "SpriteFont.h"
 #include "Camera.h"
+#include "Window.h"
 #include "GLSLProgram.h"
 #include <SDL\SDL.h>
 #include <glm\glm.hpp>
 
-namespace Xenro{
-HUD::HUD(const SpriteBatch& spriteBatch, SpriteFont* spriteFont, GLSLProgram* hudProgram, int screenWidth, int screenHeight)
+namespace Xenro {
+
+HUD::HUD(const SpriteBatch& spriteBatch, SpriteFont* spriteFont, GLSLProgram* hudProgram, Window* window)
 {
-	initHUD(spriteBatch, spriteFont, hudProgram, screenWidth, screenHeight);
+	initHUD(spriteBatch, spriteFont, hudProgram, window);
 	m_textPos = glm::vec2(0, 0);
 	m_color.r = 255;
 	m_color.g = 255;
@@ -37,11 +39,11 @@ HUD::~HUD()
 	}
 }
 
-void HUD::initHUD(const SpriteBatch& spriteBatch, SpriteFont* spriteFont, GLSLProgram* hudProgram, int screenWidth, int screenHeight) {
+void HUD::initHUD(const SpriteBatch& spriteBatch, SpriteFont* spriteFont, GLSLProgram* hudProgram, Window* window) {
 	m_spriteBatch = spriteBatch;
 	m_spriteFont = spriteFont;
-	m_camera = new Camera(screenWidth, screenHeight);
-	m_camera->setPosition(glm::vec2(screenWidth / 2, screenHeight / 2));
+	m_camera = new Camera(window);
+	m_camera->setPosition(glm::vec2(window->getScreenWidth() / 2, window->getScreenHeight() / 2));
 	m_hudProgram = hudProgram;
 }
 
@@ -74,7 +76,7 @@ void HUD::drawHUD(std::string text) {
 	m_spriteBatch.renderBatch();
 }
 
-void HUD::setTextPos(int x, int y) {
+void HUD::setTextPos(float x, float y) {
 	m_textPos = glm::vec2(x, y);
 }
  

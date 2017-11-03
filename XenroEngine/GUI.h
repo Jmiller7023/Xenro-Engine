@@ -8,15 +8,18 @@
 
 namespace Xenro{
 
+class Window;
+
 class GUI
 {
 public:
-	GUI(const std::string& resourceFilePath);
+	GUI(const std::string& resourceFilePath, Window* window);
 	~GUI();
 
 	void draw();
 
 	void setMouseCursor(const std::string& imageFile);
+	void setMousePos(float x, float y);
 	void showCursor();
 	void hideCursor();
 
@@ -39,6 +42,7 @@ private:
 	static CEGUI::OpenGL3Renderer* m_renderer;
 	CEGUI::GUIContext* m_context = nullptr;
 	CEGUI::Window* m_rootWindow = nullptr;
+	Window* m_window = nullptr;
 	
 	unsigned int m_time = 0;
 };

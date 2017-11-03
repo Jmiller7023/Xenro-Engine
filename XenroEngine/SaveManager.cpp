@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include "ErrorMessages.h"
+#include "IOManager.h"
 
 namespace Xenro{
 
@@ -72,14 +73,16 @@ void SaveManager::clearSave(const std::string& filePath) {
 	std::remove(filePath.c_str());
 }
 
-void SaveManager::saveFiletoDir() {
+void SaveManager::saveFiletoDir(const std::string& filePath) {
 
 	std::ofstream saveFile;
 
-	saveFile.open(m_directory);
+	IOManager::makeDirectory(m_directory.c_str());
+
+	saveFile.open(filePath);
 
 	if (saveFile.fail()) {
-		fatalError("Failed to create saveFile " + m_directory);
+		fatalError("Failed to create saveFile " + filePath);
 	}
 
 	for (size_t i = 0; i < m_saveFile.size(); i++) {
@@ -89,9 +92,12 @@ void SaveManager::saveFiletoDir() {
 	saveFile.close();
 }
 
-void SaveManager::saveFiletoDir(const std::string& filePath) {
+void SaveManager::saveFiletoDir(const std::string& filePath, const std::string& dir) {
 
 	std::ofstream saveFile;
+
+	//Make sure the directory exists.
+	IOManager::makeDirectory(dir.c_str());
 
 	saveFile.open(filePath);
 

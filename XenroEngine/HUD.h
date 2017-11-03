@@ -8,6 +8,7 @@
 
 namespace Xenro{
 
+class Window;
 class SpriteFont;
 class Camera;
 class GLSLProgram;
@@ -15,13 +16,13 @@ class GLSLProgram;
 class HUD
 {
 public:
-	HUD(const SpriteBatch& spriteBatch, SpriteFont* spriteFont, GLSLProgram* hudProgram, int screenWidth, int screenHeight);
+	HUD(const SpriteBatch& spriteBatch, SpriteFont* spriteFont, GLSLProgram* hudProgram, Window* window);
 	HUD();
 	~HUD();
 
 	//Sets all the HUD variables so the HUD can be modified for screenchanges, font changes, or any
 	//other game changes.
-	void initHUD(const SpriteBatch& spriteBatch, SpriteFont* spriteFont, GLSLProgram* hudProgram, int screenWidth, int screenHeight);
+	void initHUD(const SpriteBatch& spriteBatch, SpriteFont* spriteFont, GLSLProgram* hudProgram, Window* window);
 
 	//Draws the HUD to the screen. numObjects is the value for whatever number should be rendered
 	//to the right of the message. text is the message the HUD should print to the screen.
@@ -31,7 +32,7 @@ public:
 	void drawHUD(std::string text);
 
 	//By default text will be rendered to lower left hand corner.
-	void setTextPos(int x = 0, int y = 0);
+	void setTextPos(float x = 0.0f, float y = 0.0f);
 
 	//By default text will be rendered as the color white.
 	void setColor(int r, int g, int b, int a = 255);

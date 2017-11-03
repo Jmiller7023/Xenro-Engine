@@ -6,11 +6,13 @@
 Actor::Actor()
 	:m_frameIndex(0)
 {
+	//Empty
 }
 
 
 Actor::~Actor()
 {
+	//Empty
 }
 
 void Actor::collideWithWorld(const std::vector<std::string>& worldData) {
@@ -95,7 +97,6 @@ void Actor::collideWithTile(glm::vec2 tilePos) {
 			else {
 				m_position.y += ydepth;
 			}
-
 		}
 	}
 }

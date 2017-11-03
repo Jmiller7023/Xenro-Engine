@@ -9,7 +9,7 @@ namespace Xenro{
 Window::Window()
 {
 	m_loadManager = new LoadManager;
-	m_saveManager = new SaveManager("Init/initWindow.ini");
+	m_saveManager = new SaveManager("Init");
 	if (m_loadManager->fileExists("Init/initWindow.ini")) {
 		m_loadManager->loadData("Init/initWindow.ini");
 		m_cachedFile = m_loadManager->getLoadData();
@@ -54,7 +54,7 @@ int Window::create() {
 
 	//Open an SDL window.
 	m_sdlWindow = SDL_CreateWindow(m_windowName.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_screenWidth, m_screenHeight, flags);
-
+	
 	if (m_sdlWindow == nullptr) {
 		fatalError("Failed to create SDL window!");
 	}
@@ -130,7 +130,7 @@ void Window::createDefaultIni() {
 	m_saveManager->addEntry("windowName:");
 	m_saveManager->addEntry("Default");
 
-	m_saveManager->saveFiletoDir();
+	m_saveManager->saveFiletoDir("Init/initWindow.ini");
 	m_screenWidth = 1024;
 	m_screenHeight = 768;
 	m_vsync = 1;
@@ -143,12 +143,7 @@ void Window::createDefaultIni() {
 	m_windowName = "Default";
 	
 }
-
  
- 
- 
- 
-
 void Window::loadValues() {
 	
 	//ignores all lines that begin with ; to allow for commenting.
@@ -337,12 +332,46 @@ void Window::setInitVSYNC(bool state) {
 		modifyInit("VSYNC:", "false");
 }
 
+void Window::modifyWindowSize() {
+	modifyWindowSize(m_screenWidth, m_screenHeight);
+}
+
+void Window::modifyWindowSize(int width, int height) {
+	SDL_SetWindowSize(m_sdlWindow, width, height);
+}
+
+void Window::setFullscreen() {
+	SDL_SetWindowFullscreen(m_sdlWindow, SDL_WINDOW_FULLSCREEN);
+}
+
+void Window::setFullscreen(int width, int height) {
+	setFullscreen();
+	m_screenWidth = width;
+	m_screenHeight = height;
+}
+
+void Window::setWindowBorder(bool isBordered) {
+
+	SDL_bool bordered;
+	if(isBordered)
+		bordered = SDL_bool::SDL_TRUE;
+	else
+		bordered = SDL_bool::SDL_FALSE;
+
+	SDL_SetWindowBordered(m_sdlWindow, bordered);
+}
+
+void Window::setVSYNC(bool on) {
+	m_vsync = on;
+	SDL_GL_SetSwapInterval(m_vsync);
+}
+
 void Window::modifyInit(const std::string& line, const std::string& text) {
 
 	for (size_t i = 0; i < m_cachedFile.size(); i++) {
 		if (m_cachedFile[i] == line) {
 			m_saveManager->replaceEntry(text, i + 1);
-			m_saveManager->saveFiletoDir();
+			m_saveManager->saveFiletoDir("Init/initWindow.ini");
 			return;
 		}
 	}

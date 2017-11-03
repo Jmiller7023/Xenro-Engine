@@ -7,7 +7,7 @@ namespace Xenro{
 ScreenList::ScreenList(Game* game) 
 	:m_game(game)
 {
-	
+	//Empty
 }
 
 ScreenList::~ScreenList() {
