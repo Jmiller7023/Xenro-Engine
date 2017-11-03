@@ -18,16 +18,25 @@ OptionsScreen::~OptionsScreen()
 }
 
 int OptionsScreen::getNextScreenIndex() const {
+
 	return NO_CURRENT_SCREEN_INDEX;
 }
 
 int OptionsScreen::getPrevScrenIndex() const {
+
 	return MAINMENU_SCREEN;
 }
 
 void OptionsScreen::create() {
 
 	initGUI();
+
+	//Intitialize the shaders.
+	m_textureProgram.compileShaders("Shaders/colorShading.vert", "Shaders/colorShading.frag");
+	m_textureProgram.addAttribute("vertexPosition");
+	m_textureProgram.addAttribute("vertexColor");
+	m_textureProgram.addAttribute("vertexUV");
+	m_textureProgram.linkShaders();
 }
 
 void OptionsScreen::destroy() {
@@ -45,13 +54,6 @@ void OptionsScreen::onEntry() {
 
 	//Set the camera properly.
 	m_camera.init(m_window);
-
-	//Intitialize the shaders.
-	m_textureProgram.compileShaders("Shaders/colorShading.vert", "Shaders/colorShading.frag");
-	m_textureProgram.addAttribute("vertexPosition");
-	m_textureProgram.addAttribute("vertexColor");
-	m_textureProgram.addAttribute("vertexUV");
-	m_textureProgram.linkShaders();
 
 	//Update mouse cursor.
 	glm::vec2 coords = m_game->getInputManager()->getMouseCoords();

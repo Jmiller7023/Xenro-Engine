@@ -22,8 +22,7 @@ GameplayScreen::GameplayScreen(Xenro::Window* window)
 
 GameplayScreen::~GameplayScreen()
 {
-	delete m_player;
-	delete m_spriteFont;
+	destroy();
 }
 
 //Return index
@@ -45,23 +44,10 @@ void GameplayScreen::create() {
 
 	m_GUI.setMouseCursor("TaharezLook/MouseArrow");
 	m_GUI.showCursor();
-}
 
-void GameplayScreen::destroy() {
-	//Nothing right now.
-}
-
-//Called whenever a screen closes or opens.
-void GameplayScreen::onEntry() {
-
-	//initialize the Audio Engine.
-	m_audioEngine.openEngine();
-
-	//Start level music.
-	m_audioEngine.loadSong("Audio/Music/GoodZelda.ogg").play();
-
-	//Set the camera properly.
-	m_camera.init(m_window);
+	CEGUI::PushButton* testButton = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("TaharezLook/Button", glm::vec4(0.44f, 0.4f, 0.15f, 0.05f), glm::vec4(0), "MainMenubutton"));
+	testButton->setText("Back");
+	testButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&GameplayScreen::testButtonFunction, this));
 
 	//Intitialize the shaders.
 	m_textureProgram.compileShaders("Shaders/colorShading.vert", "Shaders/colorShading.frag");
@@ -75,6 +61,27 @@ void GameplayScreen::onEntry() {
 	m_lightProgram.addAttribute("vertexColor");
 	m_lightProgram.addAttribute("vertexUV");
 	m_lightProgram.linkShaders();
+}
+
+void GameplayScreen::destroy() {
+
+	delete m_player;
+	delete m_spriteFont;
+	m_player = nullptr;
+	m_spriteFont = nullptr;
+}
+
+//Called whenever a screen closes or opens.
+void GameplayScreen::onEntry() {
+
+	//initialize the Audio Engine.
+	m_audioEngine.openEngine();
+
+	//Start level music.
+	m_audioEngine.loadSong("Audio/Music/GoodZelda.ogg").play();
+
+	//Set the camera properly.
+	m_camera.init(m_window);
 
 	//Initialize spritefont
 	m_spriteFont = new Xenro::SpriteFont("Fonts/Pixel_Bubble.ttf", 64);
@@ -108,13 +115,18 @@ void GameplayScreen::onEntry() {
 	glm::vec2 coords = m_game->getInputManager()->getMouseCoords();
 	m_GUI.setMousePos(coords.x, coords.y);
 
+
 	//Disables normal mouse cursor.
 	SDL_ShowCursor(0);
 
 }
 
 void GameplayScreen::onExit() {
+
 	m_audioEngine.closeEngine();
+	m_lightEngine.reset();
+	m_bullets.clear();
+	destroy();
 }
 
 //Called in Gameloop update function.
@@ -264,6 +276,7 @@ void GameplayScreen::draw() {
 
 bool GameplayScreen::testButtonFunction(const CEGUI::EventArgs& args) {
 
-	m_currState = Xenro::ScreenState::EXIT_APP;
+	m_currState = Xenro::ScreenState::CHANGE_TO_PARTICULAR;
+	m_changeToParticular = MAINMENU_SCREEN;
 	return true;
 }

@@ -34,6 +34,13 @@ int MainMenuScreen::getPrevScrenIndex() const {
 void MainMenuScreen::create() {
 	
 	initGUI();
+
+	//Intitialize the shaders.
+	m_textureProgram.compileShaders("Shaders/colorShading.vert", "Shaders/colorShading.frag");
+	m_textureProgram.addAttribute("vertexPosition");
+	m_textureProgram.addAttribute("vertexColor");
+	m_textureProgram.addAttribute("vertexUV");
+	m_textureProgram.linkShaders();
 }
 
 void MainMenuScreen::destroy() {
@@ -51,13 +58,6 @@ void MainMenuScreen::onEntry() {
 
 	//Set the camera properly.
 	m_camera.init(m_window);
-
-	//Intitialize the shaders.
-	m_textureProgram.compileShaders("Shaders/colorShading.vert", "Shaders/colorShading.frag");
-	m_textureProgram.addAttribute("vertexPosition");
-	m_textureProgram.addAttribute("vertexColor");
-	m_textureProgram.addAttribute("vertexUV");
-	m_textureProgram.linkShaders();
 
 	//Initialize spritefont
 	m_spriteFont = Xenro::SpriteFont("Fonts/Pixel_Bubble.ttf", 80);
