@@ -41,6 +41,10 @@ void MainMenuScreen::create() {
 	m_textureProgram.addAttribute("vertexColor");
 	m_textureProgram.addAttribute("vertexUV");
 	m_textureProgram.linkShaders();
+
+	//Cache textures that will be used on creation.
+	Xenro::ResourceManager::getTexture("Textures/BackGround.png");
+	Xenro::ResourceManager::getTexture("Textures/BackGround1.png");
 }
 
 void MainMenuScreen::destroy() {
@@ -182,7 +186,7 @@ void MainMenuScreen::initGUI() {
 	m_GUI.setMouseCursor("TaharezLook/MouseArrow");
 	m_GUI.showCursor();
 
-	//Prevet=nt initializing GUI twice.
+	//Prevent initializing GUI twice.
 	m_GUIinitialized = true;
 }
 

@@ -101,7 +101,7 @@ void OptionsScreen::draw() {
 
 	glm::vec4 destRect(-m_window->getScreenWidth() / 2.0f, -m_window->getScreenHeight() / 2.0, m_window->getScreenWidth(), m_window->getScreenHeight());
 	Xenro::ColorRGBA color(255, 255, 255, 255);
-	Xenro::GLTexture texture = Xenro::ResourceManager::getTexture("Textures/BackGround1.png");
+	Xenro::GLTexture texture = Xenro::ResourceManager::getTexture("Textures/BackGround.png");
 	glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
 
 	m_spriteBatch.begin();
