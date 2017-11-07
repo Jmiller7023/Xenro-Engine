@@ -109,6 +109,7 @@ void World::loadLevelData(const std::string filePath) {
 
 World::~World()
 {
+	//Empty
 }
 
 void World::draw() {

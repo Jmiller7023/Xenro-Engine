@@ -29,18 +29,21 @@
 
 #ifndef XENRO_GLTEXTURE_DEFINED
 #define XENRO_GLTEXTURE_DEFINED
-#include<GL\glew.h>
+#include <GL\glew.h>
+#include <string>
 
 namespace Xenro {
 
 struct GLTexture {
-	GLuint ID;
-	int height;
-	int width;
+	GLuint ID = 0;
+	std::string filePath = "";
+	int height = 0;
+	int width = 0;
 
-	GLTexture() {}
-	GLTexture(GLuint id, int h, int w)
-		:ID(id), height(h), width(w)
+	GLTexture()
+	{}
+	GLTexture(GLuint id, int h, int w, std::string fp)
+		:ID(id), height(h), width(w), filePath(fp)
 	{}
 };
 

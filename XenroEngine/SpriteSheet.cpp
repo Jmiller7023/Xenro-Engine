@@ -33,21 +33,23 @@ namespace Xenro{
 
 SpriteSheet::SpriteSheet()
 {
-
+	//Empty
 }
 
 
 SpriteSheet::~SpriteSheet()
 {
-
+	//Empty
 }
 
 void SpriteSheet::setSpriteSheet(const GLTexture& texture, const glm::ivec2& sheetDims) {
+
 	m_texture = texture;
 	m_sheetDims = sheetDims;
 }
 
 glm::vec4 SpriteSheet::getUVcoords(int i) {
+
 	//This will return the index of the tile needed.
 	int xTile = i % m_sheetDims.x;
 	int yTile = i / m_sheetDims.x;
@@ -61,4 +63,5 @@ glm::vec4 SpriteSheet::getUVcoords(int i) {
 
 	return uv;
 }
+
 }

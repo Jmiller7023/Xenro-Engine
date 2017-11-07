@@ -41,9 +41,11 @@ SpriteBatch::SpriteBatch()
 
 SpriteBatch::~SpriteBatch()
 {
+	//Empty
 }
 
 void SpriteBatch::begin(SpriteSortType sortType) {
+
 	m_sortType = sortType;
 
 	m_renderBatches.clear();
@@ -51,6 +53,7 @@ void SpriteBatch::begin(SpriteSortType sortType) {
 }
 
 void SpriteBatch::end() {
+
 	//set up all pointers for faster sorting.
 	m_spritePointers.resize(m_sprites.size());
 	for (size_t i = 0; i < m_sprites.size(); i++) {
@@ -72,12 +75,13 @@ void SpriteBatch::draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuin
 }
 
 void SpriteBatch::draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const ColorRGBA& color, glm::vec2 direction) {
-	float angle = calcAngle(direction);
 
+	float angle = calcAngle(direction);
 	m_sprites.emplace_back(destRect, uvRect, texture, depth, color, angle);
 }
 
 void SpriteBatch::renderBatch() {
+
 	//bind vertex array
 	glBindVertexArray(m_vao);
 
@@ -91,12 +95,14 @@ void SpriteBatch::renderBatch() {
 }
 
 void SpriteBatch::createRenderBatches() {
+
 	std::vector<Vertex> vertices;
 	vertices.resize(m_spritePointers.size() * 6);
 
 	if (m_spritePointers.empty()) {
 		return;
 	}
+
 	int offset = 0;
 	int currentVertex = 0;
 
@@ -109,21 +115,20 @@ void SpriteBatch::createRenderBatches() {
 	vertices[currentVertex++] = m_spritePointers[0]->topRight;
 	vertices[currentVertex++] = m_spritePointers[0]->topLeft;
 	offset += 6;
-	int cg = 1; //current glyph
 
-	for (int cg = 1; cg < m_spritePointers.size(); cg++) {
-		if(m_spritePointers[cg]->texture != m_spritePointers[cg - 1]->texture){
-		m_renderBatches.emplace_back(offset, 6, m_spritePointers[cg]->texture);
+	for (int cs = 1; cs < m_spritePointers.size(); cs++) {
+		if(m_spritePointers[cs]->texture != m_spritePointers[cs - 1]->texture){
+		m_renderBatches.emplace_back(offset, 6, m_spritePointers[cs]->texture);
 		}
 		else {
 			m_renderBatches.back().numVerts += 6;
 		}
-		vertices[currentVertex++] = m_spritePointers[cg]->topLeft;
-		vertices[currentVertex++] = m_spritePointers[cg]->bottomLeft;
-		vertices[currentVertex++] = m_spritePointers[cg]->bottomRight;
-		vertices[currentVertex++] = m_spritePointers[cg]->bottomRight;
-		vertices[currentVertex++] = m_spritePointers[cg]->topRight;
-		vertices[currentVertex++] = m_spritePointers[cg]->topLeft;
+		vertices[currentVertex++] = m_spritePointers[cs]->topLeft;
+		vertices[currentVertex++] = m_spritePointers[cs]->bottomLeft;
+		vertices[currentVertex++] = m_spritePointers[cs]->bottomRight;
+		vertices[currentVertex++] = m_spritePointers[cs]->bottomRight;
+		vertices[currentVertex++] = m_spritePointers[cs]->topRight;
+		vertices[currentVertex++] = m_spritePointers[cs]->topLeft;
 		offset += 6;
 	}
 	

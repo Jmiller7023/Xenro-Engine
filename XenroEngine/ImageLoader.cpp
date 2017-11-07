@@ -80,6 +80,7 @@ GLTexture ImageLoader::loadPNG(std::string filePath) {
 
 	texture.width = width;
 	texture.height = height;
+	texture.filePath = filePath;
 
 	//return a copy of the texture data.
 	return texture;

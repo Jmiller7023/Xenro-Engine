@@ -177,10 +177,12 @@ void GameplayScreen::update() {
 		m_camera.setPosition(m_camera.getPosition() + glm::vec2(CAMERA_SPEED, 0.0f));
 	}
 	if (m_game->getInputManager()->isDown(SDLK_q)) {
-		m_camera.setScale(m_camera.getScale() + SCALE_SPEED);
+		if(m_camera.getScale() < 2.0)
+			m_camera.setScale(m_camera.getScale() + SCALE_SPEED);
 	}
 	if (m_game->getInputManager()->isDown(SDLK_e)) {
-		m_camera.setScale(m_camera.getScale() - SCALE_SPEED);
+		if(m_camera.getScale() > 0.5)
+			m_camera.setScale(m_camera.getScale() - SCALE_SPEED);
 	}
 	if (m_game->getInputManager()->isDown(SDLK_ESCAPE)) {
 		m_currState = Xenro::ScreenState::EXIT_APP;
