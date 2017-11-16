@@ -1,11 +1,11 @@
 /*************************************************************************/
-/*                             Globals.h                                 */
+/*                               Math.h                                  */
 /*************************************************************************/
 /*                       This file is part of:                           */
 /*                           Xenro Engine                                */
 /*             https://github.com/Jmiller7023/Xenro-Engine               */
 /*************************************************************************/
-/*                 Copyright  11-3-2017 Joseph Miller.                   */
+/*                 Copyright  11-16-2017 Joseph Miller.                  */
 /*                                                                       */
 /* Permission is hereby granted, free of charge, to any person obtaining */
 /* a copy of this software and associated documentation files (the       */
@@ -27,17 +27,16 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                */
 /*************************************************************************/
 
-#ifndef XENRO_GLOBALS_INCLUDED
-#define XENRO_GLOBALS_INCLUDED
 
-namespace Xenro{
+#ifndef XENRO_MATH_INCLUDED
+#define XENRO_MATH_INCLUDED
 
-//Global Constants.
-const float CAMERA_SPEED = 8.0f;
-const float SCALE_SPEED = 0.1f;
-const float AGENT_WIDTH = 60;
-const float TILE_WIDTH = 64;
+#include "Vec2.h"
+#include "Vec3.h"
+#include "Vec4.h"
+#include "Mat2.h"
+#include "Mat3.h"
+#include "Mat4.h"
+#include "MathConstants.h"
 
-}
-
-#endif //XENRO_GLOBALS_INCLUDED
+#endif //XENRO_MATH_INCLUDED

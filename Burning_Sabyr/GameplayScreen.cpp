@@ -165,24 +165,24 @@ void GameplayScreen::update() {
 
 
 	if (m_game->getInputManager()->isDown(SDLK_w)) {
-		m_camera.setPosition(m_camera.getPosition() + glm::vec2(0.0f, CAMERA_SPEED));
+		m_camera.setPosition(m_camera.getPosition() + glm::vec2(0.0f, Xenro::CAMERA_SPEED));
 	}
 	if (m_game->getInputManager()->isDown(SDLK_s)) {
-		m_camera.setPosition(m_camera.getPosition() + glm::vec2(0.0f, -CAMERA_SPEED));
+		m_camera.setPosition(m_camera.getPosition() + glm::vec2(0.0f, -Xenro::CAMERA_SPEED));
 	}
 	if (m_game->getInputManager()->isDown(SDLK_a)) {
-		m_camera.setPosition(m_camera.getPosition() + glm::vec2(-CAMERA_SPEED, 0.0f));
+		m_camera.setPosition(m_camera.getPosition() + glm::vec2(-Xenro::CAMERA_SPEED, 0.0f));
 	}
 	if (m_game->getInputManager()->isDown(SDLK_d)) {
-		m_camera.setPosition(m_camera.getPosition() + glm::vec2(CAMERA_SPEED, 0.0f));
+		m_camera.setPosition(m_camera.getPosition() + glm::vec2(Xenro::CAMERA_SPEED, 0.0f));
 	}
 	if (m_game->getInputManager()->isDown(SDLK_q)) {
 		if(m_camera.getScale() < 2.0)
-			m_camera.setScale(m_camera.getScale() + SCALE_SPEED);
+			m_camera.setScale(m_camera.getScale() + Xenro::SCALE_SPEED);
 	}
 	if (m_game->getInputManager()->isDown(SDLK_e)) {
 		if(m_camera.getScale() > 0.5)
-			m_camera.setScale(m_camera.getScale() - SCALE_SPEED);
+			m_camera.setScale(m_camera.getScale() - Xenro::SCALE_SPEED);
 	}
 	if (m_game->getInputManager()->isDown(SDLK_ESCAPE)) {
 		m_currState = Xenro::ScreenState::EXIT_APP;

@@ -193,6 +193,11 @@
     <ClInclude Include="IScreen.h" />
     <ClInclude Include="LightEngine.h" />
     <ClInclude Include="LoadManager.h" />
+    <ClInclude Include="Mat2.h" />
+    <ClInclude Include="Mat3.h" />
+    <ClInclude Include="Mat4.h" />
+    <ClInclude Include="Math.h" />
+    <ClInclude Include="MathConstants.h" />
     <ClInclude Include="OutlineRenderer.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleBatch.h" />
@@ -209,6 +214,9 @@
     <ClInclude Include="Timing.h" />
     <ClInclude Include="unchecked.h" />
     <ClInclude Include="utf8.h" />
+    <ClInclude Include="Vec2.h" />
+    <ClInclude Include="Vec3.h" />
+    <ClInclude Include="Vec4.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="World.h" />

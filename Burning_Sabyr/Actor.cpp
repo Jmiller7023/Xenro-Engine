@@ -1,6 +1,7 @@
 #include "Actor.h"
 #include <algorithm>
 #include <XenroEngine\ResourceManager.h>
+#include <XenroEngine\Globals.h>
 
 
 Actor::Actor()
@@ -23,13 +24,13 @@ void Actor::collideWithWorld(const std::vector<std::string>& worldData) {
 	checkTilePos(worldData, tilecollisions, m_position.x, m_position.y);
 
 	//second corner
-	checkTilePos(worldData, tilecollisions, m_position.x + AGENT_WIDTH, m_position.y);
+	checkTilePos(worldData, tilecollisions, m_position.x + Xenro::AGENT_WIDTH, m_position.y);
 
 	//Third corner
-	checkTilePos(worldData, tilecollisions, m_position.x, m_position.y + AGENT_WIDTH);
+	checkTilePos(worldData, tilecollisions, m_position.x, m_position.y + Xenro::AGENT_WIDTH);
 
 	//Fourth corner
-	checkTilePos(worldData, tilecollisions, m_position.x + AGENT_WIDTH, m_position.y + AGENT_WIDTH);
+	checkTilePos(worldData, tilecollisions, m_position.x + Xenro::AGENT_WIDTH, m_position.y + Xenro::AGENT_WIDTH);
 
 	for (size_t i = 0; i < tilecollisions.size(); i++) {
 		collideWithTile(tilecollisions[i]);
@@ -59,18 +60,19 @@ void Actor::draw(Xenro::SpriteBatch& spriteBatch) {
 
 void Actor::checkTilePos(const std::vector<std::string>& levelData, std::vector<glm::vec2>& tilecollisions, float x, float y) {
 
-	glm::vec2 cornerPos1 = glm::vec2(floor(x / (float)TILE_WIDTH), floor(y / (float)TILE_WIDTH));
+	glm::vec2 cornerPos1 = glm::vec2(floor(x / (float)Xenro::TILE_WIDTH), floor(y / (float)Xenro::TILE_WIDTH));
 
 	if (levelData[cornerPos1.y][cornerPos1.x] != '.') {
-		tilecollisions.push_back(cornerPos1*(float)TILE_WIDTH + glm::vec2((float)TILE_WIDTH / 2));
+		tilecollisions.push_back(cornerPos1*(float)Xenro::TILE_WIDTH + glm::vec2((float)Xenro::TILE_WIDTH / 2));
 	}
 }
 
 //AABB collision.
 void Actor::collideWithTile(glm::vec2 tilePos) {
+
 	const float AGENT_RADIUSX = m_HitboxDims.x / 2.0f;
 	const float AGENT_RADIUSY = m_HitboxDims.y / 2.0f;
-	const float TILE_RADIUS = (float)AGENT_WIDTH / 2.0f;
+	const float TILE_RADIUS = (float)Xenro::AGENT_WIDTH / 2.0f;
 	const float MIN_DISTANCEX = AGENT_RADIUSX + TILE_RADIUS;
 	const float MIN_DISTANCEY = AGENT_RADIUSY + TILE_RADIUS;
 
