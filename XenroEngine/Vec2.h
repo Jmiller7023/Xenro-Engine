@@ -30,4 +30,15 @@
 #ifndef XENRO_VEC2_DEFINED
 #define XENRO_VEC2_DEFINED
 
+namespace Xenro {
+	
+
+struct Vec2 {
+
+	float x;
+	float y;
+};
+
+}
+
 #endif //XENRO_VEC2_DEFINED

@@ -5,11 +5,13 @@
 Bullet::Bullet(glm::vec2 pos, glm::vec2 dir, float speed, int lifeTime)
 	:m_position(pos), m_direction(dir), m_speed(speed), m_lifeTime(lifeTime)
 {
+	//Empty
 }
 
 
 Bullet::~Bullet()
 {
+	//Empty
 }
 
 
@@ -26,8 +28,9 @@ void Bullet::draw(Xenro::SpriteBatch& spriteBatch) {
 	spriteBatch.draw(posAndSize, uv, texture.ID, -1.0f, color);
 }
 
-void Bullet::updateActors() {
-
+void Bullet::updateActors() 
+{
+	//Empty
 }
 
 bool Bullet::updatePos() {

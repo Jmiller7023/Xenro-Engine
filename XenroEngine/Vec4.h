@@ -30,4 +30,8 @@
 #ifndef XENRO_VEC4_DEFINED
 #define XENRO_VEC4_DEFINED
 
+namespace Xenro {
+
+}
+
 #endif //XENRO_VEC4_DEFINED

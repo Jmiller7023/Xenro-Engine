@@ -30,5 +30,9 @@
 #ifndef XENRO_MAT2_DEFINED
 #define XENRO_MAT2_DEFINED
 
+namespace Xenro {
+
+}
+
 #endif //XENRO_MAT2_DEFINED
 

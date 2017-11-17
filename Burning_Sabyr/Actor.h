@@ -21,7 +21,7 @@ public:
 	~Actor();
 
 	virtual void update(const std::vector<std::string>& WorldData) { }
-	virtual void update() {}
+	virtual void update() { }
 
 	void draw(Xenro::SpriteBatch& spriteBatch);
 

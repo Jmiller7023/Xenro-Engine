@@ -9,6 +9,7 @@
 OptionsScreen::OptionsScreen(Xenro::Window* window)
 	:m_GUI("GUI", window), m_window(window)
 {
+	//Empty
 }
 
 
