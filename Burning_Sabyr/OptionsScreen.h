@@ -47,6 +47,7 @@ private:
 	bool Windowmode(const CEGUI::EventArgs& args);
 	bool backToMainMenu(const CEGUI::EventArgs& args);
 	bool m_GUIinitialized = false;
+	bool m_exitGame = false;
 };
 
 #endif //OPTIONS_SCREEN_DEFINED

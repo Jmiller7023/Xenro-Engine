@@ -50,6 +50,7 @@ private:
 	bool openOptions(const CEGUI::EventArgs& args);
 	bool exitGame(const CEGUI::EventArgs& args);
 	bool m_GUIinitialized = false;
+	bool m_exitGame = false;
 };
 
 #endif //MAINMENUSCREEN_DEFINED

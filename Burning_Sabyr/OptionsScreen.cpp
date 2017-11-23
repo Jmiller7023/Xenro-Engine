@@ -72,7 +72,10 @@ void OptionsScreen::onExit() {
 void OptionsScreen::update() {
 
 	updateGUI();
-	m_camera.update();
+	
+	if (!m_exitGame) {
+		m_camera.update();
+	}
 
 }
 
@@ -126,10 +129,14 @@ void OptionsScreen::updateGUI() {
 	SDL_Event evnt;
 	while (SDL_PollEvent(&evnt)) {
 		m_game->getInputManager()->processInput(evnt);
-		m_GUI.onEvent(evnt);
-		//Crappy work around. Fix later.
-		if (evnt.type == SDL_QUIT)
+
+		//Prevent a crash on SDL_QUIT
+		if (evnt.type == SDL_QUIT) {
+			m_exitGame = true;
 			return;
+		}
+
+		m_GUI.onEvent(evnt);
 	}
 }
 
