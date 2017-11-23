@@ -41,7 +41,14 @@ SpriteBatch::SpriteBatch()
 
 SpriteBatch::~SpriteBatch()
 {
-	//Empty
+	if (m_vao != 0) {
+		glDeleteVertexArrays(1, &m_vao);
+		m_vao = 0;
+	}
+	if (m_vbo != 0) {
+		glDeleteBuffers(1, &m_vbo);
+		m_vbo = 0;
+	}
 }
 
 void SpriteBatch::begin(SpriteSortType sortType) {
