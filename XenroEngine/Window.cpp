@@ -367,6 +367,8 @@ void Window::modifyWindowSize() {
 
 void Window::modifyWindowSize(int width, int height) {
 	SDL_SetWindowSize(m_sdlWindow, width, height);
+	m_screenWidth = width;
+	m_screenHeight = height;
 }
 
 void Window::setFullscreen() {
