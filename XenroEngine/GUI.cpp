@@ -311,6 +311,14 @@ CEGUI::Window* GUI::createWidget(const std::string& type, const glm::vec4& drawR
 	return newWindow;
 }
 
+CEGUI::Window* GUI::createWidget(CEGUI::Window* parent, const std::string& type, const glm::vec4& drawRectPercent, const glm::vec4& drawRectPixels, const std::string& name) {
+
+	CEGUI::Window* newWindow = CEGUI::WindowManager::getSingleton().createWindow(type, name);
+	parent->addChild(newWindow);
+	setWidgetDrawRect(newWindow, drawRectPercent, drawRectPixels);
+	return newWindow;
+}
+
 void GUI::setWidgetDrawRect(CEGUI::Window* widget, const glm::vec4& drawRectPercent, const glm::vec4& drawRectPixels) {
 
 	widget->setPosition(CEGUI::UVector2(CEGUI::UDim(drawRectPercent.x, drawRectPixels.x), CEGUI::UDim(drawRectPercent.y, drawRectPixels.y)));
