@@ -42,12 +42,34 @@ private:
 	void initGUI();
 	void updateGUI();
 
+	//GUI Event Handlers
 	bool Vsync(const CEGUI::EventArgs& args);
-	bool ScreenResolution(const CEGUI::EventArgs& args);
-	bool Windowmode(const CEGUI::EventArgs& args);
+	bool openResolutionWindow(const CEGUI::EventArgs& args);
+	bool screenResolution1(const CEGUI::EventArgs& args);
+	bool screenResolution2(const CEGUI::EventArgs& args);
+	bool screenResolution3(const CEGUI::EventArgs& args);
+	bool screenResolution4(const CEGUI::EventArgs& args);
+	bool screenResolution5(const CEGUI::EventArgs& args);
+	bool screenResolution6(const CEGUI::EventArgs& args);
+	bool screenResolution7(const CEGUI::EventArgs& args);
 	bool backToMainMenu(const CEGUI::EventArgs& args);
+	bool onExitClicked(const CEGUI::EventArgs& args);
+
+	//Member Variables
 	bool m_GUIinitialized = false;
 	bool m_exitGame = false;
+
+	CEGUI::FrameWindow* m_resolutionWindow = nullptr;
+	CEGUI::PushButton* m_mainMenuButtion = nullptr;
+	CEGUI::RadioButton* m_VSYNCCheckBox = nullptr;
+	CEGUI::PushButton* m_openResolutionWindow = nullptr;
+	CEGUI::PushButton* m_resolution1 = nullptr;
+	CEGUI::PushButton* m_resolution2 = nullptr;
+	CEGUI::PushButton* m_resolution3 = nullptr;
+	CEGUI::PushButton* m_resolution4 = nullptr;
+	CEGUI::PushButton* m_resolution5 = nullptr;
+	CEGUI::PushButton* m_resolution6 = nullptr;
+	CEGUI::PushButton* m_resolution7 = nullptr;
 };
 
 #endif //OPTIONS_SCREEN_DEFINED
