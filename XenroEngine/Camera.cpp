@@ -62,7 +62,9 @@ void Camera::init(Window* window) {
 
 //Move the camera when an update is needed.
 void Camera::update() {
+
 	if (m_needsUpdate) {
+
 		//Camera Translation
 		glm::vec3 translate(-m_position.x + m_window->getScreenWidth() / 2.0f, -m_position.y + m_window->getScreenHeight() / 2.0f, 0.0f);
 		m_camMatrix = glm::translate(m_orthoMatrix, translate);
@@ -71,7 +73,7 @@ void Camera::update() {
 		glm::vec3 scale(m_scale, m_scale, 0.0f);
 		m_camMatrix = glm::scale(glm::mat4(1.0f), scale) * m_camMatrix;
 
-		//No longer needs o be updated.
+		//No longer needs to be updated.
 		m_needsUpdate = false;
 	}
 }

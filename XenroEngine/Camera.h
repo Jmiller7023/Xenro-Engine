@@ -52,10 +52,9 @@ public:
 	bool isInCam(const glm::vec2& position,const glm::vec2& dimensions);
 
 	//setters
-	void setPosition(const glm::vec2& newPosition) {
-		m_position = newPosition; m_needsUpdate = true; }
-	void setScale(float newScale) { m_scale = newScale; m_needsUpdate = true;
-	}
+	void setPosition(const glm::vec2& newPosition) { m_position = newPosition; m_needsUpdate = true; }
+	void setScale(float newScale) { m_scale = newScale; m_needsUpdate = true; }
+	void setNeedsUpdate() { m_needsUpdate = true; }
 
 	//getters
 	glm::vec2 getPosition() const { return m_position; }
