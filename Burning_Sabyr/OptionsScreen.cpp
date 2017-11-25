@@ -102,7 +102,9 @@ void OptionsScreen::draw() {
 
 	//Pass pointer to openGL
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
-
+	if (m_changedRes) {
+		m_changedRes = false;
+	}
 	glm::vec4 destRect(-m_window->getScreenWidth() / 2.0f, -m_window->getScreenHeight() / 2.0, m_window->getScreenWidth(), m_window->getScreenHeight());
 	Xenro::ColorRGBA color(255, 255, 255, 255);
 	Xenro::GLTexture texture = Xenro::ResourceManager::getTexture("Textures/BackGround.png");
@@ -210,6 +212,9 @@ bool OptionsScreen::screenResolution1(const CEGUI::EventArgs& args) {
 	m_window->setInitScreenWidth(800);
 	m_window->setInitScreenHeight(600);
 	m_window->modifyWindowSize(800, 600);
+	m_changedRes = true;
+	m_camera.setNeedsUpdate();
+
 	return true;
 }
 
@@ -217,6 +222,9 @@ bool OptionsScreen::screenResolution2(const CEGUI::EventArgs& args) {
 	m_window->setInitScreenWidth(1024);
 	m_window->setInitScreenHeight(768);
 	m_window->modifyWindowSize(1024, 768);
+	m_changedRes = true;
+	m_camera.setNeedsUpdate();
+
 	return true;
 }
 
@@ -224,6 +232,9 @@ bool OptionsScreen::screenResolution3(const CEGUI::EventArgs& args) {
 	m_window->setInitScreenWidth(1280);
 	m_window->setInitScreenHeight(720);
 	m_window->modifyWindowSize(1280, 720);
+	m_changedRes = true;
+	m_camera.setNeedsUpdate();
+
 	return true;
 }
 
@@ -231,6 +242,10 @@ bool OptionsScreen::screenResolution4(const CEGUI::EventArgs& args) {
 	m_window->setInitScreenWidth(1360);
 	m_window->setInitScreenHeight(768);
 	m_window->modifyWindowSize(1360, 768);
+	m_changedRes = true;
+	m_camera.setNeedsUpdate();
+
+
 	return true;
 }
 
@@ -238,6 +253,10 @@ bool OptionsScreen::screenResolution5(const CEGUI::EventArgs& args) {
 	m_window->setInitScreenWidth(1600);
 	m_window->setInitScreenHeight(900);
 	m_window->modifyWindowSize(1600, 900);
+	m_changedRes = true;
+	m_camera.setNeedsUpdate();
+
+
 	return true;
 }
 
@@ -245,6 +264,10 @@ bool OptionsScreen::screenResolution6(const CEGUI::EventArgs& args) {
 	m_window->setInitScreenWidth(1920);
 	m_window->setInitScreenHeight(1080);
 	m_window->modifyWindowSize(1920, 1080);
+	m_changedRes = true;
+	m_camera.setNeedsUpdate();
+
+
 	return true;
 }
 
@@ -252,6 +275,9 @@ bool OptionsScreen::screenResolution7(const CEGUI::EventArgs& args) {
 	m_window->setInitScreenWidth(3840);
 	m_window->setInitScreenHeight(2160);
 	m_window->modifyWindowSize(3840, 2160);
+	m_changedRes = true;
+	m_camera.setNeedsUpdate();
+
 	return true;
 }
 
