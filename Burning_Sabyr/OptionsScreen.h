@@ -58,7 +58,7 @@ private:
 	//Member Variables
 	bool m_GUIinitialized = false;
 	bool m_exitGame = false;
-	bool m_changedRes = false;
+	bool m_changedRes = true;
 
 	CEGUI::FrameWindow* m_resolutionWindow = nullptr;
 	CEGUI::PushButton* m_mainMenuButtion = nullptr;

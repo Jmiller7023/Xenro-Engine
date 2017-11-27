@@ -38,6 +38,7 @@ void OptionsScreen::create() {
 	m_textureProgram.addAttribute("vertexColor");
 	m_textureProgram.addAttribute("vertexUV");
 	m_textureProgram.linkShaders();
+
 }
 
 void OptionsScreen::destroy() {
@@ -67,6 +68,14 @@ void OptionsScreen::onEntry() {
 void OptionsScreen::onExit() {
 
 	m_audioEngine.closeEngine();
+
+	//Disable resolution window and make it invisisble.
+	m_resolutionWindow->setAlpha(0.0f);
+	m_resolutionWindow->disable();
+
+	//Enable resolution window button and make it visible.
+	m_openResolutionWindow->setAlpha(255.0f);
+	m_openResolutionWindow->enable();
 }
 
 void OptionsScreen::update() {
@@ -81,6 +90,10 @@ void OptionsScreen::update() {
 
 void OptionsScreen::draw() {
 
+	if (m_changedRes) {
+		m_changedRes = false;
+	}
+
 	//Set base depth to 1.0
 	glClearDepth(1.0);
 
@@ -88,11 +101,13 @@ void OptionsScreen::draw() {
 
 	//Endable the shader
 	m_textureProgram.use();
+
 	//This is using texture unit 0.
 	glActiveTexture(GL_TEXTURE0);
 
 	//Get uniform location.
 	GLint textureLocation = m_textureProgram.getUniformLocation("mySampler");
+
 	//Tell the shader that the exture is in texture unit 0.
 	glUniform1i(textureLocation, 0);
 
@@ -102,9 +117,7 @@ void OptionsScreen::draw() {
 
 	//Pass pointer to openGL
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
-	if (m_changedRes) {
-		m_changedRes = false;
-	}
+
 	glm::vec4 destRect(-m_window->getScreenWidth() / 2.0f, -m_window->getScreenHeight() / 2.0, m_window->getScreenWidth(), m_window->getScreenHeight());
 	Xenro::ColorRGBA color(255, 255, 255, 255);
 	Xenro::GLTexture texture = Xenro::ResourceManager::getTexture("Textures/BackGround.png");
@@ -205,78 +218,85 @@ void OptionsScreen::initGUI() {
 }
 
 bool OptionsScreen::Vsync(const CEGUI::EventArgs& args) {
+	
 	return true;
 }
 
 bool OptionsScreen::screenResolution1(const CEGUI::EventArgs& args) {
+
 	m_window->setInitScreenWidth(800);
 	m_window->setInitScreenHeight(600);
 	m_window->modifyWindowSize(800, 600);
 	m_changedRes = true;
-	m_camera.setNeedsUpdate();
+	//m_camera.setNeedsUpdate();
 
 	return true;
 }
 
 bool OptionsScreen::screenResolution2(const CEGUI::EventArgs& args) {
+
 	m_window->setInitScreenWidth(1024);
 	m_window->setInitScreenHeight(768);
 	m_window->modifyWindowSize(1024, 768);
 	m_changedRes = true;
-	m_camera.setNeedsUpdate();
+	//m_camera.setNeedsUpdate();
 
 	return true;
 }
 
 bool OptionsScreen::screenResolution3(const CEGUI::EventArgs& args) {
+
 	m_window->setInitScreenWidth(1280);
 	m_window->setInitScreenHeight(720);
 	m_window->modifyWindowSize(1280, 720);
 	m_changedRes = true;
-	m_camera.setNeedsUpdate();
+	//m_camera.setNeedsUpdate();
 
 	return true;
 }
 
 bool OptionsScreen::screenResolution4(const CEGUI::EventArgs& args) {
+
 	m_window->setInitScreenWidth(1360);
 	m_window->setInitScreenHeight(768);
 	m_window->modifyWindowSize(1360, 768);
 	m_changedRes = true;
-	m_camera.setNeedsUpdate();
-
+	//m_camera.setNeedsUpdate();
 
 	return true;
 }
 
 bool OptionsScreen::screenResolution5(const CEGUI::EventArgs& args) {
+
 	m_window->setInitScreenWidth(1600);
 	m_window->setInitScreenHeight(900);
 	m_window->modifyWindowSize(1600, 900);
 	m_changedRes = true;
-	m_camera.setNeedsUpdate();
+	//m_camera.setNeedsUpdate();
 
 
 	return true;
 }
 
 bool OptionsScreen::screenResolution6(const CEGUI::EventArgs& args) {
+
 	m_window->setInitScreenWidth(1920);
 	m_window->setInitScreenHeight(1080);
 	m_window->modifyWindowSize(1920, 1080);
 	m_changedRes = true;
-	m_camera.setNeedsUpdate();
+	//m_camera.setNeedsUpdate();
 
 
 	return true;
 }
 
 bool OptionsScreen::screenResolution7(const CEGUI::EventArgs& args) {
+
 	m_window->setInitScreenWidth(3840);
 	m_window->setInitScreenHeight(2160);
 	m_window->modifyWindowSize(3840, 2160);
 	m_changedRes = true;
-	m_camera.setNeedsUpdate();
+	//m_camera.setNeedsUpdate();
 
 	return true;
 }
@@ -285,6 +305,7 @@ bool OptionsScreen::backToMainMenu(const CEGUI::EventArgs& args) {
 
 	m_currState = Xenro::ScreenState::CHANGE_TO_PARTICULAR;
 	m_changeToParticular = MAINMENU_SCREEN;
+
 	return true;
 }
 
@@ -295,6 +316,7 @@ bool OptionsScreen::onExitClicked(const CEGUI::EventArgs& args) {
 
 	m_openResolutionWindow->setAlpha(255.0f);
 	m_openResolutionWindow->enable();
+
 	return true;
 }
 
@@ -305,5 +327,6 @@ bool OptionsScreen::openResolutionWindow(const CEGUI::EventArgs& args) {
 
 	m_resolutionWindow->enable();
 	m_resolutionWindow->setAlpha(255.0f);
+
 	return true;
 }
