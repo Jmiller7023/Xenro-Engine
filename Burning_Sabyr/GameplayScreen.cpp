@@ -115,9 +115,8 @@ void GameplayScreen::onEntry() {
 	glm::vec2 coords = m_game->getInputManager()->getMouseCoords();
 	m_GUI.setMousePos(coords.x, coords.y);
 
-
 	//Disables normal mouse cursor.
-	SDL_ShowCursor(0);
+	SDL_ShowCursor(1);
 
 }
 
@@ -209,11 +208,13 @@ void GameplayScreen::draw() {
 
 	//Endable the shader
 	m_textureProgram.use();
+
 	//This is using texture unit 0.
 	glActiveTexture(GL_TEXTURE0);
 
 	//Get uniform location.
 	GLint textureLocation = m_textureProgram.getUniformLocation("mySampler");
+
 	//Tell the shader that the exture is in texture unit 0.
 	glUniform1i(textureLocation, 0);
 
