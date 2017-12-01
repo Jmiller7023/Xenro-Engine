@@ -57,7 +57,12 @@ Camera::~Camera()
 void Camera::init(Window* window) {
 
 	m_window = window;
+	m_position = glm::vec2(0.0f, 0.0f);
+	m_scale = 1.0f;
+	m_camMatrix = glm::mat4(1.0f);
 	m_orthoMatrix = glm::ortho(0.0f, (float)m_window->getScreenWidth(), 0.0f, (float)m_window->getScreenHeight());
+	m_needsUpdate = true;
+
 }
 
 //Move the camera when an update is needed.
