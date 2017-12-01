@@ -47,7 +47,7 @@ void World::loadLevelData(const std::string filePath) {
 
 	//Error checking.
 	if (file.fail()) {
-		Xenro::fatalError("Failed to open " + filePath);
+		fatalError("Failed to open " + filePath);
 	}
 
 	std::string tmp;
