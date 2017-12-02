@@ -157,9 +157,6 @@ void OptionsScreen::updateGUI() {
 			if (evnt.window.event == SDL_WINDOWEVENT_RESIZED) {
 				m_camera.reset(m_window);
 			}
-			if (evnt.window.event == SDL_WINDOWEVENT_MAXIMIZED) {
-				m_camera.reset(m_window);
-			}
 		}
 
 		m_GUI.onEvent(evnt);

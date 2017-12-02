@@ -77,12 +77,6 @@ void InputManager::processInput(SDL_Event& evnt) {
 				m_game->modifyWindowScreenWidth(evnt.window.data1);
 				m_game->modifyWindowScreenHeight(evnt.window.data2);
 				break;
-			case SDL_WINDOWEVENT_MAXIMIZED:
-				SDL_DisplayMode mode;
-				SDL_GetDesktopDisplayMode(0, &mode);
-				m_game->modifyWindowScreenWidth(mode.w);
-				m_game->modifyWindowScreenHeight(mode.h);
-				break;
 			}
 			
 		}

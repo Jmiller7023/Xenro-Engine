@@ -58,7 +58,7 @@ void MainMenuScreen::onEntry() {
 	m_audioEngine.openEngine();
 
 	//Start level music.
-	m_audioEngine.loadSong("Audio/Music/Determination.ogg").play();
+	m_audioEngine.loadSong("Audio/Music/mm2.ogg").play();
 
 	//Set the camera properly.
 	m_camera.reset(m_window);
@@ -208,9 +208,6 @@ void MainMenuScreen::updateGUI() {
 		//Fix the screen in case the window was resized.
 		if (evnt.type == SDL_WINDOWEVENT) {
 			if (evnt.window.event == SDL_WINDOWEVENT_RESIZED) {
-				m_camera.reset(m_window);
-			}
-			if (evnt.window.event == SDL_WINDOWEVENT_MAXIMIZED) {
 				m_camera.reset(m_window);
 			}
 		}

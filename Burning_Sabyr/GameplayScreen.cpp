@@ -148,9 +148,6 @@ void GameplayScreen::update() {
 		if (evnt.window.event == SDL_WINDOWEVENT_RESIZED) {
 			m_camera.reset(m_window);
 		}
-		if (evnt.window.event == SDL_WINDOWEVENT_MAXIMIZED) {
-			m_camera.reset(m_window);
-		}
 	}
 	
 	m_player->update(m_levelLoader.getLevelData());
