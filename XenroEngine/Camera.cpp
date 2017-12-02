@@ -54,7 +54,7 @@ Camera::~Camera()
 }
 
 //Initialiaze our camera with screen size info.
-void Camera::init(Window* window) {
+void Camera::reset(Window* window) {
 
 	m_window = window;
 	m_position = glm::vec2(0.0f, 0.0f);

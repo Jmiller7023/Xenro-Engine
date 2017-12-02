@@ -43,7 +43,7 @@ public:
 	Camera(Window* window);
 	~Camera();
 
-	void init(Window* window);
+	void reset(Window* window);
 
 	void update();
 
