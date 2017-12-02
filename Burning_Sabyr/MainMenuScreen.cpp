@@ -61,7 +61,7 @@ void MainMenuScreen::onEntry() {
 	m_audioEngine.loadSong("Audio/Music/Determination.ogg").play();
 
 	//Set the camera properly.
-	m_camera.init(m_window);
+	m_camera.reset(m_window);
 
 	//Initialize spritefont
 	m_spriteFont = Xenro::SpriteFont("Fonts/Pixel_Bubble.ttf", 80);
@@ -203,6 +203,16 @@ void MainMenuScreen::updateGUI() {
 		if (evnt.type == SDL_QUIT) {
 			m_exitGame = true;
 			return;
+		}
+
+		//Fix the screen in case the window was resized.
+		if (evnt.type == SDL_WINDOWEVENT) {
+			if (evnt.window.event == SDL_WINDOWEVENT_RESIZED) {
+				m_camera.reset(m_window);
+			}
+			if (evnt.window.event == SDL_WINDOWEVENT_MAXIMIZED) {
+				m_camera.reset(m_window);
+			}
 		}
 
 		m_GUI.onEvent(evnt);

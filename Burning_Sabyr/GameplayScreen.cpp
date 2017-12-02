@@ -81,7 +81,7 @@ void GameplayScreen::onEntry() {
 	m_audioEngine.loadSong("Audio/Music/GoodZelda.ogg").play();
 
 	//Set the camera properly.
-	m_camera.init(m_window);
+	m_camera.reset(m_window);
 
 	//Initialize spritefont
 	m_spriteFont = new Xenro::SpriteFont("Fonts/Pixel_Bubble.ttf", 64);
@@ -142,6 +142,16 @@ void GameplayScreen::update() {
 	}
 
 	//endtest
+
+	//Fix the screen in case the window was resized.
+	if (evnt.type == SDL_WINDOWEVENT) {
+		if (evnt.window.event == SDL_WINDOWEVENT_RESIZED) {
+			m_camera.reset(m_window);
+		}
+		if (evnt.window.event == SDL_WINDOWEVENT_MAXIMIZED) {
+			m_camera.reset(m_window);
+		}
+	}
 	
 	m_player->update(m_levelLoader.getLevelData());
 

@@ -55,7 +55,7 @@ void OptionsScreen::onEntry() {
 	m_audioEngine.loadSong("Audio/Music/FF1.ogg").play();
 
 	//Set the camera properly.
-	m_camera.init(m_window);
+	m_camera.reset(m_window);
 
 	//Update mouse cursor.
 	glm::vec2 coords = m_game->getInputManager()->getMouseCoords();
@@ -91,6 +91,7 @@ void OptionsScreen::update() {
 void OptionsScreen::draw() {
 
 	if (m_changedRes) {
+		m_camera.reset(m_window);
 		m_changedRes = false;
 	}
 
@@ -149,6 +150,16 @@ void OptionsScreen::updateGUI() {
 		if (evnt.type == SDL_QUIT) {
 			m_exitGame = true;
 			return;
+		}
+
+		//Fix the screen in case the window was resized.
+		if (evnt.type == SDL_WINDOWEVENT) {
+			if (evnt.window.event == SDL_WINDOWEVENT_RESIZED) {
+				m_camera.reset(m_window);
+			}
+			if (evnt.window.event == SDL_WINDOWEVENT_MAXIMIZED) {
+				m_camera.reset(m_window);
+			}
 		}
 
 		m_GUI.onEvent(evnt);
