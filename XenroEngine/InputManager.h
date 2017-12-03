@@ -37,7 +37,16 @@
 namespace Xenro{
 
 class Game;
+
+enum Axis {
+	LEFTANALOGUP = 255, LEFTANALOGUPRIGHT, LEFTANALOGRIGHT, LEFTANALOGDOWNRIGHT,
+	LEFTANALOGDOWN, LEFTANALOGDOWNLEFT, LEFTANALOGLEFT, LEFTANALOGUPLEFT,
+	RIGHTANALOGUP, RIGHTANALOGUPRIGHT, RIGHTANALOGRIGHT, RIGHTANALOGDOWNRIGHT,
+	RIGHTANALOGDOWN, RIGHTANALOGDOWNLEFT, RIGHTANALOGLEFT, RIGHTANALOGUPLEFT,
+};
+
 class InputManager {
+
 public:
 	InputManager(Game* game);
 	InputManager();
@@ -53,22 +62,32 @@ public:
 	//Checks if the key was pressed once in the last frame.
 	bool isPressed(unsigned int keyID);
 
-	///Setters.
-	void setMouseCoords(float x, float y) { m_mousecoords.x = x; m_mousecoords.y = y; }	
-	
+	//Setters.
+	void setMouseCoords(float x, float y) { m_mousecoords.x = x; m_mousecoords.y = y; }		
 	void keyPress(unsigned int keyID) { m_keymap[keyID] = true; }
-
 	void keyRelease(unsigned int keyID) { m_keymap[keyID] = false; }
 
-	///Getters.
+	//Getters.
 	glm::vec2 getMouseCoords() const { return m_mousecoords; }
+	float getLeftAnalogAngle() const { return m_leftAnalogAngle; }
+	float getRightAnalogAngle() const { return m_rightAnalogAngle; }
 
 private:
+
+	//Member functions.
+	void processJoyAxis(SDL_Event& evnt);
+	void angleToKeyRightAnalog();
+	void angleToKeyLeftAnalog();
 	bool wasPressed(unsigned int keyID);
+
+	//Member variables.
 	Game* m_game = nullptr;
 	std::unordered_map<unsigned int, bool> m_keymap;
 	std::unordered_map<unsigned int, bool> m_prevmap;
 	glm::vec2 m_mousecoords;
+	int m_leftxDir = 0, m_leftyDir = 0, m_rightxDir = 0, m_rightyDir = 0;
+	int m_rightAnalogAngle = -1, m_leftAnalogAngle = -1;
+	Axis m_lastLeftAnalogKey = Axis::LEFTANALOGUP, m_lastRightAnalogKey = Axis::RIGHTANALOGUP;
 };
 
 }
