@@ -103,7 +103,7 @@ void LightEngine::modifyLight(int index, ColorRGBA color, glm::vec2 pos, glm::ve
 
 	//Error checking.
 	if (index >= (int)m_lights.size()) {
-		errorMessage("index is out of array size");
+		warning("index is out of array size");
 	}
 
 	//Modify all the lights.
@@ -116,7 +116,7 @@ void LightEngine::modifyLightColor(int index, ColorRGBA color) {
 
 	//Error checking.
 	if (index >= (int)m_lights.size()) {
-		errorMessage("index is out of array size");
+		warning("index is out of array size");
 	}
 
 	m_lights[index].color = color;
@@ -126,7 +126,7 @@ void LightEngine::modifyLightPos(int index, glm::vec2 pos) {
 
 	//Error checking.
 	if (index >= (int)m_lights.size()) {
-		errorMessage("index is out of array size");
+		warning("index is out of array size");
 	}
 
 	//Modify the light's position.
@@ -137,7 +137,7 @@ void LightEngine::modifyLightSize(int index, glm::vec2 size) {
 
 	//Error checking.
 	if (index >= (int)m_lights.size()) {
-		errorMessage("index is out of array size");
+		warning("index is out of array size");
 	}
 
 	m_lights[index].size = size;

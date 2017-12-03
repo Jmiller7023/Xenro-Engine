@@ -57,7 +57,7 @@ void SaveManager::addEntry(const std::string& entry, int index) {
 
 	//Error checking.
 	if (index > m_saveFile.size() || index < 0) {
-		errorMessage("index is outside of vector range!");
+		warning("index is outside of vector range!");
 		return;
 	}
 
@@ -73,7 +73,7 @@ void SaveManager::replaceEntry(const std::string& entry, int index) {
 
 	//Error checking.
 	if (index > m_saveFile.size() || index < 0) {
-		errorMessage("index is outside of vector range!");
+		warning("index is outside of vector range!");
 		return;
 	}
 

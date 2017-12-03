@@ -113,7 +113,7 @@ void ScreenList::destroyScreen(int screen) {
 		m_screens.pop_back();
 	}
 
-	errorMessage("Passed in invalid screen index");
+	warning("Passed in invalid screen index");
 }
 
 IScreen* ScreenList::getCurrScreen() {
