@@ -53,26 +53,26 @@ InputManager::~InputManager()
 	//Empty
 }
 
-Button InputManager::SDLKtoButton(unsigned int keyID) {
+unsigned int InputManager::SDLKtoButton(unsigned int keyID) {
 
 	switch (keyID) {
-		case SDL_CONTROLLER_BUTTON_A: return Button::BUTTON_A;
-		case SDL_CONTROLLER_BUTTON_B: return Button::BUTTON_B;
-		case SDL_CONTROLLER_BUTTON_X: return Button::BUTTON_X;
-		case SDL_CONTROLLER_BUTTON_Y: return Button::BUTTON_Y;
-		case SDL_CONTROLLER_BUTTON_BACK: return Button::BUTTON_BACK;
-		case SDL_CONTROLLER_BUTTON_GUIDE: return Button::BUTTON_GUIDE;
-		case SDL_CONTROLLER_BUTTON_START: return Button::BUTTON_START;
-		case SDL_CONTROLLER_BUTTON_LEFTSTICK: return Button::BUTTON_LEFTSTICK;
-		case SDL_CONTROLLER_BUTTON_RIGHTSTICK: return Button::BUTTON_RIGHTSTICK;
-		case SDL_CONTROLLER_BUTTON_LEFTSHOULDER: return Button::BUTTON_LEFTSHOULDER;
-		case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER: return Button::BUTTON_RIGHTSHOULDER;
-		case SDL_CONTROLLER_BUTTON_DPAD_UP: return Button::BUTTON_DPAD_UP;
-		case SDL_CONTROLLER_BUTTON_DPAD_DOWN: return Button::BUTTON_DPAD_DOWN;
-		case SDL_CONTROLLER_BUTTON_DPAD_LEFT: return Button::BUTTON_DPAD_LEFT;
-		case SDL_CONTROLLER_BUTTON_DPAD_RIGHT: return Button::BUTTON_DPAD_RIGHT;
-		case SDL_CONTROLLER_BUTTON_MAX: return Button::BUTTON_MAX;
-		default: return Button::BUTTON_INVALID;
+		case SDL_CONTROLLER_BUTTON_A: return Button::A;
+		case SDL_CONTROLLER_BUTTON_B: return Button::B;
+		case SDL_CONTROLLER_BUTTON_X: return Button::X;
+		case SDL_CONTROLLER_BUTTON_Y: return Button::Y;
+		case SDL_CONTROLLER_BUTTON_BACK: return Button::BACK;
+		case SDL_CONTROLLER_BUTTON_GUIDE: return Button::GUIDE;
+		case SDL_CONTROLLER_BUTTON_START: return Button::START;
+		case SDL_CONTROLLER_BUTTON_LEFTSTICK: return Button::LEFTSTICK;
+		case SDL_CONTROLLER_BUTTON_RIGHTSTICK: return Button::RIGHTSTICK;
+		case SDL_CONTROLLER_BUTTON_LEFTSHOULDER: return Button::LEFTSHOULDER;
+		case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER: return Button::RIGHTSHOULDER;
+		case SDL_CONTROLLER_BUTTON_DPAD_UP: return Button::DPAD_UP;
+		case SDL_CONTROLLER_BUTTON_DPAD_DOWN: return Button::DPAD_DOWN;
+		case SDL_CONTROLLER_BUTTON_DPAD_LEFT: return Button::DPAD_LEFT;
+		case SDL_CONTROLLER_BUTTON_DPAD_RIGHT: return Button::DPAD_RIGHT;
+		case SDL_CONTROLLER_BUTTON_MAX: return Button::MAX;
+		default: return Button::INVALID;
 	}
 
 }
@@ -162,6 +162,30 @@ void InputManager::processJoyAxis(SDL_Event& evnt) {
 	bool leftAnalogMotion = false;
 	bool rightAnalogMotion = false;
 
+	///RIGHT TRIGGER PULLED
+	if (evnt.caxis.axis == SDL_CONTROLLER_AXIS_TRIGGERRIGHT)
+	{
+		if (evnt.caxis.value > TRIGGER_DEAD_ZONE) {
+			keyPress(Button::RIGHT_TRIGGER);
+		}
+		else {
+			keyRelease(Button::RIGHT_TRIGGER);
+		}
+		m_rightTriggerValue = evnt.caxis.value;
+	}
+
+	///LEFT TRIGGER PULLED
+	if (evnt.caxis.axis == SDL_CONTROLLER_AXIS_TRIGGERLEFT)
+	{
+		if (evnt.caxis.value > TRIGGER_DEAD_ZONE) {
+			keyPress(Button::LEFT_TRIGGER);
+		}
+		else {
+			keyRelease(Button::LEFT_TRIGGER);
+		}
+		m_leftTriggerValue = evnt.caxis.value;
+	}
+
 	///LEFT ANALOG STICK
 	//X axis motion
 	if (evnt.caxis.axis == SDL_CONTROLLER_AXIS_LEFTX)
@@ -245,7 +269,7 @@ void InputManager::processJoyAxis(SDL_Event& evnt) {
 	if(leftAnalogMotion) {
 
 		//Calculate angle
-		m_leftAnalogAngle = atan2( (double)m_leftyDir, (double)m_leftxDir ) * ( 180.0 / M_PI );
+		m_leftAnalogAngle = (int)atan2( (double)m_leftyDir, (double)m_leftxDir ) * ( 180.0 / M_PI );
 
 		//Take into account NaN case.
 		if (m_leftyDir == 0 && m_leftxDir == 0) {
@@ -258,7 +282,7 @@ void InputManager::processJoyAxis(SDL_Event& evnt) {
 	if(rightAnalogMotion){
 
 		//Calculate angle
-		m_rightAnalogAngle = atan2((double)m_rightyDir, (double)m_rightxDir) * (180.0 / M_PI);
+		m_rightAnalogAngle = (int)atan2((double)m_rightyDir, (double)m_rightxDir) * (180.0 / M_PI);
 
 		//Take into account NaN case.
 		if (m_rightyDir == 0 && m_rightxDir == 0) {

@@ -38,20 +38,27 @@ namespace Xenro{
 
 class Game;
 
-enum Axis {
+namespace Axis{
+
+enum  {
 	LEFTANALOGUP = 255, LEFTANALOGUPRIGHT, LEFTANALOGRIGHT, LEFTANALOGDOWNRIGHT,
 	LEFTANALOGDOWN, LEFTANALOGDOWNLEFT, LEFTANALOGLEFT, LEFTANALOGUPLEFT,
 	RIGHTANALOGUP, RIGHTANALOGUPRIGHT, RIGHTANALOGRIGHT, RIGHTANALOGDOWNRIGHT,
 	RIGHTANALOGDOWN, RIGHTANALOGDOWNLEFT, RIGHTANALOGLEFT, RIGHTANALOGUPLEFT
 };
 
-enum Button {
-	BUTTON_A = 271, BUTTON_B, BUTTON_X, BUTTON_Y, BUTTON_BACK, BUTTON_GUIDE,
-	BUTTON_START, BUTTON_LEFTSTICK, BUTTON_RIGHTSTICK, BUTTON_LEFTSHOULDER,
-	BUTTON_RIGHTSHOULDER, BUTTON_DPAD_UP, BUTTON_DPAD_DOWN, BUTTON_DPAD_RIGHT,
-	BUTTON_DPAD_LEFT, BUTTON_MAX, BUTTON_INVALID
+}
+
+namespace Button{
+
+enum {
+	A = 271, B, X, Y, BACK, GUIDE,
+	START, LEFTSTICK, RIGHTSTICK, LEFTSHOULDER,
+	RIGHTSHOULDER, DPAD_UP, DPAD_DOWN, DPAD_RIGHT,
+	DPAD_LEFT, MAX, INVALID, RIGHT_TRIGGER, LEFT_TRIGGER
 };
 
+}
 class InputManager {
 
 public:
@@ -76,8 +83,10 @@ public:
 
 	//Getters.
 	glm::vec2 getMouseCoords() const { return m_mousecoords; }
-	float getLeftAnalogAngle() const { return m_leftAnalogAngle; }
-	float getRightAnalogAngle() const { return m_rightAnalogAngle; }
+	int getLeftAnalogAngle() const { return m_leftAnalogAngle; }
+	int getRightAnalogAngle() const { return m_rightAnalogAngle; }
+	int getRightTriggerValue() const { return m_rightTriggerValue; }
+	int getLeftTriggerValue() const { return m_leftTriggerValue; }
 
 private:
 
@@ -86,7 +95,7 @@ private:
 	void angleToKeyRightAnalog();
 	void angleToKeyLeftAnalog();
 	bool wasPressed(unsigned int keyID);
-	Button SDLKtoButton(unsigned int keyID);
+	unsigned int SDLKtoButton(unsigned int keyID);
 
 	//Member variables.
 	Game* m_game = nullptr;
@@ -95,7 +104,8 @@ private:
 	glm::vec2 m_mousecoords;
 	int m_leftxDir = 0, m_leftyDir = 0, m_rightxDir = 0, m_rightyDir = 0;
 	int m_rightAnalogAngle = -1, m_leftAnalogAngle = -1;
-	Axis m_lastLeftAnalogKey = Axis::LEFTANALOGUP, m_lastRightAnalogKey = Axis::RIGHTANALOGUP;
+	int m_leftTriggerValue = 0, m_rightTriggerValue = 0;
+	unsigned int m_lastLeftAnalogKey = Axis::LEFTANALOGUP, m_lastRightAnalogKey = Axis::RIGHTANALOGUP;
 };
 
 }

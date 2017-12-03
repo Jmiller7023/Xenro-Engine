@@ -27,37 +27,37 @@ Player::~Player()
 
 void Player::update(const std::vector<std::string>& WorldData) {
 
-	if (m_inputManager->isDown(SDLK_w) || m_inputManager->isDown(Xenro::Button::BUTTON_DPAD_UP)) {
+	if (m_inputManager->isDown(SDLK_w) || m_inputManager->isDown(Xenro::Button::DPAD_UP)) {
 		m_position.y += m_speed;
 		setMoveDir(MoveDir::UP);
 	}
-	else if (m_inputManager->isDown(SDLK_s) || m_inputManager->isDown(Xenro::Button::BUTTON_DPAD_DOWN)) {
+	else if (m_inputManager->isDown(SDLK_s) || m_inputManager->isDown(Xenro::Button::DPAD_DOWN)) {
 		m_position.y -= m_speed;
 		setMoveDir(MoveDir::DOWN);
 	}
 
-	if (m_inputManager->isDown(SDLK_d) || m_inputManager->isDown(Xenro::Button::BUTTON_DPAD_RIGHT)) {
+	if (m_inputManager->isDown(SDLK_d) || m_inputManager->isDown(Xenro::Button::DPAD_RIGHT)) {
 		m_position.x += m_speed;
 
 		//Determine direction.
-		if (m_inputManager->isDown(SDLK_w) || m_inputManager->isDown(Xenro::Button::BUTTON_DPAD_UP)) {
+		if (m_inputManager->isDown(SDLK_w) || m_inputManager->isDown(Xenro::Button::DPAD_UP)) {
 			setMoveDir(MoveDir::UPRIGHT);
 		}
-		else if (m_inputManager->isDown(SDLK_s) || m_inputManager->isDown(Xenro::Button::BUTTON_DPAD_DOWN)) {
+		else if (m_inputManager->isDown(SDLK_s) || m_inputManager->isDown(Xenro::Button::DPAD_DOWN)) {
 			setMoveDir(MoveDir::DOWNRIGHT);
 		}
 		else {
 			setMoveDir(MoveDir::RIGHT);
 		}
 	}
-	else if (m_inputManager->isDown(SDLK_a) || m_inputManager->isDown(Xenro::Button::BUTTON_DPAD_LEFT)) {
+	else if (m_inputManager->isDown(SDLK_a) || m_inputManager->isDown(Xenro::Button::DPAD_LEFT)) {
 		m_position.x -= m_speed;
 
 		//Determine direction.
-		if (m_inputManager->isDown(SDLK_w) || m_inputManager->isDown(Xenro::Button::BUTTON_DPAD_UP)) {
+		if (m_inputManager->isDown(SDLK_w) || m_inputManager->isDown(Xenro::Button::DPAD_UP)) {
 			setMoveDir(MoveDir::UPLEFT);
 		}
-		else if (m_inputManager->isDown(SDLK_s) || m_inputManager->isDown(Xenro::Button::BUTTON_DPAD_DOWN)) {
+		else if (m_inputManager->isDown(SDLK_s) || m_inputManager->isDown(Xenro::Button::DPAD_DOWN)) {
 			setMoveDir(MoveDir::DOWNLEFT);
 		}
 		else {
@@ -79,13 +79,13 @@ void Player::update(const std::vector<std::string>& WorldData) {
 		setMoveDir(MoveDir::RIGHT);
 	}
 	else if (m_inputManager->isDown(Xenro::Axis::LEFTANALOGUPRIGHT)) {
-		m_position.x += m_speed/1.41;
-		m_position.y += m_speed/1.41;
+		m_position.x += m_speed/1.41f;
+		m_position.y += m_speed/1.41f;
 		setMoveDir(MoveDir::UPRIGHT);
 	}
 	else if (m_inputManager->isDown(Xenro::Axis::LEFTANALOGDOWNRIGHT)) {
-		m_position.x += m_speed / 1.41;
-		m_position.y -= m_speed / 1.41;
+		m_position.x += m_speed / 1.41f;
+		m_position.y -= m_speed / 1.41f;
 		setMoveDir(MoveDir::DOWNRIGHT);
 	}
 	else if (m_inputManager->isDown(Xenro::Axis::LEFTANALOGLEFT)) {
@@ -93,20 +93,20 @@ void Player::update(const std::vector<std::string>& WorldData) {
 		setMoveDir(MoveDir::LEFT);
 	}
 	else if (m_inputManager->isDown(Xenro::Axis::LEFTANALOGUPLEFT)) {
-		m_position.x -= m_speed / 1.41;
-		m_position.y += m_speed / 1.41;
+		m_position.x -= m_speed / 1.41f;
+		m_position.y += m_speed / 1.41f;
 		setMoveDir(MoveDir::UPLEFT);
 	}
 	else if (m_inputManager->isDown(Xenro::Axis::LEFTANALOGDOWNLEFT)) {
-		m_position.x -= m_speed / 1.41;
-		m_position.y -= m_speed / 1.41;
+		m_position.x -= m_speed / 1.41f;
+		m_position.y -= m_speed / 1.41f;
 		setMoveDir(MoveDir::DOWNLEFT);
 	}
 
 	//If none of the directions are being pressed.
 	if (!(m_inputManager->isDown(SDLK_a) || m_inputManager->isDown(SDLK_w) || m_inputManager->isDown(SDLK_s) || m_inputManager->isDown(SDLK_d) || m_inputManager->getLeftAnalogAngle() != -1
-		|| m_inputManager->isDown(Xenro::Button::BUTTON_DPAD_UP) || m_inputManager->isDown(Xenro::Button::BUTTON_DPAD_LEFT) || m_inputManager->isDown(Xenro::Button::BUTTON_DPAD_RIGHT) ||
-		m_inputManager->isDown(Xenro::Button::BUTTON_DPAD_DOWN))) {
+		|| m_inputManager->isDown(Xenro::Button::DPAD_UP) || m_inputManager->isDown(Xenro::Button::DPAD_LEFT) || m_inputManager->isDown(Xenro::Button::DPAD_RIGHT) ||
+		m_inputManager->isDown(Xenro::Button::DPAD_DOWN))) {
 		setMoveDir(MoveDir::IDLE);
 	}
 
