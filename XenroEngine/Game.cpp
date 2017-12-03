@@ -58,6 +58,7 @@ void Game::run() {
 	limiter.setTargetFPS(60.0f);
 
 	while (m_isRunning) {
+	std::cout << m_InputManager->getRightAnalogAngle() << std::endl;
 		limiter.calculateFPS();
 
 		update();
@@ -76,13 +77,21 @@ void Game::run() {
 
 void Game::exitGame() {
 
+	//Call current screens exit function.
 	if (m_currScreen != nullptr) {
 		m_currScreen->onExit();
 	}
 	
+	//Destroy screens in screenlist.
 	if (m_screenList != nullptr) {
 		m_screenList->destroyScreen();
 		m_screenList.reset();
+	}
+
+	//Close game controller.
+	if (m_gameController != nullptr) {
+		SDL_JoystickClose(m_gameController); 
+		m_gameController = nullptr;
 	}
 
 	m_isRunning = false;
@@ -154,6 +163,11 @@ void Game::init() {
 		fatalError("Failed to initialize SDL!\nSDL Error: %s\n", SDL_GetError());
 	}
 	
+	//Set texture filtering to linear
+	if( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" ) ) {
+		warning("Warning: Linear texture filtering not enabled!"); 
+	}
+
 	//Tell SDL we require hardware acceleration.
 	if (SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1) < 0) {
 		fatalError("Failed to set attribute: SDL_GL_ACCELERATED_VISUAL!\nSDL Error: %s\n", SDL_GetError());
@@ -162,6 +176,18 @@ void Game::init() {
 	//Tell SDL that we want a double buffered window
 	if (SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1) < 0) {
 		fatalError("Failed to set attribute: SDL_GL_DOUBLEBUFFER!\nSDL Error: %s\n", SDL_GetError());
+	}
+
+	//Check for controllers
+	if (SDL_NumJoysticks() > 0) {
+		//Load controller
+		m_gameController = SDL_JoystickOpen(0);
+		if (m_gameController == nullptr) {
+			warning("Warning: Unable to open game controller! SDL Error: %s\n", SDL_GetError());
+		}
+	} 
+	else {
+		warning("Warning: No controller connected!\n");
 	}
 
 	m_window.create();
