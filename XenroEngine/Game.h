@@ -64,6 +64,8 @@ public:
 	//Setters
 	void modifyWindowScreenHeight(int height) { m_window.setScreenHeight(height); }
 	void modifyWindowScreenWidth(int width) { m_window.setScreenWidth(width); }
+	void RemoveGameController();
+	void addGameController();
 
 	//Getters
 	const float getFPS() const { return m_fps; }

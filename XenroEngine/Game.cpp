@@ -90,10 +90,7 @@ void Game::exitGame() {
 	}
 
 	//Close game controller.
-	if (m_gameController != nullptr) {
-		SDL_GameControllerClose(m_gameController); 
-		m_gameController = nullptr;
-	}
+	RemoveGameController();
 
 	m_isRunning = false;
 }
@@ -157,6 +154,35 @@ void Game::draw() {
 	}
 }
 
+void Game::RemoveGameController() {
+
+	//Close game controller.
+	if (m_gameController != nullptr) {
+		printf("%s: disconnected.\n", SDL_GameControllerName(m_gameController));
+		SDL_GameControllerClose(m_gameController);
+		m_gameController = nullptr;
+	}
+}
+
+void Game::addGameController() {
+	//Check for controllers
+	if (SDL_NumJoysticks() > 0) {
+		//Load controller
+		m_gameController = SDL_GameControllerOpen(0);
+		printf("%s: connected.\n", SDL_GameControllerName(m_gameController));
+		if (m_gameController == nullptr) {
+			warning("Warning: Unable to open game controller! SDL Error: %s\n", SDL_GetError());
+		}
+		else {
+			SDL_GameControllerAddMappingsFromFile("Controllers/gamecontrollerdb_205.txt");
+		}
+
+	}
+	else {
+		warning("Warning: No controller connected!\n");
+	}
+}
+
 void Game::init() {
 
 	//initialize SDL.
@@ -179,22 +205,8 @@ void Game::init() {
 		fatalError("Failed to set attribute: SDL_GL_DOUBLEBUFFER!\nSDL Error: %s\n", SDL_GetError());
 	}
 
-	//Check for controllers
-	if (SDL_NumJoysticks() > 0) {
-		//Load controller
-		m_gameController = SDL_GameControllerOpen(0);
-		printf("%s: connected.\n", SDL_GameControllerName(m_gameController));
-		if (m_gameController == nullptr) {
-			warning("Warning: Unable to open game controller! SDL Error: %s\n", SDL_GetError());
-		}
-		else {
-			SDL_GameControllerAddMappingsFromFile("Controllers/gamecontrollerdb_205.txt");
-		}
 
-	} 
-	else {
-		warning("Warning: No controller connected!\n");
-	}
+	addGameController();
 
 	m_window.create();
 

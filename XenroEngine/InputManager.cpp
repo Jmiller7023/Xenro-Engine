@@ -305,6 +305,12 @@ void InputManager::processInput(SDL_Event& evnt) {
 			case SDL_MOUSEMOTION:
 				setMouseCoords(evnt.motion.x, evnt.motion.y);
 				break;
+			case SDL_CONTROLLERDEVICEADDED:
+				m_game->addGameController();
+				break;
+			case SDL_CONTROLLERDEVICEREMOVED:
+				m_game->RemoveGameController();
+				break;
 			case SDL_WINDOWEVENT:
 				switch (evnt.window.event) {
 					case SDL_WINDOWEVENT_RESIZED:
