@@ -38,6 +38,9 @@ const float SCALE_SPEED = 0.1f;
 const float AGENT_WIDTH = 60;
 const float TILE_WIDTH = 64;
 
+//Analog joystick dead zone
+const int JOYSTICK_DEAD_ZONE = 8000;
+
 }
 
 #endif //XENRO_GLOBALS_INCLUDED
