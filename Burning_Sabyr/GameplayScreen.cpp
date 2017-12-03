@@ -177,7 +177,7 @@ void GameplayScreen::update() {
 		if(m_camera.getScale() > 0.5)
 			m_camera.setScale(m_camera.getScale() - Xenro::SCALE_SPEED);
 	}
-	if (m_game->getInputManager()->isDown(SDLK_ESCAPE)) {
+	if (m_game->getInputManager()->isDown(SDLK_ESCAPE) || m_game->getInputManager()->isDown(Xenro::Button::BUTTON_BACK)) {
 		m_currState = Xenro::ScreenState::EXIT_APP;
 	}
 
