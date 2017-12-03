@@ -169,11 +169,11 @@ void GameplayScreen::update() {
 		}
 	}
 
-	if (m_game->getInputManager()->isDown(SDLK_q)) {
+	if (m_game->getInputManager()->isDown(SDLK_q) || m_game->getInputManager()->isDown(Xenro::Button::BUTTON_B)) {
 		if(m_camera.getScale() < 2.0)
 			m_camera.setScale(m_camera.getScale() + Xenro::SCALE_SPEED);
 	}
-	if (m_game->getInputManager()->isDown(SDLK_e)) {
+	if (m_game->getInputManager()->isDown(SDLK_e) || m_game->getInputManager()->isDown(Xenro::Button::BUTTON_A)) {
 		if(m_camera.getScale() > 0.5)
 			m_camera.setScale(m_camera.getScale() - Xenro::SCALE_SPEED);
 	}
@@ -181,13 +181,9 @@ void GameplayScreen::update() {
 		m_currState = Xenro::ScreenState::EXIT_APP;
 	}
 
-	if (m_game->getInputManager()->isPressed(SDL_BUTTON_LEFT)) {
-		glm::vec2 mouseCoords = m_game->getInputManager()->getMouseCoords();
-		mouseCoords = m_camera.convertScreentoWorld(mouseCoords);
-		glm::vec2 playerPosition(m_player->getPos());
-		glm::vec2 direction = mouseCoords - playerPosition;
-		direction = glm::normalize(direction);
-		m_bullets.emplace_back(playerPosition, direction, 10.0f, 500);
+	if (m_game->getInputManager()->isPressed(SDL_BUTTON_LEFT) || m_game->getInputManager()->isPressed(Xenro::Button::BUTTON_X)) {
+
+		m_bullets.emplace_back(m_player->getPos(), glm::normalize(m_player->getDirection()), 10.0f, 500);
 		m_audioEngine.loadSFX("Audio/SFX/shot.wav").play();
 	}
 
@@ -244,7 +240,7 @@ void GameplayScreen::draw() {
 	m_textureProgram.unuse();
 
 	//Render outlines.
-	if(m_game->getInputManager()->isDown(SDLK_p)){
+	if(m_game->getInputManager()->isDown(SDLK_p) ||  m_game->getInputManager()->isDown(Xenro::Button::BUTTON_Y)){
 		glm::vec4 destRect;
 
 		destRect.x = m_player->getPos().x + m_player->getDrawDims().x / 4.0f;
