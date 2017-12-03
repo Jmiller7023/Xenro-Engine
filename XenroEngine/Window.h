@@ -47,7 +47,7 @@ public:
 	~Window();
 
 	//Creates window based on values from window initialization file.
-	int create();
+	void create();
 
 	//Swaps buffer.
 	void swapBuffer();

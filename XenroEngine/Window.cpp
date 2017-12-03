@@ -57,7 +57,7 @@ Window::~Window()
 	delete m_saveManager;
 }
 
-int Window::create() {
+void Window::create() {
 
 	Uint32 flags = SDL_WINDOW_OPENGL;
 
@@ -85,7 +85,7 @@ int Window::create() {
 	m_sdlWindow = SDL_CreateWindow(m_windowName.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_screenWidth, m_screenHeight, flags);
 	
 	if (m_sdlWindow == nullptr) {
-		fatalError("Failed to create SDL window!");
+		fatalError("Failed to create SDL window!\nSDL Error: %s\n", SDL_GetError());
 	}
 
 	//Set up OpenGL context.
@@ -114,7 +114,6 @@ int Window::create() {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	return 0;
 }
 
 void Window::swapBuffer() {
