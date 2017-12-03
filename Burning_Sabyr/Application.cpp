@@ -18,7 +18,8 @@ Application::~Application()
 
 void Application::onInit() {
 
-	//Nothing for now.
+	//Let the screen be black on startup.
+	m_window.swapBuffer();
 }
 
 void Application::addScreens() {
