@@ -39,7 +39,7 @@ const float AGENT_WIDTH = 60;
 const float TILE_WIDTH = 64;
 
 //Analog joystick dead zone
-const int JOYSTICK_DEAD_ZONE = 8000;
+const int CONTROLLER_DEAD_ZONE = 8000;
 
 }
 

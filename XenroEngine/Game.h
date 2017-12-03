@@ -31,7 +31,7 @@
 #define XENRO_GAME_INCLUDED
 
 #include <memory>
-#include <SDL/SDL_joystick.h>
+#include <SDL/SDL_gamecontroller.h>
 #include "Window.h"
 
 
@@ -71,7 +71,7 @@ public:
 	int getScreenWidth() const { return m_window.getScreenWidth(); }
 	int getScreenHeight() const { return m_window.getScreenHeight(); }
 	bool isRunning() const { return m_isRunning; }
-	SDL_Joystick* getGameController() const { return m_gameController; }
+	SDL_GameController* getGameController() const { return m_gameController; }
 
 protected:
 
@@ -91,7 +91,7 @@ protected:
 	InputManager* m_InputManager;
 
 	//Game Controller handler
-	SDL_Joystick* m_gameController = nullptr;
+	SDL_GameController* m_gameController = nullptr;
 };
 
 }

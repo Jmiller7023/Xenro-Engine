@@ -32,7 +32,7 @@
 #include "globals.h"
 #include <cmath>
 #include<SDL\SDL.h>
-#include<SDL\SDL_joystick.h>
+#include <SDL\SDL_gamecontroller.h>
 
 namespace Xenro{
 
@@ -51,6 +51,30 @@ InputManager::InputManager(Game* game)
 InputManager::~InputManager()
 {
 	//Empty
+}
+
+Button InputManager::SDLKtoButton(unsigned int keyID) {
+
+	switch (keyID) {
+		case SDL_CONTROLLER_BUTTON_A: return Button::BUTTON_A;
+		case SDL_CONTROLLER_BUTTON_B: return Button::BUTTON_B;
+		case SDL_CONTROLLER_BUTTON_X: return Button::BUTTON_X;
+		case SDL_CONTROLLER_BUTTON_Y: return Button::BUTTON_Y;
+		case SDL_CONTROLLER_BUTTON_BACK: return Button::BUTTON_BACK;
+		case SDL_CONTROLLER_BUTTON_GUIDE: return Button::BUTTON_GUIDE;
+		case SDL_CONTROLLER_BUTTON_START: return Button::BUTTON_START;
+		case SDL_CONTROLLER_BUTTON_LEFTSTICK: return Button::BUTTON_LEFTSTICK;
+		case SDL_CONTROLLER_BUTTON_RIGHTSTICK: return Button::BUTTON_RIGHTSTICK;
+		case SDL_CONTROLLER_BUTTON_LEFTSHOULDER: return Button::BUTTON_LEFTSHOULDER;
+		case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER: return Button::BUTTON_RIGHTSHOULDER;
+		case SDL_CONTROLLER_BUTTON_DPAD_UP: return Button::BUTTON_DPAD_UP;
+		case SDL_CONTROLLER_BUTTON_DPAD_DOWN: return Button::BUTTON_DPAD_DOWN;
+		case SDL_CONTROLLER_BUTTON_DPAD_LEFT: return Button::BUTTON_DPAD_LEFT;
+		case SDL_CONTROLLER_BUTTON_DPAD_RIGHT: return Button::BUTTON_DPAD_RIGHT;
+		case SDL_CONTROLLER_BUTTON_MAX: return Button::BUTTON_MAX;
+		default: return Button::BUTTON_INVALID;
+	}
+
 }
 
 void InputManager::angleToKeyRightAnalog() {
@@ -140,15 +164,15 @@ void InputManager::processJoyAxis(SDL_Event& evnt) {
 
 	///LEFT ANALOG STICK
 	//X axis motion
-	if (evnt.jaxis.axis == 0)
+	if (evnt.caxis.axis == SDL_CONTROLLER_AXIS_LEFTX)
 	{
 		//Left of dead zone
-		if (evnt.jaxis.value < -JOYSTICK_DEAD_ZONE)
+		if (evnt.caxis.value < -CONTROLLER_DEAD_ZONE)
 		{
 			m_leftxDir = -1;
 		}
 		//Right of dead zone
-		else if (evnt.jaxis.value > JOYSTICK_DEAD_ZONE)
+		else if (evnt.caxis.value > CONTROLLER_DEAD_ZONE)
 		{
 			m_leftxDir = 1;
 		}
@@ -159,15 +183,15 @@ void InputManager::processJoyAxis(SDL_Event& evnt) {
 		leftAnalogMotion = true;
 	}
 	//Y axis motion
-	else if (evnt.jaxis.axis == 1)
+	else if (evnt.caxis.axis == SDL_CONTROLLER_AXIS_LEFTY)
 	{
 		//Below of dead zone
-		if (evnt.jaxis.value < -JOYSTICK_DEAD_ZONE)
+		if (evnt.caxis.value < -CONTROLLER_DEAD_ZONE)
 		{
 			m_leftyDir = -1;
 		}
 		//Above of dead zone
-		else if (evnt.jaxis.value > JOYSTICK_DEAD_ZONE)
+		else if (evnt.caxis.value > CONTROLLER_DEAD_ZONE)
 		{
 			m_leftyDir = 1;
 		}
@@ -180,15 +204,15 @@ void InputManager::processJoyAxis(SDL_Event& evnt) {
 	
 	///RIGHT ANALOG STICK
 	//X axis motion
-	else if (evnt.jaxis.axis == 2)
+	else if (evnt.caxis.axis == SDL_CONTROLLER_AXIS_RIGHTX)
 	{
 		//Left of dead zone
-		if (evnt.jaxis.value < -JOYSTICK_DEAD_ZONE)
+		if (evnt.caxis.value < -CONTROLLER_DEAD_ZONE)
 		{
 			m_rightxDir = -1;
 		}
 		//Right of dead zone
-		else if (evnt.jaxis.value > JOYSTICK_DEAD_ZONE)
+		else if (evnt.caxis.value > CONTROLLER_DEAD_ZONE)
 		{
 			m_rightxDir = 1;
 		}
@@ -199,15 +223,15 @@ void InputManager::processJoyAxis(SDL_Event& evnt) {
 		rightAnalogMotion = true;
 	}
 	//Y axis motion
-	else if (evnt.jaxis.axis == 5)
+	else if (evnt.caxis.axis == SDL_CONTROLLER_AXIS_RIGHTY)
 	{
 		//Below of dead zone
-		if (evnt.jaxis.value < -JOYSTICK_DEAD_ZONE)
+		if (evnt.caxis.value < -CONTROLLER_DEAD_ZONE)
 		{
 			m_rightyDir = -1;
 		}
 		//Above of dead zone
-		else if (evnt.jaxis.value > JOYSTICK_DEAD_ZONE)
+		else if (evnt.caxis.value > CONTROLLER_DEAD_ZONE)
 		{
 			m_rightyDir = 1;
 		}
@@ -264,23 +288,29 @@ void InputManager::processInput(SDL_Event& evnt) {
 			case SDL_MOUSEBUTTONUP:
 				keyRelease(evnt.button.button);
 				break;
-			case SDL_JOYAXISMOTION:
+			case SDL_CONTROLLERAXISMOTION:
 				//Motion on controller 0.
-				if (evnt.jaxis.which == 0)
+				if (evnt.caxis.which == 0)
 				{
 					processJoyAxis(evnt);
 				}
 				//Additional controller support not yet implemented
+				break;
+			case SDL_CONTROLLERBUTTONDOWN:
+				keyPress(SDLKtoButton(evnt.cbutton.button));
+				break;
+			case SDL_CONTROLLERBUTTONUP:
+				keyRelease(SDLKtoButton(evnt.cbutton.button));
 				break;
 			case SDL_MOUSEMOTION:
 				setMouseCoords(evnt.motion.x, evnt.motion.y);
 				break;
 			case SDL_WINDOWEVENT:
 				switch (evnt.window.event) {
-				case SDL_WINDOWEVENT_RESIZED:
-					m_game->modifyWindowScreenWidth(evnt.window.data1);
-					m_game->modifyWindowScreenHeight(evnt.window.data2);
-					break;
+					case SDL_WINDOWEVENT_RESIZED:
+						m_game->modifyWindowScreenWidth(evnt.window.data1);
+						m_game->modifyWindowScreenHeight(evnt.window.data2);
+						break;
 				}
 			
 		}

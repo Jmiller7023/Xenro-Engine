@@ -34,6 +34,7 @@
 #include "IScreen.h"
 #include <iostream>
 #include "InputManager.h"
+#include <SDL/SDL.h>
 
 namespace Xenro {
 
@@ -58,7 +59,7 @@ void Game::run() {
 	limiter.setTargetFPS(60.0f);
 
 	while (m_isRunning) {
-	std::cout << m_InputManager->getRightAnalogAngle() << std::endl;
+	
 		limiter.calculateFPS();
 
 		update();
@@ -90,7 +91,7 @@ void Game::exitGame() {
 
 	//Close game controller.
 	if (m_gameController != nullptr) {
-		SDL_JoystickClose(m_gameController); 
+		SDL_GameControllerClose(m_gameController); 
 		m_gameController = nullptr;
 	}
 
@@ -181,10 +182,15 @@ void Game::init() {
 	//Check for controllers
 	if (SDL_NumJoysticks() > 0) {
 		//Load controller
-		m_gameController = SDL_JoystickOpen(0);
+		m_gameController = SDL_GameControllerOpen(0);
+		printf("%s: connected.\n", SDL_GameControllerName(m_gameController));
 		if (m_gameController == nullptr) {
 			warning("Warning: Unable to open game controller! SDL Error: %s\n", SDL_GetError());
 		}
+		else {
+			SDL_GameControllerAddMappingsFromFile("Controllers/gamecontrollerdb_205.txt");
+		}
+
 	} 
 	else {
 		warning("Warning: No controller connected!\n");
