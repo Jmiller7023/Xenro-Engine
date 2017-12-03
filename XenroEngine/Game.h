@@ -79,7 +79,7 @@ protected:
 	//Custom draw function.
 	virtual void draw();
 
-	bool init();
+	void init();
 
 	std::unique_ptr<ScreenList> m_screenList = nullptr;
 	IScreen* m_currScreen = nullptr;

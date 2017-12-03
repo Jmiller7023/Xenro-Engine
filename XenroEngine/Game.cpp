@@ -52,9 +52,7 @@ Game::~Game()
 
 void Game::run() {
 
-	if (!init()) {
-		fatalError("Failed to initialize Game!");
-	}
+	init();
 
 	FPSlimiter limiter;
 	limiter.setTargetFPS(60.0f);
@@ -149,17 +147,22 @@ void Game::draw() {
 	}
 }
 
-bool Game::init() {
+void Game::init() {
 
 	//initialize SDL.
-	SDL_Init(SDL_INIT_EVERYTHING);
-
+	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
+		fatalError("Failed to initialize SDL!\nSDL Error: %s\n", SDL_GetError());
+	}
+	
 	//Tell SDL we require hardware acceleration.
-	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+	if (SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1) < 0) {
+		fatalError("Failed to set attribute: SDL_GL_ACCELERATED_VISUAL!\nSDL Error: %s\n", SDL_GetError());
+	}
 
 	//Tell SDL that we want a double buffered window
-	//so we get no flickering.
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	if (SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1) < 0) {
+		fatalError("Failed to set attribute: SDL_GL_DOUBLEBUFFER!\nSDL Error: %s\n", SDL_GetError());
+	}
 
 	m_window.create();
 
@@ -169,8 +172,6 @@ bool Game::init() {
 	m_currScreen = m_screenList->getCurrScreen();
 	m_currScreen->onEntry();
 	m_currScreen->setRunning();
-
-	return true;
 }
 
 }
