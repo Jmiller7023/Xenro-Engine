@@ -16,6 +16,21 @@ Actor::~Actor()
 	//Empty
 }
 
+
+glm::vec2 Actor::getDirection() const{
+
+	switch (m_moveDir) {
+		case MoveDir::UP: return glm::vec2(0, 1);
+		case MoveDir::UPLEFT: return glm::vec2(-1, 1);
+		case MoveDir::LEFT: return glm::vec2(-1, 0);
+		case MoveDir::DOWNLEFT: return glm::vec2(-1, -1);
+		case MoveDir::DOWN: return glm::vec2(0, -1);
+		case MoveDir::DOWNRIGHT: return glm::vec2(1, -1);
+		case MoveDir::RIGHT: return glm::vec2(1, 0);
+		case MoveDir::UPRIGHT: return glm::vec2(1, 1);
+		case MoveDir::IDLE: return glm::vec2(0, -1);
+	}
+}
 void Actor::collideWithWorld(const std::vector<std::string>& worldData) {
 	std::vector<glm::vec2> tilecollisions;
 
