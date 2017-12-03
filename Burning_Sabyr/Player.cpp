@@ -40,7 +40,7 @@ void Player::update(const std::vector<std::string>& WorldData) {
 		m_position.x += m_speed;
 
 		//Determine direction.
-		if (m_inputManager->isDown(SDLK_w)) {
+		if (m_inputManager->isDown(SDLK_w) ) {
 			setMoveDir(MoveDir::UPRIGHT);
 		}
 		else if (m_inputManager->isDown(SDLK_s)) {
@@ -65,8 +65,46 @@ void Player::update(const std::vector<std::string>& WorldData) {
 		}
 	}
 
+	/*Controller stuff*/
+	if (m_inputManager->isDown(Xenro::Axis::LEFTANALOGUP)) {
+		m_position.y += m_speed;
+		setMoveDir(MoveDir::UP);
+	}
+	else if (m_inputManager->isDown(Xenro::Axis::LEFTANALOGDOWN)) {
+		m_position.y -= m_speed;
+		setMoveDir(MoveDir::DOWN);
+	}
+	else if (m_inputManager->isDown(Xenro::Axis::LEFTANALOGRIGHT)) {
+		m_position.x += m_speed;
+		setMoveDir(MoveDir::RIGHT);
+	}
+	else if (m_inputManager->isDown(Xenro::Axis::LEFTANALOGUPRIGHT)) {
+		m_position.x += m_speed/1.41;
+		m_position.y += m_speed/1.41;
+		setMoveDir(MoveDir::UPRIGHT);
+	}
+	else if (m_inputManager->isDown(Xenro::Axis::LEFTANALOGDOWNRIGHT)) {
+		m_position.x += m_speed / 1.41;
+		m_position.y -= m_speed / 1.41;
+		setMoveDir(MoveDir::DOWNRIGHT);
+	}
+	else if (m_inputManager->isDown(Xenro::Axis::LEFTANALOGLEFT)) {
+		m_position.x -= m_speed;
+		setMoveDir(MoveDir::LEFT);
+	}
+	else if (m_inputManager->isDown(Xenro::Axis::LEFTANALOGUPLEFT)) {
+		m_position.x -= m_speed / 1.41;
+		m_position.y += m_speed / 1.41;
+		setMoveDir(MoveDir::UPLEFT);
+	}
+	else if (m_inputManager->isDown(Xenro::Axis::LEFTANALOGDOWNLEFT)) {
+		m_position.x -= m_speed / 1.41;
+		m_position.y -= m_speed / 1.41;
+		setMoveDir(MoveDir::DOWNLEFT);
+	}
+
 	//If none of the directions are being pressed.
-	if (!(m_inputManager->isDown(SDLK_a) || m_inputManager->isDown(SDLK_w) || m_inputManager->isDown(SDLK_s) || m_inputManager->isDown(SDLK_d))) {
+	if (!(m_inputManager->isDown(SDLK_a) || m_inputManager->isDown(SDLK_w) || m_inputManager->isDown(SDLK_s) || m_inputManager->isDown(SDLK_d) || m_inputManager->getLeftAnalogAngle() != -1)) {
 		setMoveDir(MoveDir::IDLE);
 	}
 
