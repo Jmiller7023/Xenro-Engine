@@ -36,9 +36,13 @@ namespace Xenro {
 
 //Prints error message to the console and closes the application.
 void fatalError(const std::string& errorMSG);
+void fatalError(const char* errorMSG);
+void fatalError(const char* errorTXT, const char* errorMSG);
 
-//Prints error message to console and doesn''t close application.
-void errorMessage(const std::string& errorMSG);
+//Prints error message to console and doesn't close application.
+void warning(const std::string& errorMSG);
+void warning(const char* errorMSG);
+void warning(const char* errorTXT, const char* errorMSG);
 
 }
 

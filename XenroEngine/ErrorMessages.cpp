@@ -36,14 +36,39 @@
 namespace Xenro {
 
 void fatalError(const std::string& errorMSG) {
+
 	std::cout << errorMSG << std::endl;
 	SDL_Quit();
 	exit(1);
 	}
 
+void fatalError(const char* errorMSG) {
 
-void errorMessage(const std::string& errorMSG) {
+	fprintf(stderr, errorMSG);
+	SDL_Quit();
+	exit(1);
+}
+
+void fatalError(const char* errorTXT, const char* errorMSG) {
+
+	fprintf(stderr, errorTXT, errorMSG);
+	SDL_Quit();
+	exit(1);
+}
+
+void warning(const std::string& errorMSG) {
+
 	std::cout << errorMSG << std::endl;
+}
+
+void warning(const char* errorMSG) {
+
+	fprintf(stderr, errorMSG);
+}
+
+void warning(const char* errorTXT, const char* errorMSG) {
+
+	fprintf(stderr, errorTXT, errorMSG);
 }
 
 }
