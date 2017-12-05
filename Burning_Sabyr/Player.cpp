@@ -119,79 +119,79 @@ void Player::update(const std::vector<std::string>& WorldData) {
 
 	if(m_frameSpeed % 8 == 0){
 		switch (m_moveDir) {
-		case MoveDir::RIGHT:
-			if (m_currFrameIndex < 27 || m_currFrameIndex >= 31) {
-				m_currFrameIndex = 28;
-			}
-			else {
-				m_currFrameIndex++;
-			}
-			break;
-		case MoveDir::UP:
-			if (m_currFrameIndex < 19 || m_currFrameIndex >= 23) {
-				m_currFrameIndex = 20;
-			}
-			else {
-				m_currFrameIndex++;
-			}
-			break;
-		case MoveDir::UPLEFT:
-			if (m_currFrameIndex < 7 || m_currFrameIndex >= 11) {
-				m_currFrameIndex = 8;
-			}
-			else {
-				m_currFrameIndex++;
-			}
-			break;
-		case MoveDir::UPRIGHT:
-			if (m_currFrameIndex < 3 || m_currFrameIndex >= 7) {
-				m_currFrameIndex = 4;
-			}
-			else {
-				m_currFrameIndex++;
-			}
-			break;
-		case MoveDir::DOWN:
-			if (m_currFrameIndex < 23 || m_currFrameIndex >= 27) {
-				m_currFrameIndex = 24;
-			}
-			else {
-				m_currFrameIndex++;
-			}
-			break;
-		case MoveDir::DOWNLEFT:
-			if (m_currFrameIndex < 15 || m_currFrameIndex >= 19) {
-				m_currFrameIndex = 16;
-			}
-			else {
-				m_currFrameIndex++;
-			}
-			break;
-		case MoveDir::DOWNRIGHT:
-			if (m_currFrameIndex < 11 || m_currFrameIndex >= 15) {
-				m_currFrameIndex = 12;
-			}
-			else {
-				m_currFrameIndex++;
-			}
-			break;
-		case MoveDir::IDLE:
-			if (m_currFrameIndex >= 3) {
-				m_currFrameIndex = 0;
-			}
-			else {
-				m_currFrameIndex++;
-			}
-			break;
-		case MoveDir::LEFT:
-			if (m_currFrameIndex < 31 || m_currFrameIndex >= 35) {
-				m_currFrameIndex = 32;
-			}
-			else {
-				m_currFrameIndex++;
-			}
-			break;
-	}
+			case MoveDir::RIGHT:
+				if (m_currFrameIndex < 27 || m_currFrameIndex >= 31) {
+					m_currFrameIndex = 28;
+				}
+				else {
+					m_currFrameIndex++;
+				}
+				break;
+			case MoveDir::UP:
+				if (m_currFrameIndex < 19 || m_currFrameIndex >= 23) {
+					m_currFrameIndex = 20;
+				}
+				else {
+					m_currFrameIndex++;
+				}
+				break;
+			case MoveDir::UPLEFT:
+				if (m_currFrameIndex < 7 || m_currFrameIndex >= 11) {
+					m_currFrameIndex = 8;
+				}
+				else {
+					m_currFrameIndex++;
+				}
+				break;
+			case MoveDir::UPRIGHT:
+				if (m_currFrameIndex < 3 || m_currFrameIndex >= 7) {
+					m_currFrameIndex = 4;
+				}
+				else {
+					m_currFrameIndex++;
+				}
+				break;
+			case MoveDir::DOWN:
+				if (m_currFrameIndex < 23 || m_currFrameIndex >= 27) {
+					m_currFrameIndex = 24;
+				}
+				else {
+					m_currFrameIndex++;
+				}
+				break;
+			case MoveDir::DOWNLEFT:
+				if (m_currFrameIndex < 15 || m_currFrameIndex >= 19) {
+					m_currFrameIndex = 16;
+				}
+				else {
+					m_currFrameIndex++;
+				}
+				break;
+			case MoveDir::DOWNRIGHT:
+				if (m_currFrameIndex < 11 || m_currFrameIndex >= 15) {
+					m_currFrameIndex = 12;
+				}
+				else {
+					m_currFrameIndex++;
+				}
+				break;
+			case MoveDir::IDLE:
+				if (m_currFrameIndex >= 3) {
+					m_currFrameIndex = 0;
+				}
+				else {
+					m_currFrameIndex++;
+				}
+				break;
+			case MoveDir::LEFT:
+				if (m_currFrameIndex < 31 || m_currFrameIndex >= 35) {
+					m_currFrameIndex = 32;
+				}
+				else {
+					m_currFrameIndex++;
+				}
+				break;
+		}
 	}
 	
 	m_frameSpeed++;
