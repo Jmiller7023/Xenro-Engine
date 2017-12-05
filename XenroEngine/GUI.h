@@ -50,6 +50,7 @@ public:
 	void setMousePos(float x, float y);
 	void showCursor();
 	void hideCursor();
+	void mouseClick();
 
 	void onEvent(SDL_Event& evnt);
 
