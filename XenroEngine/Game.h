@@ -32,8 +32,8 @@
 
 #include <memory>
 #include <SDL/SDL_gamecontroller.h>
+#include <SDL/SDL_haptic.h>
 #include "Window.h"
-
 
 namespace Xenro{
 
@@ -60,6 +60,10 @@ public:
 
 	//Called upon exiting.
 	virtual void onExit() = 0;
+
+	//Causes Game Controller to rumble.
+	//Strength ranges from 0.0 to 1.0.
+	void rumbleController(double strength, int milliseconds);
 
 	//Setters
 	void modifyWindowScreenHeight(int height) { m_window.setScreenHeight(height); }
@@ -94,6 +98,7 @@ protected:
 
 	//Game Controller handler
 	SDL_GameController* m_gameController = nullptr;
+	SDL_Haptic* m_controllerHaptic = nullptr;
 };
 
 }

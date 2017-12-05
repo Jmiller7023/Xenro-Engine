@@ -269,7 +269,7 @@ void InputManager::processJoyAxis(SDL_Event& evnt) {
 	if(leftAnalogMotion) {
 
 		//Calculate angle
-		m_leftAnalogAngle = (int)atan2( (double)m_leftyDir, (double)m_leftxDir ) * ( 180.0 / M_PI );
+		m_leftAnalogAngle = atan2( (double)m_leftyDir, (double)m_leftxDir ) * ( 180.0 / M_PI );
 
 		//Take into account NaN case.
 		if (m_leftyDir == 0 && m_leftxDir == 0) {
@@ -282,7 +282,7 @@ void InputManager::processJoyAxis(SDL_Event& evnt) {
 	if(rightAnalogMotion){
 
 		//Calculate angle
-		m_rightAnalogAngle = (int)atan2((double)m_rightyDir, (double)m_rightxDir) * (180.0 / M_PI);
+		m_rightAnalogAngle = atan2((double)m_rightyDir, (double)m_rightxDir) * (180.0 / M_PI);
 
 		//Take into account NaN case.
 		if (m_rightyDir == 0 && m_rightxDir == 0) {

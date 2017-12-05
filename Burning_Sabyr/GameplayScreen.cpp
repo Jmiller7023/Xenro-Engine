@@ -181,6 +181,10 @@ void GameplayScreen::update() {
 		m_currState = Xenro::ScreenState::EXIT_APP;
 	}
 
+	if (m_game->getInputManager()->isPressed(Xenro::Button::RIGHTSHOULDER)) {
+		m_game->rumbleController(0.75, 500);
+	}
+
 	if (m_game->getInputManager()->isPressed(SDL_BUTTON_LEFT) || m_game->getInputManager()->isPressed(Xenro::Button::X)) {
 
 		m_bullets.emplace_back(m_player->getPos(), glm::normalize(m_player->getDirection()), 10.0f, 500);

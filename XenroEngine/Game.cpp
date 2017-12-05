@@ -36,6 +36,7 @@
 #include "InputManager.h"
 #include <SDL/SDL.h>
 
+
 namespace Xenro {
 
 Game::Game()
@@ -162,6 +163,12 @@ void Game::RemoveGameController() {
 		SDL_GameControllerClose(m_gameController);
 		m_gameController = nullptr;
 	}
+
+	//Close Haptic device
+	if (m_controllerHaptic != nullptr) {
+		SDL_HapticClose(m_controllerHaptic);
+		m_controllerHaptic = nullptr;
+	}
 }
 
 void Game::addGameController() {
@@ -175,6 +182,16 @@ void Game::addGameController() {
 		}
 		else {
 			SDL_GameControllerAddMappingsFromFile("Controllers/gamecontrollerdb_205.txt");
+			m_controllerHaptic = SDL_HapticOpenFromJoystick(SDL_GameControllerGetJoystick(m_gameController));
+			if (m_controllerHaptic == nullptr) {
+				warning("Warning: Controller does not support haptics! SDL Error: %s\n", SDL_GetError());
+			}
+			else {
+				//Initialize the rumble.
+				if (SDL_HapticRumbleInit(m_controllerHaptic) < 0) {
+					warning("Warning: Unable to initialize the rumble! SDL Error: %s\n", SDL_GetError());
+				}
+			}
 		}
 
 	}
@@ -205,9 +222,6 @@ void Game::init() {
 		fatalError("Failed to set attribute: SDL_GL_DOUBLEBUFFER!\nSDL Error: %s\n", SDL_GetError());
 	}
 
-
-	addGameController();
-
 	m_window.create();
 
 	onInit();
@@ -218,4 +232,15 @@ void Game::init() {
 	m_currScreen->setRunning();
 }
 
+void Game::rumbleController(double strength, int milliseconds) {
+	
+	if (strength > 1.0 || strength < 0.0) {
+		warning("Rumble strength ranges from 0.0 to 1.0!");
+		return;
+	}
+
+	if (SDL_HapticRumblePlay(m_controllerHaptic, strength, milliseconds) != 0) { 
+		warning("Warning: Unable to play rumble! %s\n", SDL_GetError()); 
+	}
+}
 }

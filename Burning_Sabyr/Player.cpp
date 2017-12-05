@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "globals.h"
 #include <SDL/SDL.h>
 #include <XenroEngine\GLTexture.h>
 
@@ -27,17 +28,23 @@ Player::~Player()
 
 void Player::update(const std::vector<std::string>& WorldData) {
 
+	float speed = m_speed;
+	if (m_inputManager->isDown(Xenro::Button::X)) {
+		speed = m_speed + RUNSPEED;
+	}
+
+
 	if (m_inputManager->isDown(SDLK_w) || m_inputManager->isDown(Xenro::Button::DPAD_UP)) {
-		m_position.y += m_speed;
+		m_position.y += speed;
 		setMoveDir(MoveDir::UP);
 	}
 	else if (m_inputManager->isDown(SDLK_s) || m_inputManager->isDown(Xenro::Button::DPAD_DOWN)) {
-		m_position.y -= m_speed;
+		m_position.y -= speed;
 		setMoveDir(MoveDir::DOWN);
 	}
 
 	if (m_inputManager->isDown(SDLK_d) || m_inputManager->isDown(Xenro::Button::DPAD_RIGHT)) {
-		m_position.x += m_speed;
+		m_position.x += speed;
 
 		//Determine direction.
 		if (m_inputManager->isDown(SDLK_w) || m_inputManager->isDown(Xenro::Button::DPAD_UP)) {
@@ -51,7 +58,7 @@ void Player::update(const std::vector<std::string>& WorldData) {
 		}
 	}
 	else if (m_inputManager->isDown(SDLK_a) || m_inputManager->isDown(Xenro::Button::DPAD_LEFT)) {
-		m_position.x -= m_speed;
+		m_position.x -= speed;
 
 		//Determine direction.
 		if (m_inputManager->isDown(SDLK_w) || m_inputManager->isDown(Xenro::Button::DPAD_UP)) {
@@ -67,39 +74,39 @@ void Player::update(const std::vector<std::string>& WorldData) {
 
 	/*Controller stuff*/
 	if (m_inputManager->isDown(Xenro::Axis::LEFTANALOGUP)) {
-		m_position.y += m_speed;
+		m_position.y += speed;
 		setMoveDir(MoveDir::UP);
 	}
 	else if (m_inputManager->isDown(Xenro::Axis::LEFTANALOGDOWN)) {
-		m_position.y -= m_speed;
+		m_position.y -= speed;
 		setMoveDir(MoveDir::DOWN);
 	}
 	else if (m_inputManager->isDown(Xenro::Axis::LEFTANALOGRIGHT)) {
-		m_position.x += m_speed;
+		m_position.x += speed;
 		setMoveDir(MoveDir::RIGHT);
 	}
 	else if (m_inputManager->isDown(Xenro::Axis::LEFTANALOGUPRIGHT)) {
-		m_position.x += m_speed/1.41f;
-		m_position.y += m_speed/1.41f;
+		m_position.x += speed /1.41f;
+		m_position.y += speed /1.41f;
 		setMoveDir(MoveDir::UPRIGHT);
 	}
 	else if (m_inputManager->isDown(Xenro::Axis::LEFTANALOGDOWNRIGHT)) {
-		m_position.x += m_speed / 1.41f;
-		m_position.y -= m_speed / 1.41f;
+		m_position.x += speed / 1.41f;
+		m_position.y -= speed / 1.41f;
 		setMoveDir(MoveDir::DOWNRIGHT);
 	}
 	else if (m_inputManager->isDown(Xenro::Axis::LEFTANALOGLEFT)) {
-		m_position.x -= m_speed;
+		m_position.x -= speed;
 		setMoveDir(MoveDir::LEFT);
 	}
 	else if (m_inputManager->isDown(Xenro::Axis::LEFTANALOGUPLEFT)) {
-		m_position.x -= m_speed / 1.41f;
-		m_position.y += m_speed / 1.41f;
+		m_position.x -= speed / 1.41f;
+		m_position.y += speed / 1.41f;
 		setMoveDir(MoveDir::UPLEFT);
 	}
 	else if (m_inputManager->isDown(Xenro::Axis::LEFTANALOGDOWNLEFT)) {
-		m_position.x -= m_speed / 1.41f;
-		m_position.y -= m_speed / 1.41f;
+		m_position.x -= speed / 1.41f;
+		m_position.y -= speed / 1.41f;
 		setMoveDir(MoveDir::DOWNLEFT);
 	}
 
