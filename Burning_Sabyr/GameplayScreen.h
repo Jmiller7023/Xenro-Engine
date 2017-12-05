@@ -43,7 +43,6 @@ public:
 
 private:
 	Xenro::GLSLProgram m_textureProgram;
-	Xenro::GLSLProgram m_lightProgram;
 	Xenro::Camera m_camera;
 	Xenro::Window* m_window = nullptr;
 	Xenro::SpriteBatch m_spriteBatch;
@@ -55,11 +54,11 @@ private:
 	std::vector<Bullet> m_bullets;
 	Xenro::AudioEngine m_audioEngine;
 	Xenro::OutlineRenderer m_outlineRenderer;
-	Xenro::LightEngine m_lightEngine;
 	Xenro::GUI m_GUI;
 
 	bool testButtonFunction(const CEGUI::EventArgs& args);
-
+	CEGUI::PushButton* m_mainMenuButton;
+	bool m_mainMenuButtonShown = false;
 	int m_mouselightIndex;
 	int m_playerLightIndex;
 };

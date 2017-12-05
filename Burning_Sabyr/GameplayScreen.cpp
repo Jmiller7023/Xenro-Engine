@@ -45,9 +45,11 @@ void GameplayScreen::create() {
 	m_GUI.setMouseCursor("TaharezLook/MouseArrow");
 	m_GUI.showCursor();
 
-	CEGUI::PushButton* testButton = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("TaharezLook/Button", glm::vec4(0.44f, 0.4f, 0.15f, 0.05f), glm::vec4(0), "MainMenubutton"));
-	testButton->setText("Back");
-	testButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&GameplayScreen::testButtonFunction, this));
+	m_mainMenuButton = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("TaharezLook/Button", glm::vec4(0.44f, 0.4f, 0.15f, 0.05f), glm::vec4(0), "MainMenubutton"));
+	m_mainMenuButton->setText("Back");
+	m_mainMenuButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&GameplayScreen::testButtonFunction, this));
+	m_mainMenuButton->disable();
+	m_mainMenuButton->setAlpha(0);
 
 	//Intitialize the shaders.
 	m_textureProgram.compileShaders("Shaders/colorShading.vert", "Shaders/colorShading.frag");
@@ -56,11 +58,6 @@ void GameplayScreen::create() {
 	m_textureProgram.addAttribute("vertexUV");
 	m_textureProgram.linkShaders();
 
-	m_lightProgram.compileShaders("Shaders/lightShading.vert", "Shaders/lightShading.frag");
-	m_lightProgram.addAttribute("vertexPosition");
-	m_lightProgram.addAttribute("vertexColor");
-	m_lightProgram.addAttribute("vertexUV");
-	m_lightProgram.linkShaders();
 }
 
 void GameplayScreen::destroy() {
@@ -99,33 +96,24 @@ void GameplayScreen::onEntry() {
 
 	m_player->initializeActor("Textures/aqua.png", color, SpriteSheetDims, m_levelLoader.getStartPlayerPos(), glm::vec2(60.0f), glm::vec2(30.0f, 40.0f));
 
-	//Initialize the lights.
-	Xenro::Light playerLight(Xenro::ColorRGBA(255, 0, 255, 128),
-		glm::vec2(m_player->getPos().x + m_player->getDrawDims().x / 2.0f, m_player->getPos().y + m_player->getDrawDims().y / 2.0f),
-		glm::vec2(150.0f));
-
-	Xenro::Light mouseLight(Xenro::ColorRGBA(0, 0, 255, 255),
-		m_camera.convertScreentoWorld(m_game->getInputManager()->getMouseCoords()),
-		glm::vec2(300.0f));
-
-	m_playerLightIndex = m_lightEngine.addLight(playerLight);
-	m_mouselightIndex = m_lightEngine.addLight(mouseLight);
-
 	//Update mouse cursor.
 	glm::vec2 coords = m_game->getInputManager()->getMouseCoords();
 	m_GUI.setMousePos(coords.x, coords.y);
 
 	//Disables normal mouse cursor.
-	SDL_ShowCursor(1);
+	SDL_ShowCursor(0);
+	m_GUI.hideCursor();
 
 }
 
 void GameplayScreen::onExit() {
 
 	m_audioEngine.closeEngine();
-	m_lightEngine.reset();
 	m_bullets.clear();
 	destroy();
+	m_mainMenuButton->disable();
+	m_mainMenuButton->setAlpha(0);
+	m_mainMenuButtonShown = false;
 }
 
 //Called in Gameloop update function.
@@ -156,9 +144,6 @@ void GameplayScreen::update() {
 
 	m_camera.update();
 	
-	m_lightEngine.modifyLightPos(m_mouselightIndex, m_camera.convertScreentoWorld(m_game->getInputManager()->getMouseCoords()));
-	m_lightEngine.modifyLightPos(m_playerLightIndex, glm::vec2(m_player->getPos().x + m_player->getDrawDims().x / 2.0f, m_player->getPos().y + m_player->getDrawDims().y / 2.0f));
-		
 	for (size_t i = 0; i < m_bullets.size();) {
 		if (m_bullets[i].updatePos() == true) {
 			m_bullets[i] = m_bullets.back();
@@ -185,7 +170,25 @@ void GameplayScreen::update() {
 		m_game->rumbleController(0.75, 500);
 	}
 
-	if (m_game->getInputManager()->isPressed(SDL_BUTTON_LEFT) || m_game->getInputManager()->isPressed(Xenro::Button::X)) {
+	if (m_game->getInputManager()->isPressed(Xenro::Button::START) || m_game->getInputManager()->isPressed(SDLK_RSHIFT)) {
+		if (!m_mainMenuButtonShown) {
+			m_mainMenuButton->enable();
+			m_mainMenuButton->setAlpha(255);
+			m_mainMenuButtonShown = true;
+			m_GUI.setMousePos(m_mainMenuButton->getPixelPosition().d_x, m_mainMenuButton->getPixelPosition().d_y);
+		}
+		else {
+			m_mainMenuButton->disable();
+			m_mainMenuButton->setAlpha(0);
+			m_mainMenuButtonShown = false;
+		}
+	}
+
+	if (m_game->getInputManager()->isPressed(Xenro::Button::A)) {
+		m_GUI.mouseClick();
+	}
+
+	if (m_game->getInputManager()->isPressed(SDL_BUTTON_LEFT) || m_game->getInputManager()->isPressed(Xenro::Button::A)) {
 
 		m_bullets.emplace_back(m_player->getPos(), glm::normalize(m_player->getDirection()), 10.0f, 500);
 		m_audioEngine.loadSFX("Audio/SFX/shot.wav").play();
@@ -256,17 +259,8 @@ void GameplayScreen::draw() {
 		m_outlineRenderer.render(cameraMatrix, 2.0f);
 	}
 
-	//Render lights.
-	m_lightProgram.use();
-
 	pLocation = m_textureProgram.getUniformLocation("P");
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
-
-	m_lightEngine.renderAllLights();
-
-	m_lightEngine.renderAllLights();
-
-	m_lightProgram.unuse();
 
 	m_GUI.draw();
 }
