@@ -90,10 +90,10 @@ void ScreenList::addScreen(IScreen* newScreen) {
 		fatalError("Forgot to initialize screen!");
 	}
 
+	newScreen->setGame(m_game);
 	newScreen->m_screenIndex = m_screens.size();
 	m_screens.push_back(newScreen);
 	newScreen->create();
-	newScreen->setGame(m_game);
 }
 
 void ScreenList::destroyScreen() {
