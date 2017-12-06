@@ -78,6 +78,7 @@ public:
 	int getScreenHeight() const { return m_window.getScreenHeight(); }
 	bool isRunning() const { return m_isRunning; }
 	SDL_GameController* getGameController() const { return m_gameController; }
+	bool isControllerConnected() const { return m_gameController != nullptr; }
 
 protected:
 
