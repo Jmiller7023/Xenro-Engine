@@ -69,10 +69,18 @@ void MainMenuScreen::onEntry() {
 	//Initialize the HUD
 	m_hud.initHUD(m_HUDspriteBatch, &m_spriteFont, &m_textureProgram, m_window);
 
+
 	//Update mouse cursor.
 	glm::vec2 coords = m_game->getInputManager()->getMouseCoords();
-	m_GUI.setMousePos(coords.x, coords.y);
-
+	//Decide whether to show mouse cursor or not.
+	if (m_game->isControllerConnected()) {
+		m_GUI.hideCursor();
+		calculateMousePos();
+	}
+	else {
+		m_GUI.showCursor();
+		m_GUI.setMousePos(coords.x, coords.y);
+	}
 
 	//Disables normal mouse cursor.
 	SDL_ShowCursor(0);
@@ -83,13 +91,45 @@ void MainMenuScreen::onExit() {
 	m_audioEngine.closeEngine();
 	//m_GUI.clearGUI();
 }
+void MainMenuScreen::calculateMousePos() {
 
+	if (m_currButtonIndex == 0) {
+		m_GUI.setMousePos(m_startButton->getPixelPosition().d_x, m_startButton->getPixelPosition().d_y);
+	}
+	else if(m_currButtonIndex == 1) {
+		m_GUI.setMousePos(m_optionsButton->getPixelPosition().d_x, m_optionsButton->getPixelPosition().d_y);
+	}
+	else if (m_currButtonIndex == 2) {
+		m_GUI.setMousePos(m_exitButton->getPixelPosition().d_x, m_exitButton->getPixelPosition().d_y);
+	}
+	else {
+		printf("Error with the screen Indices!");
+	}
+
+}
 void MainMenuScreen::update() {
 	
 	updateGUI();
 	
 	if (!m_exitGame) {
+
 		m_camera.update();
+
+		if (m_game->getInputManager()->isPressed(Xenro::Button::DPAD_DOWN)) {
+			if (++m_currButtonIndex == 3) {
+				m_currButtonIndex = 0;
+			}
+		}
+
+		if (m_game->getInputManager()->isPressed(Xenro::Button::DPAD_UP)) {
+			if (--m_currButtonIndex == -1) {
+				m_currButtonIndex = 2;
+			}
+		}
+
+		if (m_game->getInputManager()->isPressed(Xenro::Button::A)) {
+			m_GUI.mouseClick();
+		}
 	}
 }
 
@@ -173,20 +213,19 @@ void MainMenuScreen::initGUI() {
 	m_GUI.loadScheme("TaharezLook.scheme");
 
 	m_GUI.loadFont("Jura-10");
-	CEGUI::PushButton* testButton = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("TaharezLook/Button", glm::vec4(0.44f, 0.4f, 0.15f, 0.05f), glm::vec4(0), "StartGameButton"));
-	testButton->setText("New Game");
-	testButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainMenuScreen::startGame, this));
+	m_startButton = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("TaharezLook/Button", glm::vec4(0.44f, 0.4f, 0.15f, 0.05f), glm::vec4(0), "StartGameButton"));
+	m_startButton->setText("New Game");
+	m_startButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainMenuScreen::startGame, this));
 
-	CEGUI::PushButton* exitButton = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("TaharezLook/Button", glm::vec4(0.44f, 0.6f, 0.15f, 0.05f), glm::vec4(0), "ExitGameButton"));
-	exitButton->setText("Exit Game");
-	exitButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainMenuScreen::exitGame, this));
+	m_exitButton = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("TaharezLook/Button", glm::vec4(0.44f, 0.6f, 0.15f, 0.05f), glm::vec4(0), "ExitGameButton"));
+	m_exitButton->setText("Exit Game");
+	m_exitButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainMenuScreen::exitGame, this));
 
-	CEGUI::PushButton* optionsButton = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("TaharezLook/Button", glm::vec4(0.44f, 0.5f, 0.15f, 0.05f), glm::vec4(0), "openOptionsButton"));
-	optionsButton->setText("Options");
-	optionsButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainMenuScreen::openOptions, this));
+	m_optionsButton = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("TaharezLook/Button", glm::vec4(0.44f, 0.5f, 0.15f, 0.05f), glm::vec4(0), "openOptionsButton"));
+	m_optionsButton->setText("Options");
+	m_optionsButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainMenuScreen::openOptions, this));
 
 	m_GUI.setMouseCursor("TaharezLook/MouseArrow");
-	m_GUI.showCursor();
 
 	//Prevent initializing GUI twice.
 	m_GUIinitialized = true;
@@ -210,6 +249,17 @@ void MainMenuScreen::updateGUI() {
 			if (evnt.window.event == SDL_WINDOWEVENT_RESIZED) {
 				m_camera.reset(m_window);
 			}
+		}
+
+		//determine if mouse or controller should be used.
+		if (m_game->isControllerConnected()) {
+			calculateMousePos();
+			m_GUI.hideCursor();
+		}
+		else {
+			glm::vec2 coords = m_game->getInputManager()->getMouseCoords();
+			m_GUI.setMousePos(coords.x, coords.y);
+			m_GUI.showCursor();
 		}
 
 		m_GUI.onEvent(evnt);

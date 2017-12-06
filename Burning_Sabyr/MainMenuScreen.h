@@ -34,6 +34,7 @@ public:
 	virtual void draw() override;
 
 private:
+
 	Xenro::Window* m_window = nullptr;
 	Xenro::GLSLProgram m_textureProgram;
 	Xenro::Camera m_camera;
@@ -46,11 +47,18 @@ private:
 
 	void initGUI();
 	void updateGUI();
+	void calculateMousePos();
+
 	bool startGame(const CEGUI::EventArgs& args);
 	bool openOptions(const CEGUI::EventArgs& args);
 	bool exitGame(const CEGUI::EventArgs& args);
 	bool m_GUIinitialized = false;
 	bool m_exitGame = false;
+	int m_currButtonIndex = 0;
+
+	CEGUI::PushButton* m_startButton;
+	CEGUI::PushButton* m_exitButton;
+	CEGUI::PushButton* m_optionsButton;
 };
 
 #endif //MAINMENUSCREEN_DEFINED
