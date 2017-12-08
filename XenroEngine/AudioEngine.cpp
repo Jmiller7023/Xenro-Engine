@@ -34,6 +34,7 @@
 namespace Xenro{
 
 void SFX::play(int loops) {
+
 	m_channel = Mix_PlayChannel(-1, m_chunk, loops);
 	//The audio channel failed to init.
 	if (m_channel == -1) {
@@ -42,6 +43,23 @@ void SFX::play(int loops) {
 		warning("failed to play SFX error: " + std::string(Mix_GetError()));
 		}
 	}
+}
+
+void SFX::playUntilEffectFinishes(int loops) {
+
+	m_channel = Mix_PlayChannel(-1, m_chunk, loops);
+	//The audio channel failed to init.
+	if (m_channel == -1) {
+		//Overwrite channel 0 with SFX.
+		if (Mix_PlayChannel(0, m_chunk, loops) == -1) {
+			warning("failed to play SFX error: " + std::string(Mix_GetError()));
+		}
+	}
+	while (Mix_Playing(m_channel));
+}
+
+void SFX::waitUntilEffectsFinish() {
+	while (Mix_Playing(-1) > 0);
 }
 
 void Song::play(int loops) {
@@ -63,15 +81,12 @@ void Song::stop() {
 	Mix_HaltMusic();
 }
 
-AudioEngine::AudioEngine()
-
-{
+AudioEngine::AudioEngine() {
 	openEngine();
 }
 
 
-AudioEngine::~AudioEngine()
-{
+AudioEngine::~AudioEngine() {
 
 }
 

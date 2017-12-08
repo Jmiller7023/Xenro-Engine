@@ -40,6 +40,8 @@ class SFX {
 public:
 	friend class AudioEngine;
 	void play(int loops = 0);
+	void playUntilEffectFinishes(int loops = 0);
+	void waitUntilEffectsFinish();
 
 private:
 	Mix_Chunk* m_chunk = nullptr;
