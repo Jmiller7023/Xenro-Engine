@@ -104,6 +104,8 @@ void GameplayScreen::onEntry() {
 	SDL_ShowCursor(0);
 	m_GUI.hideCursor();
 
+	//Update the camera
+	m_camera.update();
 }
 
 void GameplayScreen::onExit() {
@@ -123,7 +125,15 @@ void GameplayScreen::update() {
 	SDL_Event evnt;
 	while (SDL_PollEvent(&evnt)) {
 		m_game->getInputManager()->processInput(evnt);
-		m_GUI.onEvent(evnt);
+
+		//Determine if mouse inputs should be injected or not.
+		if (m_game->isControllerConnected() && evnt.type != SDL_MOUSEMOTION && evnt.type != SDL_MOUSEBUTTONDOWN && evnt.type != SDL_MOUSEBUTTONUP) {
+			m_GUI.onEvent(evnt);
+		}
+		else if (!m_game->isControllerConnected()) {
+			m_GUI.onEvent(evnt);
+		}
+
 		//Crappy work around. Fix later.
 		if (evnt.type == SDL_QUIT)
 			return;
@@ -188,7 +198,7 @@ void GameplayScreen::update() {
 		m_GUI.mouseClick();
 	}
 
-	if (m_game->getInputManager()->isPressed(SDL_BUTTON_LEFT) || m_game->getInputManager()->isPressed(Xenro::Button::A)) {
+	if ((m_game->getInputManager()->isPressed(SDL_BUTTON_LEFT) && !m_game->isControllerConnected())|| m_game->getInputManager()->isPressed(Xenro::Button::A)) {
 
 		m_bullets.emplace_back(m_player->getPos(), glm::normalize(m_player->getDirection()), 10.0f, 500);
 		m_audioEngine.loadSFX("Audio/SFX/shot.wav").play();

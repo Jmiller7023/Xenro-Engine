@@ -84,13 +84,16 @@ void MainMenuScreen::onEntry() {
 
 	//Disables normal mouse cursor.
 	SDL_ShowCursor(0);
+
+	//Update the camera
+	m_camera.update();
 }
 
 void MainMenuScreen::onExit() {
 
 	m_audioEngine.closeEngine();
 	m_currButtonIndex = 0;
-	//m_GUI.clearGUI();
+
 }
 
 void MainMenuScreen::calculateMousePos() {
@@ -252,13 +255,6 @@ void MainMenuScreen::updateGUI() {
 			return;
 		}
 
-		//Fix the screen in case the window was resized.
-		if (evnt.type == SDL_WINDOWEVENT) {
-			if (evnt.window.event == SDL_WINDOWEVENT_RESIZED) {
-				m_camera.reset(m_window);
-			}
-		}
-
 		//determine if mouse or controller should be used.
 		if (m_game->isControllerConnected()) {
 			calculateMousePos();
@@ -270,6 +266,19 @@ void MainMenuScreen::updateGUI() {
 			m_GUI.showCursor();
 		}
 
-		m_GUI.onEvent(evnt);
+		//Fix the screen in case the window was resized.
+		if (evnt.type == SDL_WINDOWEVENT) {
+			if (evnt.window.event == SDL_WINDOWEVENT_RESIZED) {
+				m_camera.reset(m_window);
+			}
+		}
+
+		//Determine if mouse inputs should be injected or not.
+		if (m_game->isControllerConnected() && evnt.type != SDL_MOUSEMOTION && evnt.type != SDL_MOUSEBUTTONDOWN && evnt.type != SDL_MOUSEBUTTONUP) {
+			m_GUI.onEvent(evnt);
+		}
+		else if (!m_game->isControllerConnected()) {
+			m_GUI.onEvent(evnt);
+		}
 	}
 }

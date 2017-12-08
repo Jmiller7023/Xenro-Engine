@@ -71,6 +71,9 @@ void OptionsScreen::onEntry() {
 
 	//Disables normal mouse cursor.
 	SDL_ShowCursor(0);
+	
+	//Update the camera
+	m_camera.update();
 }
 
 void OptionsScreen::onExit() {
@@ -115,7 +118,7 @@ void OptionsScreen::update() {
 		if (m_game->getInputManager()->isPressed(Xenro::Button::DPAD_UP)) {
 			m_audioEngine.loadSFX("Audio/SFX/Move_Button.wav").play();
 			m_currButtonIndex--;
-			if (!m_resolutionWindow->isActive()) {
+			if (!m_resWindowOpen) {
 				if (m_currButtonIndex == -1) {
 					m_currButtonIndex = 1;
 				}
@@ -144,6 +147,7 @@ void OptionsScreen::draw() {
 
 	if (m_changedRes) {
 		m_camera.reset(m_window);
+		m_camera.update();
 		m_changedRes = false;
 	}
 
@@ -247,6 +251,7 @@ void OptionsScreen::updateGUI() {
 			}
 		}
 
+		//Determine if mouse inputs should be injected or not.
 		if (m_game->isControllerConnected() && evnt.type != SDL_MOUSEMOTION && evnt.type != SDL_MOUSEBUTTONDOWN && evnt.type != SDL_MOUSEBUTTONUP) {
 			m_GUI.onEvent(evnt);
 		}
@@ -254,11 +259,10 @@ void OptionsScreen::updateGUI() {
 			m_GUI.onEvent(evnt);
 		}
 
-
 		//determine if mouse or controller should be used.
 		if (m_game->isControllerConnected()) {
 			calculateMousePos();
-			m_GUI.showCursor();
+			m_GUI.hideCursor();
 		}
 		else {
 			glm::vec2 coords = m_game->getInputManager()->getMouseCoords();
@@ -325,7 +329,12 @@ void OptionsScreen::initGUI() {
 	m_resolutionWindow->disable();
 
 	m_GUI.setMouseCursor("TaharezLook/MouseArrow");
-	m_GUI.showCursor();
+	if (m_game->isControllerConnected()) {
+		m_GUI.showCursor();
+	}
+	else {
+		m_GUI.hideCursor();
+	}
 	
 	//Prevent initializing GUI twice.
 	m_GUIinitialized = true;
