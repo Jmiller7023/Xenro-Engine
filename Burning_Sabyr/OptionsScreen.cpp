@@ -59,7 +59,15 @@ void OptionsScreen::onEntry() {
 
 	//Update mouse cursor.
 	glm::vec2 coords = m_game->getInputManager()->getMouseCoords();
-	m_GUI.setMousePos(coords.x, coords.y);
+	//Decide whether to show mouse cursor or not.
+	if (m_game->isControllerConnected()) {
+		m_GUI.hideCursor();
+		calculateMousePos();
+	}
+	else {
+		m_GUI.showCursor();
+		m_GUI.setMousePos(coords.x, coords.y);
+	}
 
 	//Disables normal mouse cursor.
 	SDL_ShowCursor(0);
@@ -76,6 +84,9 @@ void OptionsScreen::onExit() {
 	//Enable resolution window button and make it visible.
 	m_openResolutionWindow->setAlpha(255.0f);
 	m_openResolutionWindow->enable();
+
+	m_currButtonIndex = 0;
+	m_resWindowOpen = false;
 }
 
 void OptionsScreen::update() {
@@ -84,8 +95,49 @@ void OptionsScreen::update() {
 	
 	if (!m_exitGame) {
 		m_camera.update();
-	}
 
+		//Controller handling.
+		if (m_game->getInputManager()->isPressed(Xenro::Button::DPAD_DOWN)) {
+			m_audioEngine.loadSFX("Audio/SFX/Move_Button.wav").play();
+			m_currButtonIndex++;
+			if(!m_resWindowOpen){
+				if (m_currButtonIndex == 2) {
+					m_currButtonIndex = 0;
+				}				printf("%d", m_currButtonIndex);
+			} 
+			else {
+				if (m_currButtonIndex == 9) {
+					m_currButtonIndex = 2;
+				} 				printf("%d", m_currButtonIndex);
+			}
+		}
+
+		if (m_game->getInputManager()->isPressed(Xenro::Button::DPAD_UP)) {
+			m_audioEngine.loadSFX("Audio/SFX/Move_Button.wav").play();
+			m_currButtonIndex--;
+			if (!m_resolutionWindow->isActive()) {
+				if (m_currButtonIndex == -1) {
+					m_currButtonIndex = 1;
+				}
+			}
+			else {
+				if (m_currButtonIndex == 1) {
+					m_currButtonIndex = 8;
+				}
+			}
+		}
+
+		if (m_game->getInputManager()->isPressed(Xenro::Button::A)) {
+			m_GUI.mouseClick();
+		}
+
+		if (m_resWindowOpen) {
+			if (m_game->getInputManager()->isPressed(Xenro::Button::B)) {
+				CEGUI::EventArgs temp;
+				onExitClicked(temp);
+			}
+		}
+	}
 }
 
 void OptionsScreen::draw() {
@@ -139,6 +191,42 @@ void OptionsScreen::draw() {
 	m_GUI.draw();
 }
 
+
+void OptionsScreen::calculateMousePos() {
+
+	if (m_currButtonIndex == 0) {
+		m_GUI.setMousePos(m_mainMenuButton->getPixelPosition().d_x, m_mainMenuButton->getPixelPosition().d_y);
+	}
+	else if (m_currButtonIndex == 1) {
+		m_GUI.setMousePos(m_openResolutionWindow->getPixelPosition().d_x, m_openResolutionWindow->getPixelPosition().d_y);
+	}
+	else if (m_currButtonIndex == 2) {
+		m_GUI.setMousePos(m_resolution1->getPixelPosition().d_x, m_resolution1->getPixelPosition().d_y);
+	}
+	else if (m_currButtonIndex == 3) {
+		m_GUI.setMousePos(m_resolution2->getPixelPosition().d_x, m_resolution2->getPixelPosition().d_y);
+	}
+	else if (m_currButtonIndex == 4) {
+		m_GUI.setMousePos(m_resolution3->getPixelPosition().d_x, m_resolution3->getPixelPosition().d_y);
+	}
+	else if (m_currButtonIndex == 5) {
+		m_GUI.setMousePos(m_resolution4->getPixelPosition().d_x, m_resolution4->getPixelPosition().d_y);
+	}
+	else if (m_currButtonIndex == 6) {
+		m_GUI.setMousePos(m_resolution5->getPixelPosition().d_x, m_resolution5->getPixelPosition().d_y);
+	}
+	else if (m_currButtonIndex == 7) {
+		m_GUI.setMousePos(m_resolution6->getPixelPosition().d_x, m_resolution6->getPixelPosition().d_y);
+	}
+	else if (m_currButtonIndex == 8) {
+		m_GUI.setMousePos(m_resolution7->getPixelPosition().d_x, m_resolution7->getPixelPosition().d_y);
+	}
+	else {
+		printf("Error with the screen Indices! button index is %d", m_currButtonIndex);
+	}
+
+}
+
 void OptionsScreen::updateGUI() {
 
 	//for testing purposes. Delete afterwards.
@@ -159,7 +247,24 @@ void OptionsScreen::updateGUI() {
 			}
 		}
 
-		m_GUI.onEvent(evnt);
+		if (m_game->isControllerConnected() && evnt.type != SDL_MOUSEMOTION && evnt.type != SDL_MOUSEBUTTONDOWN && evnt.type != SDL_MOUSEBUTTONUP) {
+			m_GUI.onEvent(evnt);
+		}
+		else if (!m_game->isControllerConnected()) {
+			m_GUI.onEvent(evnt);
+		}
+
+
+		//determine if mouse or controller should be used.
+		if (m_game->isControllerConnected()) {
+			calculateMousePos();
+			m_GUI.showCursor();
+		}
+		else {
+			glm::vec2 coords = m_game->getInputManager()->getMouseCoords();
+			m_GUI.setMousePos(coords.x, coords.y);
+			m_GUI.showCursor();
+		}
 	}
 }
 
@@ -170,14 +275,15 @@ void OptionsScreen::initGUI() {
 	m_GUI.loadFont("Jura-10");
 
 	//Initialize MainMenu Button.
-	m_mainMenuButtion = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("TaharezLook/Button", glm::vec4(0.44f, 0.2f, 0.15f, 0.05f), glm::vec4(0), "MainMenuButton"));
-	m_mainMenuButtion->setText("Back");
-	m_mainMenuButtion->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OptionsScreen::backToMainMenu, this));
+	m_mainMenuButton = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("TaharezLook/Button", glm::vec4(0.44f, 0.2f, 0.15f, 0.05f), glm::vec4(0), "MainMenuButton"));
+	m_mainMenuButton->setText("Back");
+	m_mainMenuButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OptionsScreen::backToMainMenu, this));
 
 	//Initialize Resolution Button Window.
 	m_openResolutionWindow = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("TaharezLook/Button", glm::vec4(0.44f, 0.3f, 0.15f, 0.05f), glm::vec4(0), "ResolutionWindowButton"));
 	m_openResolutionWindow->setText("Change Resolution");
 	m_openResolutionWindow->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OptionsScreen::openResolutionWindow, this));
+	m_openResolutionWindow->setAlwaysOnTop(true);
 
 	//Initialize Resolution Window.
 	m_resolutionWindow = static_cast<CEGUI::FrameWindow*>(m_GUI.createWidget("TaharezLook/FrameWindow", glm::vec4(0.3f, 0.3f, 0.4f, 0.4f), glm::vec4(0), "ResolutionWindow"));
@@ -235,8 +341,8 @@ bool OptionsScreen::screenResolution1(const CEGUI::EventArgs& args) {
 	m_window->setInitScreenWidth(800);
 	m_window->setInitScreenHeight(600);
 	m_window->modifyWindowSize(800, 600);
+	m_audioEngine.loadSFX("Audio/SFX/Select_Button.wav").play();
 	m_changedRes = true;
-	//m_camera.setNeedsUpdate();
 
 	return true;
 }
@@ -246,8 +352,8 @@ bool OptionsScreen::screenResolution2(const CEGUI::EventArgs& args) {
 	m_window->setInitScreenWidth(1024);
 	m_window->setInitScreenHeight(768);
 	m_window->modifyWindowSize(1024, 768);
+	m_audioEngine.loadSFX("Audio/SFX/Select_Button.wav").play();
 	m_changedRes = true;
-	//m_camera.setNeedsUpdate();
 
 	return true;
 }
@@ -257,8 +363,8 @@ bool OptionsScreen::screenResolution3(const CEGUI::EventArgs& args) {
 	m_window->setInitScreenWidth(1280);
 	m_window->setInitScreenHeight(720);
 	m_window->modifyWindowSize(1280, 720);
+	m_audioEngine.loadSFX("Audio/SFX/Select_Button.wav").play();
 	m_changedRes = true;
-	//m_camera.setNeedsUpdate();
 
 	return true;
 }
@@ -268,8 +374,8 @@ bool OptionsScreen::screenResolution4(const CEGUI::EventArgs& args) {
 	m_window->setInitScreenWidth(1360);
 	m_window->setInitScreenHeight(768);
 	m_window->modifyWindowSize(1360, 768);
+	m_audioEngine.loadSFX("Audio/SFX/Select_Button.wav").play();
 	m_changedRes = true;
-	//m_camera.setNeedsUpdate();
 
 	return true;
 }
@@ -279,9 +385,8 @@ bool OptionsScreen::screenResolution5(const CEGUI::EventArgs& args) {
 	m_window->setInitScreenWidth(1600);
 	m_window->setInitScreenHeight(900);
 	m_window->modifyWindowSize(1600, 900);
+	m_audioEngine.loadSFX("Audio/SFX/Select_Button.wav").play();
 	m_changedRes = true;
-	//m_camera.setNeedsUpdate();
-
 
 	return true;
 }
@@ -291,9 +396,8 @@ bool OptionsScreen::screenResolution6(const CEGUI::EventArgs& args) {
 	m_window->setInitScreenWidth(1920);
 	m_window->setInitScreenHeight(1080);
 	m_window->modifyWindowSize(1920, 1080);
+	m_audioEngine.loadSFX("Audio/SFX/Select_Button.wav").play();
 	m_changedRes = true;
-	//m_camera.setNeedsUpdate();
-
 
 	return true;
 }
@@ -303,8 +407,8 @@ bool OptionsScreen::screenResolution7(const CEGUI::EventArgs& args) {
 	m_window->setInitScreenWidth(3840);
 	m_window->setInitScreenHeight(2160);
 	m_window->modifyWindowSize(3840, 2160);
+	m_audioEngine.loadSFX("Audio/SFX/Select_Button.wav").play();
 	m_changedRes = true;
-	//m_camera.setNeedsUpdate();
 
 	return true;
 }
@@ -313,6 +417,7 @@ bool OptionsScreen::backToMainMenu(const CEGUI::EventArgs& args) {
 
 	m_currState = Xenro::ScreenState::CHANGE_TO_PARTICULAR;
 	m_changeToParticular = MAINMENU_SCREEN;
+	m_audioEngine.loadSFX("Audio/SFX/Select_Button.wav").playUntilEffectFinishes();
 
 	return true;
 }
@@ -325,6 +430,11 @@ bool OptionsScreen::onExitClicked(const CEGUI::EventArgs& args) {
 	m_openResolutionWindow->setAlpha(255.0f);
 	m_openResolutionWindow->enable();
 
+	m_audioEngine.loadSFX("Audio/SFX/Move_Button.wav").play();
+	
+	m_resWindowOpen = false;
+	m_currButtonIndex = 1;
+
 	return true;
 }
 
@@ -335,6 +445,11 @@ bool OptionsScreen::openResolutionWindow(const CEGUI::EventArgs& args) {
 
 	m_resolutionWindow->enable();
 	m_resolutionWindow->setAlpha(255.0f);
+
+	m_audioEngine.loadSFX("Audio/SFX/Select_Button.wav").play();
+
+	m_resWindowOpen = true;
+	m_currButtonIndex = 2;
 
 	return true;
 }

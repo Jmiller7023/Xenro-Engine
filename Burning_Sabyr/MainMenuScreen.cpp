@@ -89,8 +89,10 @@ void MainMenuScreen::onEntry() {
 void MainMenuScreen::onExit() {
 
 	m_audioEngine.closeEngine();
+	m_currButtonIndex = 0;
 	//m_GUI.clearGUI();
 }
+
 void MainMenuScreen::calculateMousePos() {
 
 	if (m_currButtonIndex == 0) {
@@ -107,6 +109,7 @@ void MainMenuScreen::calculateMousePos() {
 	}
 
 }
+
 void MainMenuScreen::update() {
 	
 	updateGUI();
@@ -116,12 +119,14 @@ void MainMenuScreen::update() {
 		m_camera.update();
 
 		if (m_game->getInputManager()->isPressed(Xenro::Button::DPAD_DOWN)) {
+			m_audioEngine.loadSFX("Audio/SFX/Move_Button.wav").play();
 			if (++m_currButtonIndex == 3) {
 				m_currButtonIndex = 0;
 			}
 		}
 
 		if (m_game->getInputManager()->isPressed(Xenro::Button::DPAD_UP)) {
+			m_audioEngine.loadSFX("Audio/SFX/Move_Button.wav").play();
 			if (--m_currButtonIndex == -1) {
 				m_currButtonIndex = 2;
 			}
@@ -191,12 +196,14 @@ void MainMenuScreen::draw() {
 bool MainMenuScreen::startGame(const CEGUI::EventArgs& args) {
 
 	m_currState = Xenro::ScreenState::CHANGE_TO_NEXT;
+	m_audioEngine.loadSFX("Audio/SFX/Select_Button.wav").playUntilEffectFinishes();
 	return true;
 }
 
 bool MainMenuScreen::exitGame(const CEGUI::EventArgs& args) {
 
 	m_currState = Xenro::ScreenState::EXIT_APP;
+	m_audioEngine.loadSFX("Audio/SFX/Select_Button.wav").playUntilEffectFinishes();
 	return true;
 }
 
@@ -205,6 +212,7 @@ bool MainMenuScreen::openOptions(const CEGUI::EventArgs& args) {
 
 	m_currState = Xenro::ScreenState::CHANGE_TO_PARTICULAR;
 	m_changeToParticular = OPTIONS_SCREEN;
+	m_audioEngine.loadSFX("Audio/SFX/Select_Button.wav").playUntilEffectFinishes();
 	return true;
 }
 

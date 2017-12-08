@@ -41,6 +41,7 @@ private:
 
 	void initGUI();
 	void updateGUI();
+	void calculateMousePos();
 
 	//GUI Event Handlers
 	bool Vsync(const CEGUI::EventArgs& args);
@@ -59,9 +60,11 @@ private:
 	bool m_GUIinitialized = false;
 	bool m_exitGame = false;
 	bool m_changedRes = true;
+	bool m_resWindowOpen = false;
+	int m_currButtonIndex = 0;
 
 	CEGUI::FrameWindow* m_resolutionWindow = nullptr;
-	CEGUI::PushButton* m_mainMenuButtion = nullptr;
+	CEGUI::PushButton* m_mainMenuButton = nullptr;
 	CEGUI::RadioButton* m_VSYNCCheckBox = nullptr;
 	CEGUI::PushButton* m_openResolutionWindow = nullptr;
 	CEGUI::PushButton* m_resolution1 = nullptr;

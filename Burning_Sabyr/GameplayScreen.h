@@ -56,7 +56,7 @@ private:
 	Xenro::OutlineRenderer m_outlineRenderer;
 	Xenro::GUI m_GUI;
 
-	bool testButtonFunction(const CEGUI::EventArgs& args);
+	bool BacktoMainMenu(const CEGUI::EventArgs& args);
 	CEGUI::PushButton* m_mainMenuButton;
 	bool m_mainMenuButtonShown = false;
 	int m_mouselightIndex;

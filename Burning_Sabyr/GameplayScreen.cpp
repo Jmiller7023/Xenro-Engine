@@ -47,7 +47,7 @@ void GameplayScreen::create() {
 
 	m_mainMenuButton = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("TaharezLook/Button", glm::vec4(0.44f, 0.4f, 0.15f, 0.05f), glm::vec4(0), "MainMenubutton"));
 	m_mainMenuButton->setText("Back");
-	m_mainMenuButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&GameplayScreen::testButtonFunction, this));
+	m_mainMenuButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&GameplayScreen::BacktoMainMenu, this));
 	m_mainMenuButton->disable();
 	m_mainMenuButton->setAlpha(0);
 
@@ -265,9 +265,10 @@ void GameplayScreen::draw() {
 	m_GUI.draw();
 }
 
-bool GameplayScreen::testButtonFunction(const CEGUI::EventArgs& args) {
+bool GameplayScreen::BacktoMainMenu(const CEGUI::EventArgs& args) {
 
 	m_currState = Xenro::ScreenState::CHANGE_TO_PARTICULAR;
 	m_changeToParticular = MAINMENU_SCREEN;
+	m_audioEngine.loadSFX("Audio/SFX/Select_Button.wav").playUntilEffectFinishes();
 	return true;
 }
