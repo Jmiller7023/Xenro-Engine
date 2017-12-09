@@ -104,13 +104,13 @@ void OptionsScreen::update() {
 			m_audioEngine.loadSFX("Audio/SFX/Move_Button.wav").play();
 			m_currButtonIndex++;
 			if(!m_resWindowOpen){
-				if (m_currButtonIndex == 2) {
-					m_currButtonIndex = 0;
+				if (m_currButtonIndex == RESOLUTION1) {
+					m_currButtonIndex = BACK_TO_MAIN_MENU;
 				}				printf("%d", m_currButtonIndex);
 			} 
 			else {
-				if (m_currButtonIndex == 9) {
-					m_currButtonIndex = 2;
+				if (m_currButtonIndex == UNDEFINED_BUTTON_INDEX_POSTIVE) {
+					m_currButtonIndex = RESOLUTION1;
 				} 				printf("%d", m_currButtonIndex);
 			}
 		}
@@ -119,13 +119,13 @@ void OptionsScreen::update() {
 			m_audioEngine.loadSFX("Audio/SFX/Move_Button.wav").play();
 			m_currButtonIndex--;
 			if (!m_resWindowOpen) {
-				if (m_currButtonIndex == -1) {
-					m_currButtonIndex = 1;
+				if (m_currButtonIndex == UNDEFINED_BUTTON_INDEX_NEGATIVE) {
+					m_currButtonIndex = OPEN_RESOLUTION_WINDOW;
 				}
 			}
 			else {
-				if (m_currButtonIndex == 1) {
-					m_currButtonIndex = 8;
+				if (m_currButtonIndex == OPEN_RESOLUTION_WINDOW) {
+					m_currButtonIndex = RESOLUTION7;
 				}
 			}
 		}
@@ -198,31 +198,31 @@ void OptionsScreen::draw() {
 
 void OptionsScreen::calculateMousePos() {
 
-	if (m_currButtonIndex == 0) {
+	if (m_currButtonIndex == BACK_TO_MAIN_MENU) {
 		m_GUI.setMousePos(m_mainMenuButton->getPixelPosition().d_x, m_mainMenuButton->getPixelPosition().d_y);
 	}
-	else if (m_currButtonIndex == 1) {
+	else if (m_currButtonIndex == OPEN_RESOLUTION_WINDOW) {
 		m_GUI.setMousePos(m_openResolutionWindow->getPixelPosition().d_x, m_openResolutionWindow->getPixelPosition().d_y);
 	}
-	else if (m_currButtonIndex == 2) {
+	else if (m_currButtonIndex == RESOLUTION1) {
 		m_GUI.setMousePos(m_resolution1->getPixelPosition().d_x, m_resolution1->getPixelPosition().d_y);
 	}
-	else if (m_currButtonIndex == 3) {
+	else if (m_currButtonIndex == RESOLUTION2) {
 		m_GUI.setMousePos(m_resolution2->getPixelPosition().d_x, m_resolution2->getPixelPosition().d_y);
 	}
-	else if (m_currButtonIndex == 4) {
+	else if (m_currButtonIndex == RESOLUTION3) {
 		m_GUI.setMousePos(m_resolution3->getPixelPosition().d_x, m_resolution3->getPixelPosition().d_y);
 	}
-	else if (m_currButtonIndex == 5) {
+	else if (m_currButtonIndex == RESOLUTION4) {
 		m_GUI.setMousePos(m_resolution4->getPixelPosition().d_x, m_resolution4->getPixelPosition().d_y);
 	}
-	else if (m_currButtonIndex == 6) {
+	else if (m_currButtonIndex == RESOLUTION5) {
 		m_GUI.setMousePos(m_resolution5->getPixelPosition().d_x, m_resolution5->getPixelPosition().d_y);
 	}
-	else if (m_currButtonIndex == 7) {
+	else if (m_currButtonIndex == RESOLUTION6) {
 		m_GUI.setMousePos(m_resolution6->getPixelPosition().d_x, m_resolution6->getPixelPosition().d_y);
 	}
-	else if (m_currButtonIndex == 8) {
+	else if (m_currButtonIndex == RESOLUTION7) {
 		m_GUI.setMousePos(m_resolution7->getPixelPosition().d_x, m_resolution7->getPixelPosition().d_y);
 	}
 	else {

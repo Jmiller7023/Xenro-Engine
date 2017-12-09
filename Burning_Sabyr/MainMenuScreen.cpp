@@ -98,13 +98,13 @@ void MainMenuScreen::onExit() {
 
 void MainMenuScreen::calculateMousePos() {
 
-	if (m_currButtonIndex == 0) {
+	if (m_currButtonIndex == START_BUTTON) {
 		m_GUI.setMousePos(m_startButton->getPixelPosition().d_x, m_startButton->getPixelPosition().d_y);
 	}
-	else if(m_currButtonIndex == 1) {
+	else if(m_currButtonIndex == OPTIONS_BUTTON) {
 		m_GUI.setMousePos(m_optionsButton->getPixelPosition().d_x, m_optionsButton->getPixelPosition().d_y);
 	}
-	else if (m_currButtonIndex == 2) {
+	else if (m_currButtonIndex == EXIT_BUTTON) {
 		m_GUI.setMousePos(m_exitButton->getPixelPosition().d_x, m_exitButton->getPixelPosition().d_y);
 	}
 	else {
