@@ -42,6 +42,12 @@
     <ClCompile Include="OptionsScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Thief.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StatSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h">
@@ -69,6 +75,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OptionsScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Thief.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StatSet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
