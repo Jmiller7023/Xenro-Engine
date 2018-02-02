@@ -49,7 +49,7 @@ bool IOManager::readFileToBuffer(std::string filePath, std::vector<unsigned char
 	file.seekg(0, std::ios::end);
 
 	//Get the file size.
-	int fileSize = file.tellg();
+	std::streamoff fileSize = file.tellg();
 
 	//seek to beginning.
 	file.seekg(0, std::ios::beg);

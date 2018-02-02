@@ -29,6 +29,7 @@ glm::vec2 Actor::getDirection() const{
 		case MoveDir::RIGHT: return glm::vec2(1, 0);
 		case MoveDir::UPRIGHT: return glm::vec2(1, 1);
 		case MoveDir::IDLE: return glm::vec2(0, -1);
+		default: return glm::vec2(0, 0); //This is unreachable.
 	}
 }
 void Actor::collideWithWorld(const std::vector<std::string>& worldData) {

@@ -54,7 +54,7 @@ void FPSlimiter::calculateFPS() {
 	m_frames++;
 	//if it's been one second since last calculation.
 	if (m_currTicks - m_lastTime >= 1000.0f) {
-		m_fps =  m_frames;
+		m_fps =  (float)m_frames;
 		m_frames = 1;
 		m_lastTime += 1000.0f;
 	}

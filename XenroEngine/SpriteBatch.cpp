@@ -123,7 +123,7 @@ void SpriteBatch::createRenderBatches() {
 	vertices[currentVertex++] = m_spritePointers[0]->topLeft;
 	offset += 6;
 
-	for (int cs = 1; cs < m_spritePointers.size(); cs++) {
+	for (size_t cs = 1; cs < m_spritePointers.size(); cs++) {
 		if(m_spritePointers[cs]->texture != m_spritePointers[cs - 1]->texture){
 		m_renderBatches.emplace_back(offset, 6, m_spritePointers[cs]->texture);
 		}

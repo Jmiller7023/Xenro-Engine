@@ -239,7 +239,7 @@ void Game::rumbleController(double strength, int milliseconds) {
 		return;
 	}
 
-	if (SDL_HapticRumblePlay(m_controllerHaptic, strength, milliseconds) != 0) { 
+	if (SDL_HapticRumblePlay(m_controllerHaptic, (float)strength, milliseconds) != 0) { 
 		warning("Warning: Unable to play rumble! %s\n", SDL_GetError()); 
 	}
 }
