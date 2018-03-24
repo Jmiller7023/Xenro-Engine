@@ -126,6 +126,10 @@ void GameplayScreen::update() {
 	while (SDL_PollEvent(&evnt)) {
 		m_game->getInputManager()->processInput(evnt);
 
+		//Prevent access to data after game ends.
+		if (evnt.type == SDL_QUIT)
+			return;
+
 		//Determine if mouse inputs should be injected or not.
 		if (m_game->isControllerConnected() && evnt.type != SDL_MOUSEMOTION && evnt.type != SDL_MOUSEBUTTONDOWN && evnt.type != SDL_MOUSEBUTTONUP) {
 			m_GUI.onEvent(evnt);
@@ -133,10 +137,6 @@ void GameplayScreen::update() {
 		else if (!m_game->isControllerConnected()) {
 			m_GUI.onEvent(evnt);
 		}
-
-		//Crappy work around. Fix later.
-		if (evnt.type == SDL_QUIT)
-			return;
 	}
 
 	//endtest

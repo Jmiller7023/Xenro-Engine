@@ -35,7 +35,7 @@ namespace Xenro {
 	const double PI = 3.14159265358979323846;
 	const double TAU = 2 * PI;
 	const double e = 2.7182818284;
-	
+	const double sqrt2 = 1.41421356237;
 }
 
 #endif //XENRO_MATHCONSTANTS_DEFINED
