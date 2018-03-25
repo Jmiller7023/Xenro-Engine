@@ -47,6 +47,7 @@ private:
 	Mix_Chunk* m_chunk = nullptr;
 	//set to a channel that can't be accessed.
 	int m_channel = -3;
+	int m_volume = MIX_MAX_VOLUME;
 };
 
 class Song {
@@ -61,6 +62,7 @@ public:
 	static void stop();
 private:
 	Mix_Music* m_music = nullptr;
+	int m_volume = MIX_MAX_VOLUME;
 };
 
 class AudioEngine {
@@ -69,7 +71,9 @@ public:
 	~AudioEngine();
 
 	SFX loadSFX(const std::string& filePath);
+	SFX AudioEngine::loadSFX(const std::string& filePath, int volume);
 	Song loadSong(const std::string& filePath);
+	Song AudioEngine::loadSong(const std::string& filePath, int volume);
 
 	void openEngine();
 	//Meant to be called when all audioEngine is finished.

@@ -109,7 +109,7 @@ void GameplayScreen::onEntry() {
 }
 
 void GameplayScreen::onExit() {
-
+	
 	m_audioEngine.closeEngine();
 	m_bullets.clear();
 	destroy();
