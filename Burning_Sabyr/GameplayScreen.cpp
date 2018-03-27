@@ -58,6 +58,12 @@ void GameplayScreen::create() {
 	m_textureProgram.addAttribute("vertexUV");
 	m_textureProgram.linkShaders();
 
+	m_lightProgram.compileShaders("Shaders/lightShading.vert", "Shaders/lightShading.frag");
+	m_lightProgram.addAttribute("vertexPosition");
+	m_lightProgram.addAttribute("vertexColor");
+	m_lightProgram.addAttribute("vertexUV");
+	m_lightProgram.linkShaders();
+
 }
 
 void GameplayScreen::destroy() {
@@ -74,8 +80,9 @@ void GameplayScreen::onEntry() {
 	//initialize the Audio Engine.
 	m_audioEngine.openEngine();
 
+
 	//Start level music.
-	m_audioEngine.loadSong("Audio/Music/GoodZelda.ogg").play();
+	m_audioEngine.loadSong("Audio/Music/GoodZelda.ogg", 64).play();
 
 	//Set the camera properly.
 	m_camera.reset(m_window);
@@ -91,10 +98,14 @@ void GameplayScreen::onEntry() {
 
 	//Allocate the player.
 	m_player = new Player(8.0f, m_levelLoader.getStartPlayerPos(), m_game->getInputManager());
-	Xenro::ColorRGBA color(255, 255, 255, 255);
+	Xenro::ColorRGBA color(200,0, 255, 255);
+	Xenro::ColorRGBA color1(255, 255, 255, 255);
 	glm::vec2 SpriteSheetDims(4, 9);
 
-	m_player->initializeActor("Textures/aqua.png", color, SpriteSheetDims, m_levelLoader.getStartPlayerPos(), glm::vec2(60.0f), glm::vec2(30.0f, 40.0f));
+	//initialize the light engine
+	test = m_lightEngine.addLight(Xenro::Light(color, m_camera.convertScreentoWorld(m_game->getInputManager()->getMouseCoords()), glm::vec2(400.0f)));
+
+	m_player->initializeActor("Textures/aqua.png", color1, SpriteSheetDims, m_levelLoader.getStartPlayerPos(), glm::vec2(60.0f), glm::vec2(30.0f, 40.0f));
 
 	//Update mouse cursor.
 	glm::vec2 coords = m_game->getInputManager()->getMouseCoords();
@@ -147,7 +158,23 @@ void GameplayScreen::update() {
 			m_camera.reset(m_window);
 		}
 	}
-	
+	m_lightEngine.modifyLightPos(test, m_camera.convertScreentoWorld(m_game->getInputManager()->getMouseCoords()));
+
+	if (isup) {
+		val+= 2;
+	}
+	else {
+		val-= 2;
+	}
+	if (val <= 0) {
+		val = 0;
+		isup = true;
+	}
+	if (val >= 255) {
+		isup = false;
+	}
+
+	m_lightEngine.modifyLightColor(test, Xenro::ColorRGBA(200, 0, 255, val));
 	m_player->update(m_levelLoader.getLevelData());
 
 	m_camera.setPosition(m_player->getPos());
@@ -234,6 +261,10 @@ void GameplayScreen::draw() {
 
 	m_levelLoader.draw();
 
+
+	pLocation = m_textureProgram.getUniformLocation("P");
+	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
+
 	m_spriteBatch.begin();
 
 	for (size_t i = 0; i < m_bullets.size(); i++) {
@@ -244,7 +275,10 @@ void GameplayScreen::draw() {
 
 	m_spriteBatch.end();
 
-	m_spriteBatch.renderBatch();
+    m_spriteBatch.renderBatch();
+
+
+	
 
 	m_hud.setColor(255, 0, 255);
 
@@ -268,6 +302,17 @@ void GameplayScreen::draw() {
 		m_outlineRenderer.end();
 		m_outlineRenderer.render(cameraMatrix, 2.0f);
 	}
+
+	m_lightProgram.use();
+
+
+	pLocation = m_textureProgram.getUniformLocation("P");
+	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
+
+	m_lightEngine.renderAllLights();
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+	m_lightProgram.unuse();
 
 	pLocation = m_textureProgram.getUniformLocation("P");
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));

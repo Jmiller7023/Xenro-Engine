@@ -49,6 +49,8 @@ private:
 	Xenro::SpriteBatch m_HUDSpriteBatch;
 	Xenro::SpriteFont* m_spriteFont;
 	Xenro::HUD m_hud;
+	Xenro::LightEngine m_lightEngine;
+	Xenro::GLSLProgram m_lightProgram;
 	Player* m_player;
 	LevelLoader m_levelLoader;
 	std::vector<Bullet> m_bullets;
@@ -61,6 +63,9 @@ private:
 	bool m_mainMenuButtonShown = false;
 	int m_mouselightIndex;
 	int m_playerLightIndex;
+	int val = 255;
+	int test;
+	bool isup = false;
 };
 
 #endif //GAMEPLAYSCREEN_DEFINED

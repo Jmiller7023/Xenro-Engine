@@ -52,7 +52,7 @@ void OptionsScreen::onEntry() {
 	m_audioEngine.openEngine();
 
 	//Start level music.
-	m_audioEngine.loadSong("Audio/Music/FF1.ogg").play();
+	m_audioEngine.loadSong("Audio/Music/FF1.ogg", 64).play();
 
 	//Set the camera properly.
 	m_camera.reset(m_window);
