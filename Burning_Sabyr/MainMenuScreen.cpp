@@ -58,7 +58,7 @@ void MainMenuScreen::onEntry() {
 	m_audioEngine.openEngine();
 
 	//Start level music.
-	m_audioEngine.loadSong("Audio/Music/mm2.ogg", 64).play();
+	m_audioEngine.loadSong("Audio/Music/mm2.ogg", 64).playAtTime(15.4);
 
 	//Set the camera properly.
 	m_camera.reset(m_window);
@@ -68,7 +68,6 @@ void MainMenuScreen::onEntry() {
 
 	//Initialize the HUD
 	m_hud.initHUD(m_HUDspriteBatch, &m_spriteFont, &m_textureProgram, m_window);
-
 
 	//Update mouse cursor.
 	glm::vec2 coords = m_game->getInputManager()->getMouseCoords();
@@ -116,7 +115,7 @@ void MainMenuScreen::calculateMousePos() {
 void MainMenuScreen::update() {
 	
 	updateGUI();
-	
+
 	if (!m_exitGame) {
 
 		m_camera.update();

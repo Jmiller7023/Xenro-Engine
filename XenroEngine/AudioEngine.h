@@ -35,6 +35,7 @@
 #include <map>
 
 namespace Xenro{
+enum class Songtype {OGG, MP3, CMD, WAV, MOD, MID, NONE, UNKNOWN};
 
 class SFX {
 public:
@@ -53,13 +54,17 @@ private:
 class Song {
 public:
 	friend class AudioEngine;
+
 	void play(int loops = -1);
-
 	static void pause();
-
 	static void resume();
-
 	static void stop();
+	int getCurrVolume();
+	void fadeInSong(int loops, int ms);
+	void fadeOutSong(int ms);
+	//Plays music s seconds after the start of the song.
+	void playAtTime(double s, int loops = -1);
+
 private:
 	Mix_Music* m_music = nullptr;
 	int m_volume = MIX_MAX_VOLUME;
@@ -71,20 +76,28 @@ public:
 	~AudioEngine();
 
 	SFX loadSFX(const std::string& filePath);
+	//Volume ranges from 0 to 128
 	SFX AudioEngine::loadSFX(const std::string& filePath, int volume);
 	Song loadSong(const std::string& filePath);
+	//Volume ranges from 0 to 128
 	Song AudioEngine::loadSong(const std::string& filePath, int volume);
+	// print the type of music currently playing
+	void printCurrSongType();
+	//returns type of music playing
+	Songtype getCurrSongType();
+	bool isSongPlaying();
+	bool isSongPaused();
+	void RestartCurrSong();
 
 	void openEngine();
 	//Meant to be called when all audioEngine is finished.
 	void closeEngine();
 
 private:
-	float m_temp = 100.0f;
+	bool EngineClosed = false;
 	std::map<std::string, Mix_Chunk*> m_SFXMap;
 	std::map<std::string, Mix_Music*> m_songMap;
 };
-
 
 }
 

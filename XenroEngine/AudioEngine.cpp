@@ -90,13 +90,133 @@ void Song::stop() {
 	Mix_HaltMusic();
 }
 
+void Song::fadeInSong(int loops, int ms) {
+	if (Mix_FadeInMusic(m_music, loops, ms) == -1) {
+		warning("Mix_FadeInMusic: " + std::string(Mix_GetError()));
+	}
+}
+
+void Song::fadeOutSong(int ms) {
+	if (Mix_FadeOutMusic(ms) == -1) {
+		warning("Mix_FadeOutMusic: " + std::string(Mix_GetError()));
+	}
+}
+
+int Song::getCurrVolume() {
+	return Mix_VolumeMusic(-1);
+}
+
+void Song::playAtTime(double s, int loops) {
+
+	//set song volume
+	Mix_VolumeMusic(m_volume);
+
+	if (Mix_PlayMusic(m_music, loops) == -1) {
+		warning("failed to play song error: " + std::string(Mix_GetError()));
+	}
+
+	Mix_MusicType type = Mix_GetMusicType(NULL);
+	if (type == Mix_MusicType::MUS_MP3) {
+		Mix_RewindMusic();
+		if (Mix_SetMusicPosition(s) == -1) {
+			printf("Mix_SetMusicPosition: %s\n", Mix_GetError());
+		}
+	}
+	else if (type == Mix_MusicType::MUS_OGG || type == Mix_MusicType::MUS_MOD) {
+		if (Mix_SetMusicPosition(s) == -1) {
+			printf("Mix_SetMusicPosition: %s\n", Mix_GetError());
+		}
+	} else {
+		warning("To start a song at a specific time, it must be of type OGG, MOD, or MP3");
+	}
+}
+
+void AudioEngine::printCurrSongType() {
+
+	switch (Mix_GetMusicType(NULL)) {
+		case MUS_NONE:
+			printf("No music is playing");
+		case MUS_CMD:
+			printf("Command based music is playing.\n");
+			break;
+		case MUS_WAV:
+			printf("WAVE/RIFF music is playing.\n");
+			break;
+		case MUS_MOD:
+			printf("MOD music is playing.\n");
+			break;
+		case MUS_MID:
+			printf("MIDI music is playing.\n");
+			break;
+		case MUS_OGG:
+			printf("OGG music is playing.\n");
+			break;
+		case MUS_MP3:
+			printf("MP3 music is playing.\n");
+			break;
+		default:
+			printf("Unknown music is playing.\n");
+			break;
+	}
+}
+
+Songtype AudioEngine::getCurrSongType() {
+	switch (Mix_GetMusicType(NULL)) {
+		case MUS_NONE:
+			return Songtype::NONE;
+		case MUS_CMD:
+			return Songtype::CMD;
+			break;
+		case MUS_WAV:
+			return Songtype::WAV;
+			break;
+		case MUS_MOD:
+			return Songtype::MOD;
+			break;
+		case MUS_MID:
+			return Songtype::MID;
+			break;
+		case MUS_OGG:
+			return Songtype::OGG;
+			break;
+		case MUS_MP3:
+			return Songtype::MP3;
+			break;
+		default:
+			return Songtype::UNKNOWN;
+			break;
+	}
+}
+
+bool AudioEngine::isSongPlaying() {
+	if (Mix_PlayingMusic())
+		return true;
+	return false;
+}
+
+bool AudioEngine::isSongPaused() {
+	if (Mix_PausedMusic())
+		return true;
+	return false;
+}
+
+void AudioEngine::RestartCurrSong() {
+	Songtype type = getCurrSongType();
+	if (type == Songtype::MP3 || type == Songtype::OGG || type == Songtype::MID || type == Songtype::MOD) {
+		// rewind music playback to the start
+		Mix_RewindMusic();
+	}
+	else {
+		warning("To Restart a Song, a song must be playing of type OGG, MIDI, MOD, or MP3");
+	}
+}
+
 AudioEngine::AudioEngine() {
 	openEngine();
 }
 
-
 AudioEngine::~AudioEngine() {
-
+	closeEngine();
 }
 
 SFX AudioEngine::loadSFX(const std::string& filePath) {
@@ -107,7 +227,7 @@ SFX AudioEngine::loadSFX(const std::string& filePath) {
 		//wasn't in map, so add it to map.
 		Chunk = Mix_LoadWAV(filePath.c_str());
 		if (Chunk == nullptr) {
-			fatalError("Failed to loadWAV: " + filePath);
+			fatalError("Failed to loadSFX: " + filePath);
 		}
 
 		Mix_VolumeChunk(Chunk, MIX_MAX_VOLUME);
@@ -131,7 +251,7 @@ SFX AudioEngine::loadSFX(const std::string& filePath, int volume) {
 		//wasn't in map, so add it to map.
 		Chunk = Mix_LoadWAV(filePath.c_str());
 		if (Chunk == nullptr) {
-			fatalError("Failed to loadWAV: " + filePath);
+			fatalError("Failed to loadSFX: " + filePath);
 		}
 
 		m_SFXMap[filePath] = Chunk;
@@ -154,7 +274,7 @@ Song AudioEngine::loadSong(const std::string& filePath) {
 		//wasn't in map, so add it to map.
 		music = Mix_LoadMUS(filePath.c_str());
 		if (music == nullptr) {
-			fatalError("Failed to loadWAV: " + filePath);
+			fatalError("Failed to loadSONG: " + filePath);
 		}
 
 		m_songMap[filePath] = music;
@@ -176,11 +296,9 @@ Song AudioEngine::loadSong(const std::string& filePath, int volume) {
 		//wasn't in map, so add it to map.
 		music = Mix_LoadMUS(filePath.c_str());
 		if (music == nullptr) {
-			fatalError("Failed to loadWAV: " + filePath);
+			fatalError("Failed to loadSONG: " + filePath);
 		}
-
 		m_songMap[filePath] = music;
-
 	}
 	else {
 		music = it->second;
@@ -195,7 +313,7 @@ void AudioEngine::openEngine() {
 	//Parameter is a combination of bitwise ors of the following flags.
 	//MIX_INIT_FLAC, MIX_INIT_MOD, MIX_INIT_MP3 and MIX_INIT_OGG.
 	//returns a -1 if it fails to init.
-	if (Mix_Init(MIX_INIT_OGG | MIX_INIT_MP3) == -1) {
+	if (Mix_Init(MIX_INIT_OGG | MIX_INIT_MP3 | MIX_INIT_FLAC | MIX_INIT_MOD) == -1) {
 		fatalError("Failed to initialize Mixer!\n Mixer returned: " + std::string(Mix_GetError()));
 	}
 
@@ -206,20 +324,23 @@ void AudioEngine::openEngine() {
 }
 
 void AudioEngine::closeEngine() {
-	//free the memory
-	for (auto it = m_SFXMap.begin(); it != m_SFXMap.end(); it++) {
-		Mix_FreeChunk(it->second);
+	if (!EngineClosed) {
+		//free the memory
+		for (auto it = m_SFXMap.begin(); it != m_SFXMap.end(); it++) {
+			Mix_FreeChunk(it->second);
+		}
+
+		for (auto it = m_songMap.begin(); it != m_songMap.end(); it++) {
+			Mix_FreeMusic(it->second);
+		}
+
+		m_SFXMap.clear();
+		m_songMap.clear();
+
+		Mix_CloseAudio();
+		Mix_Quit();
+		EngineClosed = true;
 	}
-
-	for (auto it = m_songMap.begin(); it != m_songMap.end(); it++) {
-		Mix_FreeMusic(it->second);
-	}
-
-	m_SFXMap.clear();
-	m_songMap.clear();
-
-	Mix_CloseAudio();
-	Mix_Quit();
 }
 
 }

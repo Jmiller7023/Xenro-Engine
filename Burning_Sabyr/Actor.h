@@ -56,5 +56,4 @@ protected:
 	
 	MoveDir m_moveDir = MoveDir::IDLE;
 };
-
 #endif //ACTOR_DEFINED
