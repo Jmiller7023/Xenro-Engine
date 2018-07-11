@@ -127,7 +127,7 @@ void Song::playAtTime(double s, int loops) {
 			printf("Mix_SetMusicPosition: %s\n", Mix_GetError());
 		}
 	} else {
-		warning("To start a song at a specific time, it must be of type OGG, MOD, or MP3");
+		warning("To start a song at a specific time, it must be of type OGG or MOD");
 	}
 }
 
@@ -207,7 +207,7 @@ void AudioEngine::RestartCurrSong() {
 		Mix_RewindMusic();
 	}
 	else {
-		warning("To Restart a Song, a song must be playing of type OGG, MIDI, MOD, or MP3");
+		warning("To Restart a Song, a song must be playing of type OGG, MIDI, or MOD");
 	}
 }
 
@@ -313,12 +313,12 @@ void AudioEngine::openEngine() {
 	//Parameter is a combination of bitwise ors of the following flags.
 	//MIX_INIT_FLAC, MIX_INIT_MOD, MIX_INIT_MP3 and MIX_INIT_OGG.
 	//returns a -1 if it fails to init.
-	if (Mix_Init(MIX_INIT_OGG | MIX_INIT_MP3 | MIX_INIT_FLAC | MIX_INIT_MOD) == -1) {
+	if (Mix_Init(MIX_INIT_OGG | MIX_INIT_FLAC | MIX_INIT_MOD) == -1) {
 		fatalError("Failed to initialize Mixer!\n Mixer returned: " + std::string(Mix_GetError()));
 	}
 
 	//For third parameter, 1 enables mono and 2 enbales stereo.
-	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
+	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, AUDIO_S16SYS, 2, 4096) == -1) {
 		fatalError("Failed to initialize Mixer!\n Mixer returned: " + std::string(Mix_GetError()));
 	}
 }

@@ -58,7 +58,7 @@ void MainMenuScreen::onEntry() {
 	m_audioEngine.openEngine();
 
 	//Start level music.
-	m_audioEngine.loadSong("Audio/Music/mm2.ogg", 64).playAtTime(15.4);
+	m_audioEngine.loadSong("Audio/Music/time.mp3", 64).play();
 
 	//Set the camera properly.
 	m_camera.reset(m_window);
