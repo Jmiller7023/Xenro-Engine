@@ -32,7 +32,7 @@
 #include <filesystem>
 
 // Namespace alias
-namespace fs = std::tr2::sys;
+namespace fs = std::experimental::filesystem;
 
 namespace Xenro {
 

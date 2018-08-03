@@ -277,9 +277,6 @@ void GameplayScreen::draw() {
 
     m_spriteBatch.renderBatch();
 
-
-	
-
 	m_hud.setColor(255, 0, 255);
 
 	m_hud.setTextPos();
@@ -304,7 +301,6 @@ void GameplayScreen::draw() {
 	}
 
 	m_lightProgram.use();
-
 
 	pLocation = m_textureProgram.getUniformLocation("P");
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
