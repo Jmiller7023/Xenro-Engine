@@ -74,6 +74,8 @@ void Game::run() {
 		}
 		
 	}
+	//SDL is no longer needed.
+	SDL_Quit();
 }
 
 
@@ -151,6 +153,11 @@ void Game::draw() {
 	glViewport(0, 0, m_window.getScreenWidth(), m_window.getScreenHeight());
 
 	if (m_currScreen != nullptr && m_currScreen->getScreenState() == ScreenState::RUNNING) {
+		//Set base depth to 1.0
+		glClearDepth(1.0);
+
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 		m_currScreen->draw();
 	}
 }

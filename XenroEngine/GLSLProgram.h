@@ -51,6 +51,7 @@ public:
 	GLint getUniformLocation(const std::string& uniformName);
 
 	void use();
+	void use(const std::string& uniformName);
 
 	void unuse();
 

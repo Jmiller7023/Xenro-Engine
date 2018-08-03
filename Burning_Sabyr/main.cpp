@@ -2,7 +2,6 @@
 #include <string>
 #include<iostream>
 #include <iomanip>
-//#include <Windows.h>
 
 int main(int argc, char* argv[]) {
 
@@ -10,6 +9,6 @@ int main(int argc, char* argv[]) {
 	//ShowWindow(myConsole, 0);
 	Application app;
 	app.run();
-	
+
 	return 0;
 }

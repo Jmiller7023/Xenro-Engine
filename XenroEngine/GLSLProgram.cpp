@@ -176,9 +176,28 @@ void GLSLProgram::use() {
 	}
 }
 
+void GLSLProgram::use(const std::string& uniformName) {
+
+	glUseProgram(m_programID);
+
+	for (int i = 0; i < m_numAttributes; i++) {
+		glEnableVertexAttribArray(i);
+	}
+
+	//This is using texture unit 0.
+	glActiveTexture(GL_TEXTURE0);
+
+	//Get uniform location.
+	GLint textureLocation = getUniformLocation(uniformName);
+
+	//Tell the shader that the texture is in texture unit 0.
+	glUniform1i(textureLocation, 0);
+}
+
 //enable the shader, and all its attributes.
 void GLSLProgram::unuse() {
 
+	glBindTexture(GL_TEXTURE_2D, 0);
 	glUseProgram(0);
 
 	//enable all the attibutes we added with addAttribute.

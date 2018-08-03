@@ -235,22 +235,8 @@ void GameplayScreen::update() {
 
 void GameplayScreen::draw() {
 
-	//Set base depth to 1.0
-	glClearDepth(1.0);
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	//Endable the shader
-	m_textureProgram.use();
-
-	//This is using texture unit 0.
-	glActiveTexture(GL_TEXTURE0);
-
-	//Get uniform location.
-	GLint textureLocation = m_textureProgram.getUniformLocation("mySampler");
-
-	//Tell the shader that the exture is in texture unit 0.
-	glUniform1i(textureLocation, 0);
+	m_textureProgram.use("mySampler");
 
 	//Set the camera matrix.
 	glm::mat4 cameraMatrix = m_camera.getcamMatrix();
@@ -260,10 +246,6 @@ void GameplayScreen::draw() {
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 
 	m_levelLoader.draw();
-
-
-	pLocation = m_textureProgram.getUniformLocation("P");
-	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 
 	m_spriteBatch.begin();
 
@@ -283,8 +265,6 @@ void GameplayScreen::draw() {
 
 	m_hud.drawHUD((int)m_bullets.size(), "Num Bullets: ");
 
-	//unbind the texture.
-	glBindTexture(GL_TEXTURE_2D, 0);
 	m_textureProgram.unuse();
 
 	//Render outlines.
@@ -303,15 +283,11 @@ void GameplayScreen::draw() {
 	m_lightProgram.use();
 
 	pLocation = m_textureProgram.getUniformLocation("P");
-	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
+    glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 
 	m_lightEngine.renderAllLights();
 
-	glBindTexture(GL_TEXTURE_2D, 0);
 	m_lightProgram.unuse();
-
-	pLocation = m_textureProgram.getUniformLocation("P");
-	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 
 	m_GUI.draw();
 }

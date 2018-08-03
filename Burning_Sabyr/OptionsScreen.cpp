@@ -151,22 +151,8 @@ void OptionsScreen::draw() {
 		m_changedRes = false;
 	}
 
-	//Set base depth to 1.0
-	glClearDepth(1.0);
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	//Endable the shader
-	m_textureProgram.use();
-
-	//This is using texture unit 0.
-	glActiveTexture(GL_TEXTURE0);
-
-	//Get uniform location.
-	GLint textureLocation = m_textureProgram.getUniformLocation("mySampler");
-
-	//Tell the shader that the exture is in texture unit 0.
-	glUniform1i(textureLocation, 0);
+	m_textureProgram.use("mySampler");
 
 	//Set the camera matrix.
 	glm::mat4 cameraMatrix = m_camera.getcamMatrix();
@@ -189,7 +175,6 @@ void OptionsScreen::draw() {
 	m_spriteBatch.renderBatch();
 
 	//unbind the texture.
-	glBindTexture(GL_TEXTURE_2D, 0);
 	m_textureProgram.unuse();
 
 	m_GUI.draw();
