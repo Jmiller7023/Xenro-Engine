@@ -64,7 +64,7 @@ void MainMenuScreen::onEntry() {
 	m_camera.reset(m_window);
 
 	//Initialize spritefont
-	m_spriteFont = Xenro::SpriteFont("Fonts/Pixel_Bubble.ttf", 80);
+	m_spriteFont = Xenro::SpriteFont("Fonts/Pixel_Bubble.ttf", 60);
 
 	//Initialize the HUD
 	m_hud.initHUD(m_HUDspriteBatch, &m_spriteFont, &m_textureProgram, m_window);
@@ -142,42 +142,34 @@ void MainMenuScreen::update() {
 
 void MainMenuScreen::draw() {
 
-	//Endable the shader
+	//Endable the shader.
 	m_textureProgram.use("mySampler");
-
-	//Set the camera matrix.
-	glm::mat4 cameraMatrix = m_camera.getcamMatrix();
-	GLint pLocation = m_textureProgram.getUniformLocation("P");
-
-	//Pass pointer to openGL
-	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
-
+	m_camera.updateUniform(&m_textureProgram, "P");
+	
+	//Prepare dimensions to be drawn.
 	glm::vec4 destRect(-m_window->getScreenWidth() / 2.0f, -m_window->getScreenHeight() / 2.0, m_window->getScreenWidth(), m_window->getScreenHeight());
 	Xenro::ColorRGBA color(255, 255, 255, 255);
 	Xenro::GLTexture texture = Xenro::ResourceManager::getTexture("Textures/BackGround1.png");
 	glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
 
+	//Draw sprites.
 	m_spriteBatch.begin();
-
 	m_spriteBatch.draw(destRect, uvRect, texture.ID, 0.0f, color);
-
 	m_spriteBatch.end();
-
 	m_spriteBatch.renderBatch();
 
+	//Draw HUD
 	m_HUDspriteBatch.begin();
-
 	m_hud.setColor(255, 0, 0);
-
 	m_hud.setTextPos(m_window->getScreenWidth() / 13.0f, m_window->getScreenHeight() / 1.0f);
-
 	m_hud.drawHUD("Burning Sabyr");
-
 	m_HUDspriteBatch.end();
 	m_HUDspriteBatch.renderBatch();
 
+	//Disable the shader.
 	m_textureProgram.unuse();
-
+	
+	//Draw GUI.
 	m_GUI.draw();
 }
 
@@ -185,6 +177,7 @@ bool MainMenuScreen::startGame(const CEGUI::EventArgs& args) {
 
 	m_currState = Xenro::ScreenState::CHANGE_TO_NEXT;
 	m_audioEngine.loadSFX("Audio/SFX/Select_Button.wav").playUntilEffectFinishes();
+	m_audioEngine.loadSong("Audio/Music/mm2.ogg").fadeOutSong(50);
 	return true;
 }
 
@@ -192,6 +185,7 @@ bool MainMenuScreen::exitGame(const CEGUI::EventArgs& args) {
 
 	m_currState = Xenro::ScreenState::EXIT_APP;
 	m_audioEngine.loadSFX("Audio/SFX/Select_Button.wav").playUntilEffectFinishes();
+	m_audioEngine.loadSong("Audio/Music/mm2.ogg").fadeOutSong(50);
 	return true;
 }
 
@@ -201,6 +195,7 @@ bool MainMenuScreen::openOptions(const CEGUI::EventArgs& args) {
 	m_currState = Xenro::ScreenState::CHANGE_TO_PARTICULAR;
 	m_changeToParticular = OPTIONS_SCREEN;
 	m_audioEngine.loadSFX("Audio/SFX/Select_Button.wav").playUntilEffectFinishes();
+	m_audioEngine.loadSong("Audio/Music/mm2.ogg").fadeOutSong(50);
 	return true;
 }
 

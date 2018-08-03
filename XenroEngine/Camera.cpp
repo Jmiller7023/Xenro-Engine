@@ -29,6 +29,7 @@
 
 #include "Camera.h"
 #include "Window.h"
+#include "GLSLProgram.h"
 #include <algorithm>
 
 namespace Xenro {
@@ -120,6 +121,15 @@ bool Camera::isInCam(const glm::vec2& position, const glm::vec2& dimensions) {
 		return true;
 	}
 	return false;
+}
+
+void Camera::updateUniform(GLSLProgram* textureProgram, const std::string& uniform) {
+	//Set the camera matrix.
+	glm::mat4 cameraMatrix = getcamMatrix();
+	GLint pLocation = textureProgram->getUniformLocation("P");
+
+	//Pass pointer to openGL
+	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 }
 
 }

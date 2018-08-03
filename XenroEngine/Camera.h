@@ -32,10 +32,12 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <string>
 
 namespace Xenro {
 
 class Window;
+class GLSLProgram;
 
 class Camera {
 public:
@@ -50,6 +52,8 @@ public:
 	glm::vec2 convertScreentoWorld(glm::vec2 screenCoords);
 
 	bool isInCam(const glm::vec2& position,const glm::vec2& dimensions);
+
+	void updateUniform(GLSLProgram* textureProgram, const std::string& uniform);
 
 	//setters
 	void setPosition(const glm::vec2& newPosition) { m_position = newPosition; m_needsUpdate = true; }

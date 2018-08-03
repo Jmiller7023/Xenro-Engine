@@ -235,36 +235,28 @@ void GameplayScreen::update() {
 
 void GameplayScreen::draw() {
 
-	//Endable the shader
+	//Endable the shader.
 	m_textureProgram.use("mySampler");
+	m_camera.updateUniform(&m_textureProgram, "P");
 
-	//Set the camera matrix.
-	glm::mat4 cameraMatrix = m_camera.getcamMatrix();
-	GLint pLocation = m_textureProgram.getUniformLocation("P");
-
-	//Pass pointer to openGL
-	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
-
+	//Draw level layout.
 	m_levelLoader.draw();
 
+	//Draw sprites.
 	m_spriteBatch.begin();
-
 	for (size_t i = 0; i < m_bullets.size(); i++) {
 		m_bullets[i].draw(m_spriteBatch);
 	}
-
 	m_player->draw(m_spriteBatch);
-
 	m_spriteBatch.end();
-
     m_spriteBatch.renderBatch();
 
+	//Draw HUD.
 	m_hud.setColor(255, 0, 255);
-
 	m_hud.setTextPos();
-
 	m_hud.drawHUD((int)m_bullets.size(), "Num Bullets: ");
 
+	//Disable the shader.
 	m_textureProgram.unuse();
 
 	//Render outlines.
@@ -277,18 +269,16 @@ void GameplayScreen::draw() {
 		destRect.w = m_player->getHboxDims().y;
 		m_outlineRenderer.drawBox(destRect, Xenro::ColorRGBA(255, 255, 255, 255), 0.0f);
 		m_outlineRenderer.end();
-		m_outlineRenderer.render(cameraMatrix, 2.0f);
+		m_outlineRenderer.render(m_camera.getcamMatrix(), 2.0f);
 	}
 
+	//Render light objects.
 	m_lightProgram.use();
-
-	pLocation = m_textureProgram.getUniformLocation("P");
-    glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
-
+	m_camera.updateUniform(&m_textureProgram, "P");
 	m_lightEngine.renderAllLights();
-
 	m_lightProgram.unuse();
 
+	//Draw GUI.
 	m_GUI.draw();
 }
 
@@ -297,5 +287,6 @@ bool GameplayScreen::BacktoMainMenu(const CEGUI::EventArgs& args) {
 	m_currState = Xenro::ScreenState::CHANGE_TO_PARTICULAR;
 	m_changeToParticular = MAINMENU_SCREEN;
 	m_audioEngine.loadSFX("Audio/SFX/Select_Button.wav").playUntilEffectFinishes();
+	m_audioEngine.loadSong("Audio/Music/GoodZelda.ogg").fadeOutSong(50);
 	return true;
 }
