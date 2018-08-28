@@ -22,7 +22,7 @@
     <ProjectGuid>{064A34D9-0DE1-4FAA-B0FE-5022F2284B18}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>XenroEngine</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

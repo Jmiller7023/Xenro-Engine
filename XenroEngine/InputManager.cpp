@@ -74,7 +74,6 @@ unsigned int InputManager::SDLKtoButton(unsigned int keyID) {
 		case SDL_CONTROLLER_BUTTON_MAX: return Button::MAX;
 		default: return Button::INVALID;
 	}
-
 }
 
 void InputManager::angleToKeyRightAnalog() {
