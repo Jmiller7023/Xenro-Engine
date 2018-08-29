@@ -29,7 +29,6 @@
 
 #define _CRT_SECURE_NO_DEPRECATE
 #include "ImageLoader.h"
-#include "picoPNG.h"
 #include "IOManager.h"
 #include "ErrorMessages.h"
 #include <vector>
@@ -37,167 +36,14 @@
 
 namespace Xenro {
 
-
-bool loadPngImage(char *name, int &outWidth, int &outHeight, bool &outHasAlpha, GLubyte **outData) {
-	png_structp png_ptr;
-	png_infop info_ptr;
-	unsigned int sig_read = 0;
-	int color_type, interlace_type;
-	FILE *fp;
-
-	if ((fp = fopen(name, "rb")) == NULL)
-		return false;
-
-	/* Create and initialize the png_struct
-	* with the desired error handler
-	* functions.  If you want to use the
-	* default stderr and longjump method,
-	* you can supply NULL for the last
-	* three parameters.  We also supply the
-	* the compiler header file version, so
-	* that we know if the application
-	* was compiled with a compatible version
-	* of the library.  REQUIRED
-	*/
-	png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING,
-		NULL, NULL, NULL);
-
-	if (png_ptr == NULL) {
-		fclose(fp);
-		return false;
-	}
-
-	/* Allocate/initialize the memory
-	* for image information.  REQUIRED. */
-	info_ptr = png_create_info_struct(png_ptr);
-	if (info_ptr == NULL) {
-		fclose(fp);
-		png_destroy_read_struct(&png_ptr, NULL, NULL);
-		return false;
-	}
-
-	/* Set error handling if you are
-	* using the setjmp/longjmp method
-	* (this is the normal method of
-	* doing things with libpng).
-	* REQUIRED unless you  set up
-	* your own error handlers in
-	* the png_create_read_struct()
-	* earlier.
-	*/
-	if (setjmp(png_jmpbuf(png_ptr))) {
-		/* Free all of the memory associated
-		* with the png_ptr and info_ptr */
-		png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
-		fclose(fp);
-		/* If we get here, we had a
-		* problem reading the file */
-		return false;
-	}
-
-	/* Set up the output control if
-	* you are using standard C streams */
-	png_init_io(png_ptr, fp);
-
-	/* If we have already
-	* read some of the signature */
-	png_set_sig_bytes(png_ptr, sig_read);
-
-	/*
-	* If you have enough memory to read
-	* in the entire image at once, and
-	* you need to specify only
-	* transforms that can be controlled
-	* with one of the PNG_TRANSFORM_*
-	* bits (this presently excludes
-	* dithering, filling, setting
-	* background, and doing gamma
-	* adjustment), then you can read the
-	* entire image (including pixels)
-	* into the info structure with this
-	* call
-	*
-	* PNG_TRANSFORM_STRIP_16 |
-	* PNG_TRANSFORM_PACKING  forces 8 bit
-	* PNG_TRANSFORM_EXPAND forces to
-	*  expand a palette into RGB
-	*/
-	png_read_png(png_ptr, info_ptr, PNG_TRANSFORM_STRIP_16 | PNG_TRANSFORM_PACKING | PNG_TRANSFORM_EXPAND, NULL);
-
-	png_uint_32 width, height;
-	int bit_depth;
-	png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type,
-		&interlace_type, NULL, NULL);
-	outWidth = width;
-	outHeight = height;
-
-	unsigned int row_bytes = png_get_rowbytes(png_ptr, info_ptr);
-	*outData = (unsigned char*)malloc(row_bytes * outHeight);
-
-	png_bytepp row_pointers = png_get_rows(png_ptr, info_ptr);
-
-	for (int i = 0; i < outHeight; i++) {
-		// note that png is ordered top to
-		// bottom, but OpenGL expect it bottom to top
-		// so the order or swapped
-		memcpy(*outData + (row_bytes * (outHeight - 1 - i)), row_pointers[i], row_bytes);
-	}
-
-	/* Clean up after the read,
-	* and free any memory allocated */
-	png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
-
-	/* Close the file */
-	fclose(fp);
-
-	/* That's it */
-	return true;
-}
-
-
 GLTexture ImageLoader::loadPNG(std::string filePath) {
 	//Generate GLTexture and set its fields to 0.
 	GLTexture texture = {};
-	
-	//This is the input data to decodePNG, which we load from a file.
-	std::vector<unsigned char> in;
+	int width, height;
+	GLubyte textureID = load_texture(filePath.c_str(), &width, &height);
 
-	//This is the output data from decodePNG, which is the pixel data for out texture.
-	std::vector<unsigned char> out;
-
-	unsigned long height, width;
-
-	//Read in the image file contents into a buffer.
-	if (IOManager::readFileToBuffer(filePath, in) == false) {
-		fatalError("Failed to read PNG to buffer from " + filePath);
-	}
-
-	//Decode the .png format into an array of pixels.
-	int errorCode = decodePNG(out, width, height, &(in[0]), in.size());
-	if (errorCode != 0) {
-		fatalError("decodePNG failed with error code " + std::to_string(errorCode));
-	}
-
-	//Generate openGL texture object.
-	glGenTextures(1, &texture.ID);
-
-	//Bind the texture object.
-	glBindTexture(GL_TEXTURE_2D, texture.ID);
-	//Upload the pixels to the texture.
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &(out[0]));
-
-	//Set some texture parameters.
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-
-	//generates mipmaps.
-	glGenerateMipmap(GL_TEXTURE_2D);
-
-	//unbind the texture.
-	glBindTexture(GL_TEXTURE_2D, 0);
-
+	//Assign values to texture.
+	texture.ID = textureID;
 	texture.width = width;
 	texture.height = height;
 	texture.filePath = filePath;
@@ -205,4 +51,174 @@ GLTexture ImageLoader::loadPNG(std::string filePath) {
 	//return a copy of the texture data.
 	return texture;
 	}
+
+GLuint ImageLoader::load_texture(const char * file_name, int * width, int * height)
+{
+	FILE *fp = fopen(file_name, "rb");
+	if (fp == 0)
+	{
+		perror(file_name);
+		return 0;
+	}
+
+	//Check if PNG signature is in file header
+	png_byte sig[8];
+	if (fread(sig, 1, sizeof(sig), fp) < 8) {
+		fclose(fp);
+		std::string errormsg = "Invalid signature for PNG file";
+		errormsg += file_name;
+		errormsg += "\n";
+		fatalError(errormsg);
+	}
+	if (png_sig_cmp(sig, 0, 8))
+	{
+		std::string errormsg = "error: ";
+		errormsg += file_name;
+		errormsg += " is not a PNG.\n";
+		fclose(fp);
+		fatalError(errormsg);
+	}
+
+	//Create png_struct
+	png_structp png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+	if (!png_ptr)
+	{
+		fclose(fp);
+		fatalError("error: png_create_read_struct returned 0.\n");
+	}
+
+	//Create png_info struct
+	png_infop info_ptr = png_create_info_struct(png_ptr);
+	if (!info_ptr)
+	{
+		png_destroy_read_struct(&png_ptr, (png_infopp)NULL, (png_infopp)NULL);
+		fclose(fp);
+		fatalError("error: png_create_info_struct returned 0.\n");
+	}
+
+	//Create png info struct
+	png_infop end_info = png_create_info_struct(png_ptr);
+	if (!end_info)
+	{
+		png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
+		fclose(fp);
+		fatalError("error: png_create_info_struct returned 0.\n");
+	}
+
+	//The code in this if statement gets called if libpng encounters an error
+	if (setjmp(png_jmpbuf(png_ptr))) {
+		png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
+		fclose(fp);
+		fatalError("error from libpng\n");
+	}
+
+	//Init png reading
+	png_init_io(png_ptr, fp);
+
+	//Let libpng know you already read the first 8 bytes
+	png_set_sig_bytes(png_ptr, 8);
+
+	//Read all the info up to the image data
+	png_read_info(png_ptr, info_ptr);
+
+	//Variables to pass to get info
+	int bit_depth, color_type;
+	png_uint_32 temp_width, temp_height;
+
+	//Get info about png
+	png_get_IHDR(png_ptr, info_ptr, &temp_width, &temp_height, &bit_depth, &color_type,
+		NULL, NULL, NULL);
+
+	if (width) { *width = temp_width; }
+	if (height) { *height = temp_height; }
+
+	if (bit_depth != 8)
+	{
+		std::string errormsg = file_name;
+		errormsg += ": Unsupported bit depth " + std::to_string(bit_depth) + ". Must be 8.\n";
+		fatalError(errormsg);
+	}
+
+	//Determine Format
+	GLint format;
+	switch (color_type)
+	{
+	case PNG_COLOR_TYPE_GRAY:
+		format = GL_LUMINANCE;
+		break;
+	case PNG_COLOR_TYPE_GRAY_ALPHA:
+		format = GL_LUMINANCE_ALPHA;
+		break;
+	case PNG_COLOR_TYPE_RGB:
+		format = GL_RGB;
+		break;
+	case PNG_COLOR_TYPE_RGB_ALPHA:
+		format = GL_RGBA;
+		break;
+	case PNG_COLOR_TYPE_PALETTE:
+		png_set_expand(png_ptr);
+		format = GL_RGBA;
+		break;
+	default:
+		std::string errormsg = file_name;
+		errormsg += ": Unknown libpng color type " + std::to_string(color_type) + "\n";
+		fatalError(errormsg);
+	}
+
+	//Prevent interlaced data
+	png_set_interlace_handling(png_ptr);
+
+	//Update the png info struct.
+	png_read_update_info(png_ptr, info_ptr);
+
+	//Row size in bytes.
+	int rowbytes = png_get_rowbytes(png_ptr, info_ptr);
+
+	//glTexImage2d requires rows to be 4-byte aligned
+	rowbytes += 3 - ((rowbytes - 1) % 4);
+
+	//Allocate the image_data as a big block, to be given to opengl
+	png_byte * image_data = (png_byte *)malloc(rowbytes * temp_height * sizeof(png_byte) + 15);
+	if (image_data == NULL)
+	{
+		png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
+		fclose(fp);
+		fatalError("error: could not allocate memory for PNG image data\n");
+	}
+
+	//row_pointers is for pointing to image_data for reading the png with libpng
+	png_byte ** row_pointers = (png_byte **)malloc(temp_height * sizeof(png_byte *));
+	if (row_pointers == NULL)
+	{
+		png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
+		free(image_data);
+		fclose(fp);
+		fatalError("error: could not allocate memory for PNG row pointers\n");
+	}
+
+	//Set the individual row_pointers to point at the correct offsets of image_data
+	for (unsigned int i = 0; i < temp_height; i++)
+	{
+		row_pointers[i] = image_data + i * rowbytes;
+	}
+
+	//Read the png into image_data through row_pointers
+	png_read_image(png_ptr, row_pointers);
+
+	//Generate the OpenGL texture object
+	GLuint texture;
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexImage2D(GL_TEXTURE_2D, 0, format, temp_width, temp_height, 0, format, GL_UNSIGNED_BYTE, image_data);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+	//Clean up
+	png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
+	free(image_data);
+	free(row_pointers);
+	fclose(fp);
+	return texture;
+}
+
 }

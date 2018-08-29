@@ -38,6 +38,8 @@ namespace Xenro {
 class ImageLoader {
 public:
 	static GLTexture loadPNG(std::string filePath);
+private:
+	static GLuint load_texture(const char * file_name, int * width, int * height);
 };
 
 }

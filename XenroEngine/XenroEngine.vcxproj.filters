@@ -236,9 +236,6 @@
     <ClInclude Include="SpriteFont.h">
       <Filter>Header Files\Third Party</Filter>
     </ClInclude>
-    <ClInclude Include="picoPNG.h">
-      <Filter>Header Files\Third Party</Filter>
-    </ClInclude>
     <ClInclude Include="GLTexture.h">
       <Filter>Header Files\Textures</Filter>
     </ClInclude>
