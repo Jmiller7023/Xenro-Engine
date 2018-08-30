@@ -129,8 +129,8 @@ GLuint ImageLoader::load_texture(const char * file_name, int * width, int * heig
 	png_get_IHDR(png_ptr, info_ptr, &temp_width, &temp_height, &bit_depth, &color_type,
 		NULL, NULL, NULL);
 
-	if (width) { *width = temp_width; }
-	if (height) { *height = temp_height; }
+	*width = temp_width; 
+	*height = temp_height; 
 
 	if (bit_depth != 8)
 	{
