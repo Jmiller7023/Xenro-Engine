@@ -32,6 +32,7 @@
 
 #include "SpriteBatch.h"
 #include "Vertex.h"
+#include "SpriteFont.h"
 #include <glm\glm.hpp>
 #include <string>
 
@@ -44,13 +45,13 @@ class GLSLProgram;
 
 class HUD {
 public:
-	HUD(const SpriteBatch& spriteBatch, SpriteFont* spriteFont, GLSLProgram* hudProgram, Window* window);
+	HUD(const SpriteBatch& spriteBatch, SpriteFont* spriteFont, GLSLProgram* hudProgram, Window* window, Justification justification = Justification::LEFT);
 	HUD();
 	~HUD();
 
 	//Sets all the HUD variables so the HUD can be modified for screenchanges, font changes, or any
 	//other game changes.
-	void initHUD(const SpriteBatch& spriteBatch, SpriteFont* spriteFont, GLSLProgram* hudProgram, Window* window);
+	void initHUD(const SpriteBatch& spriteBatch, SpriteFont* spriteFont, GLSLProgram* hudProgram, Window* window, Justification justification = Justification::LEFT);
 
 	//Draws the HUD to the screen. numObjects is the value for whatever number should be rendered
 	//to the right of the message. text is the message the HUD should print to the screen.
@@ -71,6 +72,9 @@ public:
 	//By default scale will be set to 1.0.
 	void setScale(double scale = 1.0);
 
+	//By default justification will be left.
+	void setJustification(Justification justification = Justification::LEFT);
+
 private:
 	//updates the camera for the HUD.
 	void updateCamera();
@@ -83,6 +87,7 @@ private:
 	glm::vec2 m_scale;
 	float m_depth;
 	ColorRGBA m_color;
+	Justification m_justification;
 };
 
 }

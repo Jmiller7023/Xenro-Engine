@@ -67,7 +67,7 @@ void MainMenuScreen::onEntry() {
 	m_spriteFont = Xenro::SpriteFont("Fonts/Pixel_Bubble.ttf", 60);
 
 	//Initialize the HUD
-	m_hud.initHUD(m_HUDspriteBatch, &m_spriteFont, &m_textureProgram, m_window);
+	m_hud.initHUD(m_HUDspriteBatch, &m_spriteFont, &m_textureProgram, m_window, Xenro::Justification::MIDDLE);
 
 	//Update mouse cursor.
 	glm::vec2 coords = m_game->getInputManager()->getMouseCoords();
@@ -159,12 +159,8 @@ void MainMenuScreen::draw() {
 	m_spriteBatch.renderBatch();
 
 	//Draw HUD
-	m_HUDspriteBatch.begin();
-	m_hud.setColor(255, 0, 0);
-	m_hud.setTextPos(m_window->getScreenWidth() / 13.0f, m_window->getScreenHeight() / 1.0f);
+	m_hud.setTextPos(m_window->getScreenWidth()*0.5f, m_window->getScreenHeight()*0.8f);
 	m_hud.drawHUD("Burning Sabyr");
-	m_HUDspriteBatch.end();
-	m_HUDspriteBatch.renderBatch();
 
 	//Disable the shader.
 	m_textureProgram.unuse();

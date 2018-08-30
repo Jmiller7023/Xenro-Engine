@@ -45,7 +45,7 @@ Camera::Camera(Window* window)
 	:m_camMatrix(1.0f), m_position(0.0f, 0.0f), m_needsUpdate(true), 
 	 m_scale(1.0f), m_window(window)
 {
-	m_orthoMatrix = glm::ortho(0.0f, (float)m_window->getScreenWidth(), 0.0f, (float)m_window->getScreenWidth());
+	m_orthoMatrix = glm::ortho(0.0f, (float)m_window->getScreenWidth(), 0.0f, (float)m_window->getScreenHeight());
 }
 
 

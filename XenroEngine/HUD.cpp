@@ -37,9 +37,9 @@
 
 namespace Xenro {
 
-HUD::HUD(const SpriteBatch& spriteBatch, SpriteFont* spriteFont, GLSLProgram* hudProgram, Window* window)
+HUD::HUD(const SpriteBatch& spriteBatch, SpriteFont* spriteFont, GLSLProgram* hudProgram, Window* window, Justification justification)
 {
-	initHUD(spriteBatch, spriteFont, hudProgram, window);
+	initHUD(spriteBatch, spriteFont, hudProgram, window, justification);
 	m_textPos = glm::vec2(0, 0);
 	m_color.r = 255;
 	m_color.g = 255;
@@ -59,6 +59,7 @@ HUD::HUD()
 	m_color.a = 255;
 	m_depth = 0.0f;
 	m_scale = glm::vec2(1.0);
+	m_justification = Justification::LEFT;
 }
 
 HUD::~HUD()
@@ -68,12 +69,13 @@ HUD::~HUD()
 	}
 }
 
-void HUD::initHUD(const SpriteBatch& spriteBatch, SpriteFont* spriteFont, GLSLProgram* hudProgram, Window* window) {
+void HUD::initHUD(const SpriteBatch& spriteBatch, SpriteFont* spriteFont, GLSLProgram* hudProgram, Window* window, Justification justification) {
 	m_spriteBatch = spriteBatch;
 	m_spriteFont = spriteFont;
 	m_camera = new Camera(window);
 	m_camera->setPosition(glm::vec2(window->getScreenWidth() / 2, window->getScreenHeight() / 2));
 	m_hudProgram = hudProgram;
+	m_justification = justification;
 }
 
 void HUD::drawHUD(int numObjects, std::string text) {
@@ -87,7 +89,7 @@ void HUD::drawHUD(int numObjects, std::string text) {
 	sprintf_s(buffer, text.c_str(), numObjects);
 
 	m_spriteFont->draw(m_spriteBatch, buffer, m_textPos, m_scale, m_depth,
-		m_color);
+		m_color, m_justification);
 
 	m_spriteBatch.end();
 	m_spriteBatch.renderBatch();
@@ -99,7 +101,7 @@ void HUD::drawHUD(std::string text) {
 	m_spriteBatch.begin();
 
 	m_spriteFont->draw(m_spriteBatch, text.c_str(), m_textPos, m_scale, m_depth,
-		m_color);
+		m_color, m_justification);
 
 	m_spriteBatch.end();
 	m_spriteBatch.renderBatch();
@@ -124,7 +126,12 @@ void HUD::setScale(double scale) {
 	m_scale = glm::vec2(scale);
 }
 
+void HUD::setJustification(Justification justification) {
+	m_justification = justification;
+}
+
 void HUD::updateCamera() {
+	
 	m_camera->update();
 
 	//Set the camera matrix.
