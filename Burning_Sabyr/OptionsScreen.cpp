@@ -70,7 +70,7 @@ void OptionsScreen::onEntry() {
 	}
 
 	//Disables normal mouse cursor.
-	SDL_ShowCursor(0);
+	m_window->showCursor(false);
 	
 	//Update the camera
 	m_camera.update();

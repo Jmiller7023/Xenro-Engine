@@ -79,6 +79,8 @@ public:
 	void setFullscreen(int width, int height);
 	void setWindowBorder(bool isBordered);
 	void setVSYNC(bool on);
+	void showCursor(bool visible);
+	bool isCursorVisible();
 		
 private:
 	void createDefaultIni();

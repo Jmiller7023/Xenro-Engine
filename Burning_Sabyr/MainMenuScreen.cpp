@@ -58,7 +58,7 @@ void MainMenuScreen::onEntry() {
 	m_audioEngine.openEngine();
 
 	//Start level music.
-	m_audioEngine.loadSong("Audio/Music/mm2.ogg", 64).play();
+	//m_audioEngine.loadSong("Audio/Music/mm2.ogg", 64).play();
 
 	//Set the camera properly.
 	m_camera.reset(m_window);
@@ -71,6 +71,7 @@ void MainMenuScreen::onEntry() {
 
 	//Update mouse cursor.
 	glm::vec2 coords = m_game->getInputManager()->getMouseCoords();
+
 	//Decide whether to show mouse cursor or not.
 	if (m_game->isControllerConnected()) {
 		m_GUI.hideCursor();
@@ -82,7 +83,7 @@ void MainMenuScreen::onEntry() {
 	}
 
 	//Disables normal mouse cursor.
-	SDL_ShowCursor(0);
+	m_window->showCursor(true);
 
 	//Update the camera
 	m_camera.update();
@@ -197,22 +198,24 @@ bool MainMenuScreen::openOptions(const CEGUI::EventArgs& args) {
 
 void MainMenuScreen::initGUI() {
 
-	m_GUI.loadScheme("TaharezLook.scheme");
+	m_GUI.loadScheme("WindowsLook.scheme");
 
 	m_GUI.loadFont("Jura-10");
-	m_startButton = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("TaharezLook/Button", glm::vec4(0.44f, 0.4f, 0.15f, 0.05f), glm::vec4(0), "StartGameButton"));
+
+	m_startButton = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("WindowsLook/Button", glm::vec4(0.44f, 0.4f, 0.15f, 0.05f), glm::vec4(0), "StartGameButton"));
 	m_startButton->setText("New Game");
 	m_startButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainMenuScreen::startGame, this));
 
-	m_exitButton = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("TaharezLook/Button", glm::vec4(0.44f, 0.6f, 0.15f, 0.05f), glm::vec4(0), "ExitGameButton"));
+	m_exitButton = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("WindowsLook/Button", glm::vec4(0.44f, 0.6f, 0.15f, 0.05f), glm::vec4(0), "ExitGameButton"));
 	m_exitButton->setText("Exit Game");
 	m_exitButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainMenuScreen::exitGame, this));
 
-	m_optionsButton = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("TaharezLook/Button", glm::vec4(0.44f, 0.5f, 0.15f, 0.05f), glm::vec4(0), "openOptionsButton"));
+	m_optionsButton = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("WindowsLook/Button", glm::vec4(0.44f, 0.5f, 0.15f, 0.05f), glm::vec4(0), "openOptionsButton"));
 	m_optionsButton->setText("Options");
 	m_optionsButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainMenuScreen::openOptions, this));
 
-	m_GUI.setMouseCursor("TaharezLook/MouseArrow");
+
+	m_GUI.setMouseCursor("WindowsLook/MouseArrow");
 
 	//Prevent initializing GUI twice.
 	m_GUIinitialized = true;

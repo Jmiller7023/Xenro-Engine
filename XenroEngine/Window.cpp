@@ -410,4 +410,20 @@ void Window::modifyInit(const std::string& line, const std::string& text) {
 	fatalError("Initialization File invalid! Missing parameter " + line);
 }
 
+void Window::showCursor(bool visible) {
+	if (visible) {
+		SDL_ShowCursor(1);
+	}
+	else {
+		SDL_ShowCursor(0);
+	}
+}
+
+bool Window::isCursorVisible() {
+	if (SDL_ShowCursor(-1)) {
+		return true;
+	}
+	return false;
+}
+
 }

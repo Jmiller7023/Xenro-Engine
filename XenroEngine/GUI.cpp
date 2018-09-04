@@ -197,7 +197,7 @@ void GUI::draw() {
 	size.d_width = (float)m_window->getScreenWidth();
 	m_renderer->setDisplaySize(size);
 
-	//Begine Rendering.
+	//Begin Rendering.
 	glDisable(GL_DEPTH_TEST);
 	m_renderer->beginRendering();
 	m_context->draw();
@@ -306,6 +306,7 @@ void GUI::loadFont(const std::string& font) {
 	if (m_context->getDefaultFont()->getName() == font) {
 		return;
 	}
+	
 	m_context->setDefaultFont(font);
 }
 

@@ -112,7 +112,7 @@ void GameplayScreen::onEntry() {
 	m_GUI.setMousePos(coords.x, coords.y);
 
 	//Disables normal mouse cursor.
-	SDL_ShowCursor(0);
+	m_window->showCursor(false);
 	m_GUI.hideCursor();
 
 	//Update the camera
