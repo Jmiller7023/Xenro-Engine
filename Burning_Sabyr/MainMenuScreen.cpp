@@ -64,10 +64,11 @@ void MainMenuScreen::onEntry() {
 	m_camera.reset(m_window);
 
 	//Initialize spritefont
-	m_spriteFont = Xenro::SpriteFont("Fonts/Pixel_Bubble.ttf", 60);
+	m_spriteFont = Xenro::SpriteFont("Fonts/Pixel_Bubble.ttf", 128);
 
 	//Initialize the HUD
 	m_hud.initHUD(m_HUDspriteBatch, &m_spriteFont, &m_textureProgram, m_window, Xenro::Justification::MIDDLE);
+	m_hud.setScale(0.75);
 
 	//Update mouse cursor.
 	glm::vec2 coords = m_game->getInputManager()->getMouseCoords();

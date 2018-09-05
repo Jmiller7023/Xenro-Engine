@@ -80,7 +80,6 @@ void GameplayScreen::onEntry() {
 	//initialize the Audio Engine.
 	m_audioEngine.openEngine();
 
-
 	//Start level music.
 	m_audioEngine.loadSong("Audio/Music/GoodZelda.ogg", 64).play();
 
