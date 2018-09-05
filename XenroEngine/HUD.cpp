@@ -47,10 +47,11 @@ HUD::HUD(const SpriteBatch& spriteBatch, SpriteFont* spriteFont, GLSLProgram* hu
 	m_color.a = 255;
 	m_depth = 0.0f;
 	m_scale = glm::vec2(1.0);
+	m_window = window;
 }
 
 HUD::HUD()
-	:m_spriteFont(nullptr), m_camera(nullptr)
+	:m_spriteFont(nullptr), m_camera(nullptr), m_window(nullptr)
 {
 	m_textPos = glm::vec2(0, 0);
 	m_color.r = 255;
@@ -74,8 +75,10 @@ void HUD::initHUD(const SpriteBatch& spriteBatch, SpriteFont* spriteFont, GLSLPr
 	m_spriteFont = spriteFont;
 	m_camera = new Camera(window);
 	m_camera->setPosition(glm::vec2(window->getScreenWidth() / 2, window->getScreenHeight() / 2));
+	m_camera->setDefaultPos(glm::vec2(window->getScreenWidth() / 2, window->getScreenHeight() / 2));
 	m_hudProgram = hudProgram;
 	m_justification = justification;
+	m_window = window;
 }
 
 void HUD::drawHUD(int numObjects, std::string text) {
@@ -131,7 +134,10 @@ void HUD::setJustification(Justification justification) {
 }
 
 void HUD::updateCamera() {
-	
+
+	if (m_camera->getDefaultPos() != glm::vec2(m_window->getScreenWidth() / 2, m_window->getScreenHeight() /2)){
+		m_camera->setDefaultPos(glm::vec2(m_window->getScreenWidth() / 2, m_window->getScreenHeight() / 2));
+	}
 	m_camera->update();
 
 	//Set the camera matrix.

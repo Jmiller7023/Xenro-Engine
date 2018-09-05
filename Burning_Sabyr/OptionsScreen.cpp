@@ -224,13 +224,6 @@ void OptionsScreen::updateGUI() {
 			return;
 		}
 
-		//Fix the screen in case the window was resized.
-		if (evnt.type == SDL_WINDOWEVENT) {
-			if (evnt.window.event == SDL_WINDOWEVENT_RESIZED) {
-				m_camera.reset(m_window);
-			}
-		}
-
 		//Determine if mouse inputs should be injected or not.
 		if (m_game->isControllerConnected() && evnt.type != SDL_MOUSEMOTION && evnt.type != SDL_MOUSEBUTTONDOWN && evnt.type != SDL_MOUSEBUTTONUP) {
 			m_GUI.onEvent(evnt);

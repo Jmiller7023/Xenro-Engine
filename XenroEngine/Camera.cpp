@@ -36,16 +36,17 @@ namespace Xenro {
 
 Camera::Camera()
 	:m_camMatrix(1.0f), m_position(0.0f, 0.0f), m_needsUpdate(true),
-	m_scale(1.0f)
+	m_scale(1.0f), m_defaultPos(0.0f,0.0f), m_size(0,0)
 {
 	//Empty
 }
 
 Camera::Camera(Window* window)
 	:m_camMatrix(1.0f), m_position(0.0f, 0.0f), m_needsUpdate(true), 
-	 m_scale(1.0f), m_window(window)
+	 m_scale(1.0f), m_window(window), m_defaultPos(0.0f,0.0f)
 {
 	m_orthoMatrix = glm::ortho(0.0f, (float)m_window->getScreenWidth(), 0.0f, (float)m_window->getScreenHeight());
+	m_size = glm::vec2(m_window->getScreenWidth(), m_window->getScreenHeight());
 }
 
 
@@ -58,16 +59,21 @@ Camera::~Camera()
 void Camera::reset(Window* window) {
 
 	m_window = window;
-	m_position = glm::vec2(0.0f, 0.0f);
+	m_size = glm::vec2(m_window->getScreenWidth(), m_window->getScreenHeight());
+	m_position = m_defaultPos;
 	m_scale = 1.0f;
 	m_camMatrix = glm::mat4(1.0f);
 	m_orthoMatrix = glm::ortho(0.0f, (float)m_window->getScreenWidth(), 0.0f, (float)m_window->getScreenHeight());
 	m_needsUpdate = true;
-
 }
 
 //Move the camera when an update is needed.
 void Camera::update() {
+	
+	//check if SDL window was resized.
+	if (m_size.x != m_window->getScreenWidth() || m_size.y != m_window->getScreenHeight()) {
+		reset(m_window);
+	}
 
 	if (m_needsUpdate) {
 

@@ -83,7 +83,7 @@ void MainMenuScreen::onEntry() {
 	}
 
 	//Disables normal mouse cursor.
-	m_window->showCursor(true);
+	m_window->showCursor(false);
 
 	//Update the camera
 	m_camera.update();
@@ -243,13 +243,6 @@ void MainMenuScreen::updateGUI() {
 			glm::vec2 coords = m_game->getInputManager()->getMouseCoords();
 			m_GUI.setMousePos(coords.x, coords.y);
 			m_GUI.showCursor();
-		}
-
-		//Fix the screen in case the window was resized.
-		if (evnt.type == SDL_WINDOWEVENT) {
-			if (evnt.window.event == SDL_WINDOWEVENT_RESIZED) {
-				m_camera.reset(m_window);
-			}
 		}
 
 		//Determine if mouse inputs should be injected or not.

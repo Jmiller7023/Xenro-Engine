@@ -59,11 +59,13 @@ public:
 	void setPosition(const glm::vec2& newPosition) { m_position = newPosition; m_needsUpdate = true; }
 	void setScale(float newScale) { m_scale = newScale; m_needsUpdate = true; }
 	void setNeedsUpdate() { m_needsUpdate = true; }
+	void setDefaultPos(const glm::vec2& newDefault) { m_defaultPos = newDefault; }
 
 	//getters
 	glm::vec2 getPosition() const { return m_position; }
 	float getScale() const { return m_scale; }
 	glm::mat4 getcamMatrix() const { return m_camMatrix; }
+	glm::vec2 getDefaultPos() const { return m_defaultPos; }
 
 private: 
 	bool m_needsUpdate = true;
@@ -72,7 +74,8 @@ private:
 	glm::mat4 m_camMatrix;
 	glm::mat4 m_orthoMatrix;
 	Window* m_window = nullptr;
-
+	glm::vec2 m_size;
+	glm::vec2 m_defaultPos;
 };
 
 }

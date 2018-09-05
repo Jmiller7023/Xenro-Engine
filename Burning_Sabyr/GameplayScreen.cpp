@@ -152,12 +152,6 @@ void GameplayScreen::update() {
 
 	//endtest
 
-	//Fix the screen in case the window was resized.
-	if (evnt.type == SDL_WINDOWEVENT) {
-		if (evnt.window.event == SDL_WINDOWEVENT_RESIZED) {
-			m_camera.reset(m_window);
-		}
-	}
 	m_lightEngine.modifyLightPos(test, m_camera.convertScreentoWorld(m_game->getInputManager()->getMouseCoords()));
 
 	if (isup) {

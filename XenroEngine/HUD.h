@@ -88,6 +88,7 @@ private:
 	float m_depth;
 	ColorRGBA m_color;
 	Justification m_justification;
+	Window* m_window;
 };
 
 }
