@@ -64,16 +64,24 @@ public:
 
 	void clearGUI();
 
+	void setAutoScaling(bool enabled) { m_autoscalingEnabled = enabled; }
+
+
 	//Getters.
 	CEGUI::OpenGL3Renderer* getRenderer() const { return m_renderer; }
 	const CEGUI::GUIContext* getContext() const { return m_context; }
 
 private:
+	//Functions
+	void rescaleGUI(int width, int height);
+	//Variables
 	static CEGUI::OpenGL3Renderer* m_renderer;
 	CEGUI::GUIContext* m_context = nullptr;
 	CEGUI::Window* m_rootWindow = nullptr;
 	Window* m_window = nullptr;
-	
+	bool m_screenResized = false;
+	bool m_autoscalingEnabled = true;
+	glm::vec2 m_windowSize;
 	unsigned int m_time = 0;
 };
 

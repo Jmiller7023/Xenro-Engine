@@ -152,6 +152,7 @@ CEGUI::OpenGL3Renderer* GUI::m_renderer = nullptr;
 GUI::GUI(const std::string& resourceFilePath, Window* window)
 {
 	m_window = window;
+	m_windowSize = glm::vec2(window->getScreenWidth(), window->getScreenHeight());
 
 	//Check and initialize renderer and all the CEGUI subsystems.
 	if (m_renderer == nullptr) {
@@ -192,10 +193,9 @@ GUI::~GUI()
 void GUI::draw() {
 
 	//Take into account changes in screenSize.
-	CEGUI::Sizef size;
-	size.d_height = (float)m_window->getScreenHeight();
-	size.d_width = (float)m_window->getScreenWidth();
-	m_renderer->setDisplaySize(size);
+	if (m_autoscalingEnabled) {
+		rescaleGUI(m_window->getScreenWidth(), m_window->getScreenHeight());
+	}
 
 	//Begin Rendering.
 	glDisable(GL_DEPTH_TEST);
@@ -335,6 +335,20 @@ void GUI::setWidgetDrawRect(CEGUI::Window* widget, const glm::vec4& drawRectPerc
 void GUI::clearGUI() {
 
 	CEGUI::System::getSingleton().destroyGUIContext(*m_context);
+}
+
+void GUI::rescaleGUI(int width, int height) {
+	if (m_windowSize.x != width || m_windowSize.y != height) {
+		//Notify CEGUI system about display change.
+		CEGUI::Sizef size;
+		size.d_height = (float)height;
+		size.d_width = (float)width;
+		CEGUI::System::getSingleton().notifyDisplaySizeChanged(size);
+
+		//Update m_GUI to know what the new screen size is.
+		m_windowSize.x = width;
+		m_windowSize.y = height;
+	}
 }
 
 }
