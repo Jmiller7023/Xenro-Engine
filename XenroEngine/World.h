@@ -54,6 +54,11 @@ public:
 	//Getters
 	std::vector<std::string>& getLevelData() { return m_levelData; }
 	glm::vec2 getStartPlayerPos() const { return m_startPlayerPos; }
+	std::string getCurrentFile() const { return m_currentFilePath; }
+	glm::vec2 getScale() const { return m_scale; }
+
+	void setAutoResize(bool resizable) { m_autoResize = resizable; }
+	void setDefaultWindowSize(glm::vec2 defaultwindowSize) { m_defaultWindowSize = defaultwindowSize; }
 	
 protected:
 	void loadLevelData(std::string filePath);
@@ -61,11 +66,15 @@ protected:
 	Xenro::FilePathCache m_filePaths;
 
 private:
+	void determineScale();
 	bool m_autoResize = true;
 	glm::vec2 m_defaultWindowSize;
+	glm::vec2 m_currentWindowSize;
 	std::vector<std::string> m_levelData;
 	SpriteBatch m_spriteBatch;
 	glm::vec2 m_startPlayerPos;
+	glm::vec2 m_scale;
+	std::string m_currentFilePath;
 };
 
 }

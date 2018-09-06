@@ -35,6 +35,9 @@ public:
 	glm::vec2 getHboxDims() const { return m_HitboxDims; }
 	glm::vec2 getDirection() const;
 
+	//temp
+	void setScale(glm::vec2 scale) { m_scale = scale; }
+
 protected:
 	void checkTilePos(const std::vector<std::string>& levelData, std::vector<glm::vec2>& tilecollisions, float x, float y);
 
@@ -53,6 +56,7 @@ protected:
 	Xenro::SpriteSheet m_spriteSheet;
 	glm::vec2 m_drawDims;
 	glm::vec2 m_HitboxDims;
+	glm::vec2 m_scale;
 	
 	MoveDir m_moveDir = MoveDir::IDLE;
 };

@@ -33,24 +33,31 @@
 #include <iostream>
 #include "ResourceManager.h"
 #include "globals.h"
+#include "Window.h"
 
 namespace Xenro{
 
-World::World() 
-{
+World::World() {
+
 	m_defaultWindowSize = glm::vec2(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
+	m_scale = glm::vec2(1.0f);
 
 	///Temporary Workaround Delete later!!!
 	m_startPlayerPos.x = 128.0f;
 	m_startPlayerPos.y = 128.0f;
 }
 
-World::World(const std::string filePath)
-{
+World::World(const std::string filePath) {
+
 	loadLevelData(filePath);
 }
 
 void World::loadLevelData(const std::string filePath) {
+
+	//Prevent redrawing old levels with new.
+	if (!m_levelData.empty()) {
+		m_levelData.clear();
+	}
 
 	std::ifstream file;
 	file.open(filePath);
@@ -76,9 +83,9 @@ void World::loadLevelData(const std::string filePath) {
 		for (size_t x = 0; x < m_levelData[y].size(); x++) {
 			//Grab the tile.
 			char tile = m_levelData[y][x];
-
-			//Get dest rect.
-			glm::vec4 destRect(x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+			float xwidth = 64.0f * m_scale.x;
+			float ywidth = 64.0f * m_scale.y;
+			glm::vec4 destRect(x * xwidth, y * ywidth, xwidth, ywidth);
 
 			//Process the tile
 			std::string path = m_filePaths.getPath(tile);
@@ -88,6 +95,24 @@ void World::loadLevelData(const std::string filePath) {
 		}
 	}
 	m_spriteBatch.end();
+
+	//Store filePath for later.
+	m_currentFilePath = filePath;
+}
+
+void World::determineScale() {
+
+	if (m_window->getScreenWidth() != m_currentWindowSize.x || m_window->getScreenHeight() != m_currentWindowSize.y) {
+		m_scale.x = (float)m_window->getScreenWidth() / m_defaultWindowSize.x;
+		m_scale.y = (float)m_window->getScreenHeight() / m_defaultWindowSize.y;
+		loadLevelData(m_currentFilePath);
+
+		//Update current window
+		m_currentWindowSize.x = m_window->getScreenWidth();
+		m_currentWindowSize.y = m_window->getScreenHeight();
+		m_startPlayerPos.x = 128.0f *m_scale.x;
+		m_startPlayerPos.y = 128.0f*m_scale.y;
+	}
 }
 
 World::~World()
@@ -96,6 +121,12 @@ World::~World()
 }
 
 void World::draw() {
+
+	//Rescale tiles if we are autoResizing
+	if (m_autoResize) {
+		determineScale();
+	}
+
 	m_spriteBatch.renderBatch();
 }
 

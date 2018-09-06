@@ -66,10 +66,10 @@ void Actor::initializeActor(std::string filePath, Xenro::ColorRGBA color, glm::i
 void Actor::draw(Xenro::SpriteBatch& spriteBatch) {
 
 	glm::vec4 destRect;
-	destRect.x = m_position.x;
-	destRect.y = m_position.y;
-	destRect.z = m_drawDims.x;
-	destRect.w = m_drawDims.y;
+	destRect.x = m_position.x *m_scale.x;
+	destRect.y = m_position.y *m_scale.y;
+	destRect.z = m_drawDims.x * m_scale.x;
+	destRect.w = m_drawDims.y *m_scale.y;
 
 	spriteBatch.draw(destRect, m_spriteSheet.getUVcoords(m_frameIndex), m_spriteSheet.getTexture().ID, 0.0f, m_color);
 }

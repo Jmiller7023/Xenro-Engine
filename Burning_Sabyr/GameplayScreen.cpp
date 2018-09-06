@@ -166,8 +166,9 @@ void GameplayScreen::update() {
 
 	m_lightEngine.modifyLightColor(test, Xenro::ColorRGBA(200, 0, 255, val));
 	m_player->update(m_levelLoader.getLevelData());
-
-	m_camera.setPosition(m_player->getPos());
+	m_player->setScale(m_levelLoader.getScale());
+	glm::vec2 position = glm::vec2(m_player->getPos().x * m_levelLoader.getScale().x, m_player->getPos().y * m_levelLoader.getScale().y);
+	m_camera.setPosition(position);
 
 	m_camera.update();
 	
@@ -217,7 +218,7 @@ void GameplayScreen::update() {
 
 	if ((m_game->getInputManager()->isPressed(SDL_BUTTON_LEFT) && !m_game->isControllerConnected())|| m_game->getInputManager()->isPressed(Xenro::Button::A)) {
 
-		m_bullets.emplace_back(m_player->getPos(), glm::normalize(m_player->getDirection()), 10.0f, 500);
+		m_bullets.emplace_back(position, glm::normalize(m_player->getDirection()), 10.0f, 500);
 		m_audioEngine.loadSFX("Audio/SFX/shot.wav").play();
 	}
 
@@ -253,10 +254,10 @@ void GameplayScreen::draw() {
 	if(m_game->getInputManager()->isDown(SDLK_p) ||  m_game->getInputManager()->isDown(Xenro::Button::Y)){
 		glm::vec4 destRect;
 
-		destRect.x = m_player->getPos().x + m_player->getDrawDims().x / 4.0f;
-		destRect.y = m_player->getPos().y;
-		destRect.z = m_player->getHboxDims().x;
-		destRect.w = m_player->getHboxDims().y;
+		destRect.x = m_player->getPos().x* m_levelLoader.getScale().x + m_player->getDrawDims().x* m_levelLoader.getScale().x / 4.0f;
+		destRect.y = m_player->getPos().y* m_levelLoader.getScale().y;
+		destRect.z = m_player->getHboxDims().x* m_levelLoader.getScale().x;
+		destRect.w = m_player->getHboxDims().y* m_levelLoader.getScale().y;
 		m_outlineRenderer.drawBox(destRect, Xenro::ColorRGBA(255, 255, 255, 255), 0.0f);
 		m_outlineRenderer.end();
 		m_outlineRenderer.render(m_camera.getcamMatrix(), 2.0f);
