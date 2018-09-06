@@ -1,8 +1,12 @@
 #include "LevelLoader.h"
 
-LevelLoader::LevelLoader()
+LevelLoader::LevelLoader(Xenro::Window* window)
 {
-	//Empty
+	m_window = window;
+	m_filePaths.createMapping('R', "Textures/red_bricks.png");
+	m_filePaths.createMapping('G', "Textures/glass.png");
+	m_filePaths.createMapping('L', "Textures/light_bricks.png");
+	m_filePaths.createMapping('.', "Textures/grass.png");
 }
 
 

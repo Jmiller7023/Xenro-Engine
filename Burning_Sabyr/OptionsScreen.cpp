@@ -218,12 +218,6 @@ void OptionsScreen::updateGUI() {
 	while (SDL_PollEvent(&evnt)) {
 		m_game->getInputManager()->processInput(evnt);
 
-		//Prevent a crash on SDL_QUIT
-		if (evnt.type == SDL_QUIT) {
-			m_exitGame = true;
-			return;
-		}
-
 		//Determine if mouse inputs should be injected or not.
 		if (m_game->isControllerConnected() && evnt.type != SDL_MOUSEMOTION && evnt.type != SDL_MOUSEBUTTONDOWN && evnt.type != SDL_MOUSEBUTTONUP) {
 			m_GUI.onEvent(evnt);
@@ -232,7 +226,7 @@ void OptionsScreen::updateGUI() {
 			m_GUI.onEvent(evnt);
 		}
 
-		//determine if mouse or controller should be used.
+		//Determine if mouse or controller should be used.
 		if (m_game->isControllerConnected()) {
 			calculateMousePos();
 			m_GUI.hideCursor();

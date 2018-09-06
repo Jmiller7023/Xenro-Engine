@@ -14,7 +14,7 @@
 #include "globals.h"
 
 GameplayScreen::GameplayScreen(Xenro::Window* window)
-	:m_window(window), m_GUI("GUI", window)
+	:m_window(window), m_GUI("GUI", window), m_levelLoader(window)
 {
 	m_screenIndex = GAMEPLAY_SCREEN;
 }
@@ -122,6 +122,7 @@ void GameplayScreen::onExit() {
 	
 	m_audioEngine.closeEngine();
 	m_bullets.clear();
+	m_lightEngine.reset();
 	destroy();
 	m_mainMenuButton->disable();
 	m_mainMenuButton->setAlpha(0);
@@ -131,14 +132,10 @@ void GameplayScreen::onExit() {
 //Called in Gameloop update function.
 void GameplayScreen::update() {
 
-	//for testing purposes. Delete afterwards.
+	//For testing purposes. Delete afterwards.
 	SDL_Event evnt;
 	while (SDL_PollEvent(&evnt)) {
 		m_game->getInputManager()->processInput(evnt);
-
-		//Prevent access to data after game ends.
-		if (evnt.type == SDL_QUIT)
-			return;
 
 		//Determine if mouse inputs should be injected or not.
 		if (m_game->isControllerConnected() && evnt.type != SDL_MOUSEMOTION && evnt.type != SDL_MOUSEBUTTONDOWN && evnt.type != SDL_MOUSEBUTTONUP) {

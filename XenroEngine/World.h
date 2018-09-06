@@ -34,18 +34,18 @@
 #include "SpriteBatch.h"
 #include "Globals.h"
 #include <string>
+#include "FilePathCache.h"
 
 namespace Xenro{
 
-class Camera;
-class InputManager;
+class Window;
 
 class World
 {
 public:
-	World() {}
+	World();
 	World(const std::string fileName);
-	~World();
+	virtual ~World();
 
 	virtual void updateGameWorld() = 0;
 
@@ -56,19 +56,16 @@ public:
 	glm::vec2 getStartPlayerPos() const { return m_startPlayerPos; }
 	
 protected:
-	Camera* getGameCam() const { return m_camera; }
-	InputManager* getInputManager() const { return m_inputManager; }
 	void loadLevelData(std::string filePath);
+	Window* m_window;
+	Xenro::FilePathCache m_filePaths;
 
 private:
-	Camera* m_camera;
-	InputManager* m_inputManager;
+	bool m_autoResize = true;
+	glm::vec2 m_defaultWindowSize;
 	std::vector<std::string> m_levelData;
-	int m_numHumans;
-	Xenro::SpriteBatch m_spriteBatch;
-
+	SpriteBatch m_spriteBatch;
 	glm::vec2 m_startPlayerPos;
-	std::vector<glm::vec2> m_zombieStartPos;
 };
 
 }

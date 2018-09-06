@@ -150,6 +150,7 @@
     <ClCompile Include="AudioEngine.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ErrorMessages.cpp" />
+    <ClCompile Include="FilePathCache.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GLSLProgram.cpp" />
     <ClCompile Include="GUI.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="checked.h" />
     <ClInclude Include="core.h" />
     <ClInclude Include="ErrorMessages.h" />
+    <ClInclude Include="FilePathCache.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="GLSLProgram.h" />

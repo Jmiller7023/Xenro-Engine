@@ -229,12 +229,6 @@ void MainMenuScreen::updateGUI() {
 	while (SDL_PollEvent(&evnt)) {
 		m_game->getInputManager()->processInput(evnt);
 
-		//Prevent a crash on SDL_QUIT
-		if (evnt.type == SDL_QUIT) {
-			m_exitGame = true;
-			return;
-		}
-
 		//determine if mouse or controller should be used.
 		if (m_game->isControllerConnected()) {
 			calculateMousePos();

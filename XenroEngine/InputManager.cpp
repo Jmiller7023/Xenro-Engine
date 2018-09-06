@@ -297,7 +297,7 @@ void InputManager::processInput(SDL_Event& evnt) {
 		switch (evnt.type) {
 
 			case SDL_QUIT:
-				m_game->exitGame();
+				m_game->stopGame();
 				break;
 			case SDL_KEYDOWN:
 				keyPress(evnt.key.keysym.sym);

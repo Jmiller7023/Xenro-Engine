@@ -35,12 +35,16 @@ namespace Xenro{
 //Global Constants.
 const float CAMERA_SPEED = 8.0f;
 const float SCALE_SPEED = 0.1f;
-const float AGENT_WIDTH = 60;
+const float AGENT_WIDTH = 60; 
 const float TILE_WIDTH = 64;
 
 //Analog joystick dead zone
 const int CONTROLLER_DEAD_ZONE = 8000;
 const int TRIGGER_DEAD_ZONE = 16000;
+
+//World Constants
+const int DEFAULT_WINDOW_HEIGHT = 1080;
+const int DEFAULT_WINDOW_WIDTH = 1920;
 
 }
 

@@ -153,6 +153,9 @@
     <ClCompile Include="ImageLoader.cpp">
       <Filter>Source Files\Managers</Filter>
     </ClCompile>
+    <ClCompile Include="FilePathCache.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ErrorMessages.h">
@@ -283,6 +286,9 @@
     </ClInclude>
     <ClInclude Include="Timing.h">
       <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="FilePathCache.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

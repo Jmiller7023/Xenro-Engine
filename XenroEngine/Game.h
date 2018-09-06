@@ -49,8 +49,8 @@ public:
 	//Runs the game.
 	void run();
 
-	//Exits the game.
-	void exitGame();
+	//Stops the game.
+	void stopGame();
 
 	//Called on initialization.
 	virtual void onInit() = 0;
@@ -100,6 +100,9 @@ protected:
 	//Game Controller handler
 	SDL_GameController* m_gameController = nullptr;
 	SDL_Haptic* m_controllerHaptic = nullptr;
+private:
+	//Exits the game.
+	void exitGame();
 };
 
 }

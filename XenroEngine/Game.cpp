@@ -250,4 +250,9 @@ void Game::rumbleController(double strength, int milliseconds) {
 		warning("Warning: Unable to play rumble! %s\n", SDL_GetError()); 
 	}
 }
+
+void Game::stopGame() {
+	m_isRunning = false;
+}
+
 }
