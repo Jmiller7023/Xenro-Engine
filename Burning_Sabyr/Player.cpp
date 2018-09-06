@@ -29,7 +29,7 @@ Player::~Player()
 void Player::update(const std::vector<std::string>& WorldData) {
 
 	float speed = m_speed;
-	if (m_inputManager->isDown(Xenro::Button::X)) {
+	if (m_inputManager->isDown(Xenro::Button::X) || m_inputManager->isDown(SDLK_LSHIFT)) {
 		speed = m_speed + RUNSPEED;
 	}
 

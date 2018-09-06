@@ -7,7 +7,7 @@ const int GAMEPLAY_SCREEN  = 1;
 const int OPTIONS_SCREEN   = 2;
 
 //Actor constants.
-const float RUNSPEED       = 10.0f;
+const float RUNSPEED       = 5.0f;
 
 //Main Menu constants.
 const int START_BUTTON = 0;

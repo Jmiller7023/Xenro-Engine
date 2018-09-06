@@ -261,6 +261,7 @@ void OptionsScreen::initGUI() {
 	m_resolutionWindow->setText("Test");
 	m_resolutionWindow->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked, CEGUI::Event::Subscriber(&OptionsScreen::onExitClicked, this));
 	m_resolutionWindow->setDragMovingEnabled(false);
+	m_resolutionWindow->setRollupEnabled(false);
 
 	//Initialize Children of Resolution Window.
 	m_resolution1 = static_cast<CEGUI::PushButton*>(m_GUI.createWidget(m_resolutionWindow, "TaharezLook/Button", glm::vec4(0.4f, 0.2f, 0.25f, 0.08f), glm::vec4(0), "800x600"));

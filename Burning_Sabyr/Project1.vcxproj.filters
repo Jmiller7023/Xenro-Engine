@@ -93,10 +93,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="bitmap1.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="bitmap2.bmp">
+    <Image Include="Icon\Burning_Sabyr.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
