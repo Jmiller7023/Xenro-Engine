@@ -37,18 +37,24 @@ public:
 	FPSlimiter();
 	~FPSlimiter();
 
-	//manually set the FPS after construction.
-	void setTargetFPS(float targetFPS);
+	//Setters
+	void setFrameCap(float frameCap) { m_frameCap = frameCap; }
+	void setLimiting(bool limit) { m_isLimiting = limit; }
 
-	//counts the number of gameticks every second, then calculates how many frames each second.
-	void calculateFPS();
+	//Getters
+	float getFPS() const { return m_fps; }
+	
+	//Grabs number of ticks at begining of frame limiting.
+	void startLimiting();
 
-	//returns the fps.
-	float limitFPS();
+	//Gets final number of ticks and delays according to frameCap.
+	float endLimiting();
 
 private:
-	float m_fps, m_maxFPS, m_lastTime, m_prevTicks, m_currTicks;
-	int m_frames;
+	//counts the number of gameticks every second, then calculates how many frames each second.
+	void calculateFPS();
+	bool m_isLimiting;
+	float m_fps, m_frameCap, m_beginTime, m_frameTime;
 };
 
 }

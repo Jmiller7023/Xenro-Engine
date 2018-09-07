@@ -57,12 +57,13 @@ void Game::run() {
 	init();
 
 	FPSlimiter limiter;
-	limiter.setTargetFPS(60.0f);
+	limiter.setFrameCap(60.0f);
+	limiter.setLimiting(false);
 
 	while (m_isRunning) {
 	
-		limiter.calculateFPS();
-		printf("fps: %d", m_fps);
+		limiter.startLimiting();
+		printf("fps: %d\n", (int)m_fps);
 
 		update();
 
@@ -70,7 +71,7 @@ void Game::run() {
 
 			m_InputManager->update();
 			draw();
- 			m_fps = limiter.limitFPS();
+ 			m_fps = limiter.endLimiting();
 			m_window.swapBuffer();
 		}
 		
