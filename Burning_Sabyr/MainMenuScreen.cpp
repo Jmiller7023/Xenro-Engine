@@ -9,8 +9,9 @@
 #include <XenroEngine\InputManager.h>
 
 MainMenuScreen::MainMenuScreen(Xenro::Window* window)
-	:m_window(window), m_GUI("GUI", window)
-{
+	:m_window(window), m_GUI("GUI", window), m_spriteBatch(window, true, glm::vec2(1920, 1080)),
+	m_HUDspriteBatch(window, true, glm::vec2(1920, 1080))
+{ 
 	m_screenIndex = MAINMENU_SCREEN;
 }
 
@@ -149,7 +150,7 @@ void MainMenuScreen::draw() {
 	m_camera.updateUniform(&m_textureProgram, "P");
 	
 	//Prepare dimensions to be drawn.
-	glm::vec4 destRect(-m_window->getScreenWidth() / 2.0f, -m_window->getScreenHeight() / 2.0, m_window->getScreenWidth(), m_window->getScreenHeight());
+	glm::vec4 destRect(-m_spriteBatch.getDefaultWindowSize().x / 2.0f, -m_spriteBatch.getDefaultWindowSize().y / 2.0, m_spriteBatch.getDefaultWindowSize().x, m_spriteBatch.getDefaultWindowSize().y);
 	Xenro::ColorRGBA color(255, 255, 255, 255);
 	Xenro::GLTexture texture = Xenro::ResourceManager::getTexture("Textures/BackGround1.png");
 	glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
@@ -161,7 +162,7 @@ void MainMenuScreen::draw() {
 	m_spriteBatch.renderBatch();
 
 	//Draw HUD
-	m_hud.setTextPos(m_window->getScreenWidth()*0.5f, m_window->getScreenHeight()*0.8f);
+	m_hud.setTextPos(m_spriteBatch.getDefaultWindowSize().x*0.5f, m_spriteBatch.getDefaultWindowSize().y*0.8f);
 	m_hud.drawHUD("Burning Sabyr");
 
 	//Disable the shader.

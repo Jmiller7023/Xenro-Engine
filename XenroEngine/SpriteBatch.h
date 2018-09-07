@@ -38,6 +38,8 @@
 
 namespace Xenro{
 
+class Window;
+
 	enum class SpriteSortType {
 		NONE, FRONT_TO_BACK, BACK_TO_FRONT, TEXTURE
 };
@@ -55,7 +57,10 @@ public:
 class SpriteBatch
 {
 public:
+	//Ordinary spriteBatch with automatic scaling disabled.
 	SpriteBatch();
+	//Spritebatch with the ability to automatically scale all sprites regardless of window size.
+	SpriteBatch(Window* window, bool autoScale, glm::vec2 defaultWindowSize);
 	~SpriteBatch();
 
 	void begin(SpriteSortType sortType = SpriteSortType::TEXTURE);
@@ -65,8 +70,18 @@ public:
 	void draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const ColorRGBA& color, float angle);
 	void draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const ColorRGBA& color, glm::vec2 direction);
 
-
 	void renderBatch();
+	///Getters
+	glm::vec2 getDefaultWindowSize() const { return m_defaultWindowSize; }
+	glm::vec2 getScale() const { return m_scale; }
+
+	///Setters
+	//Have the sprites automatically scale based off of the default window size.
+	void setAutoScale(bool autoScale) { m_autoScale = autoScale; }
+	//Give the spritebatch access to the window it will be drawing to for access to scaling.
+	void setWindow(Window* window) { m_window = window; }
+	//Determine the value of the window size everything should scale to. By default it is 1920x1080.
+	void setDefaultWindowSize(glm::vec2 defaultWindowSize) { m_defaultWindowSize = defaultWindowSize; }
 private:
 	void createRenderBatches();
 	void createVertexArray();
@@ -86,7 +101,16 @@ private:
 	std::vector<Sprite*> m_spritePointers;
 	std::vector<Sprite> m_sprites;
 	std::vector<RenderBatch> m_renderBatches;
-	
+
+	//Screen Scaling
+	void determineScale();
+	glm::vec4 applyScale(const glm::vec4& destRect) const;
+	glm::vec2 m_scale;
+	glm::vec2 m_defaultWindowSize;
+	glm::vec2 m_currentWindowSize;
+	Window* m_window;
+	bool m_autoScale;
+
 };
 }
 

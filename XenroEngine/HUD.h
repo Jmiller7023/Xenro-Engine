@@ -75,25 +75,17 @@ public:
 	//By default justification will be left.
 	void setJustification(Justification justification = Justification::LEFT);
 
-	void setAutoResize(bool automatic = true);
-
-	//By default screen size will be 1920x1080
-	void setDefaultScreenSize(glm::vec2 screenSize = glm::vec2(1920, 1080));
-
 private:
 	//updates the camera for the HUD.
 	void updateCamera();
-	glm::vec2 calculateScale();
 	void draw(const char* msg);
 
-	bool m_autoresize = true;
 	GLSLProgram* m_hudProgram;
 	SpriteFont* m_spriteFont;
 	SpriteBatch m_spriteBatch;
 	Camera* m_camera;
 	glm::vec2 m_textPos;
 	glm::vec2 m_scale;
-	glm::vec2 m_defaultScreenSize;
 	float m_depth;
 	ColorRGBA m_color;
 	Justification m_justification;

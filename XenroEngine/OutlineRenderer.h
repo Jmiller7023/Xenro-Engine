@@ -36,10 +36,12 @@
 #include "GLSLProgram.h"
 
 namespace Xenro{
+class Window;
 
 class OutlineRenderer {
 public:
 	OutlineRenderer();
+	OutlineRenderer(Window* window, bool autoScale, glm::vec2 defaultWindowSize);
 	~OutlineRenderer();
 
 	void end();
@@ -57,6 +59,15 @@ private:
 	std::vector<GLuint> m_indices;
 	GLuint m_vbo = 0, m_vao = 0, m_ibo = 0;
 	int m_numElements = 0;
+
+	//Screen Scaling
+	void determineScale();
+	glm::vec4 applyScale(const glm::vec4& destRect) const;
+	glm::vec2 m_scale;
+	glm::vec2 m_defaultWindowSize;
+	glm::vec2 m_currentWindowSize;
+	Window* m_window;
+	bool m_autoScale;
 };
 
 }

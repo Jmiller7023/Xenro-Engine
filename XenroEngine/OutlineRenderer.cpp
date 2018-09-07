@@ -28,6 +28,8 @@
 /*************************************************************************/
 
 #include "OutlineRenderer.h"
+#include "Window.h"
+#include "Globals.h"
 
 namespace Xenro {
 
@@ -70,7 +72,11 @@ void main() {
 const float pi = 3.14159265358979323f;
 
 OutlineRenderer::OutlineRenderer()
+	:m_window(nullptr), m_autoScale(false)
 {
+	m_defaultWindowSize = glm::vec2(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
+	m_scale = glm::vec2(1.0f);
+
 	// Shader init
 	m_program.compileShadersFromSource(VERT_SRC, FRAG_SRC);
 	m_program.addAttribute("vertexPosition");
@@ -94,6 +100,34 @@ OutlineRenderer::OutlineRenderer()
 	glBindVertexArray(0);
 }
 
+
+OutlineRenderer::OutlineRenderer(Window * window, bool autoScale, glm::vec2 defaultWindowSize)
+	:m_window(window), m_autoScale(autoScale), m_defaultWindowSize(defaultWindowSize)
+{
+	m_scale = glm::vec2(1.0f);
+
+	// Shader init
+	m_program.compileShadersFromSource(VERT_SRC, FRAG_SRC);
+	m_program.addAttribute("vertexPosition");
+	m_program.addAttribute("vertexColor");
+	m_program.linkShaders();
+
+	// Set up buffers
+	glGenVertexArrays(1, &m_vao);
+	glGenBuffers(1, &m_vbo);
+	glGenBuffers(1, &m_ibo);
+
+	glBindVertexArray(m_vao);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
+
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(DebugVertex), (void*)offsetof(DebugVertex, pos));
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(DebugVertex), (void*)offsetof(DebugVertex, color));
+
+	glBindVertexArray(0);
+}
 
 OutlineRenderer::~OutlineRenderer()
 {
@@ -141,8 +175,16 @@ void OutlineRenderer::drawBox(const glm::vec4& destRect, const ColorRGBA& color,
 
 	int i = m_vertices.size();
 	m_vertices.resize(m_vertices.size() + 4);
+	glm::vec4 rect;
+	if (m_autoScale && m_window != nullptr) {
+		determineScale();
+		rect = applyScale(destRect);
+	}
+	else {
+		rect = destRect;
+	}
 
-	glm::vec2 halfDims(destRect.z / 2.0f, destRect.w / 2.0f);
+	glm::vec2 halfDims(rect.z / 2.0f, rect.w / 2.0f);
 
 	//center points at origin.
 	glm::vec2 tl(-halfDims.x, halfDims.y);
@@ -150,7 +192,7 @@ void OutlineRenderer::drawBox(const glm::vec4& destRect, const ColorRGBA& color,
 	glm::vec2 br(halfDims.x, -halfDims.y);
 	glm::vec2 tr(halfDims.x, halfDims.y);
 
-	glm::vec2 positionOffset(destRect.x, destRect.y);
+	glm::vec2 positionOffset(rect.x, rect.y);
 
 	//Rotate the points.
 	m_vertices[i].pos = rotatePoint(tl, angle) + halfDims + positionOffset;
@@ -213,6 +255,26 @@ void OutlineRenderer::render(const glm::mat4& Pmat, float lineWidth) {
 	glBindVertexArray(0);
 
 	m_program.unuse();
+}
+
+void OutlineRenderer::determineScale() {
+
+	if (m_window->getScreenWidth() != m_currentWindowSize.x || m_window->getScreenHeight() != m_currentWindowSize.y) {
+		m_scale = glm::vec2((float)m_window->getScreenWidth() / m_defaultWindowSize.x,
+			(float)m_window->getScreenHeight() / m_defaultWindowSize.y);
+
+		//Update current window
+		m_currentWindowSize = glm::vec2(m_window->getScreenWidth(), m_window->getScreenHeight());
+	}
+}
+
+glm::vec4 OutlineRenderer::applyScale(const glm::vec4 & destRect) const {
+
+	float x = destRect.x * m_scale.x;
+	float y = destRect.y * m_scale.y;
+	float z = destRect.z * m_scale.x;
+	float w = destRect.w * m_scale.y;
+	return glm::vec4(x, y, z, w);
 }
 
 

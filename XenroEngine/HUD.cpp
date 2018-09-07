@@ -48,7 +48,6 @@ HUD::HUD(const SpriteBatch& spriteBatch, SpriteFont* spriteFont, GLSLProgram* hu
 	m_depth = 0.0f;
 	m_scale = glm::vec2(1.0);
 	m_window = window;
-	m_defaultScreenSize = glm::vec2(1920.0f, 1080.0f);
 }
 
 HUD::HUD()
@@ -62,7 +61,6 @@ HUD::HUD()
 	m_depth = 0.0f;
 	m_scale = glm::vec2(1.0);
 	m_justification = Justification::LEFT;
-	m_defaultScreenSize = glm::vec2(1920.0f, 1080.0f);
 }
 
 HUD::~HUD()
@@ -81,7 +79,6 @@ void HUD::initHUD(const SpriteBatch& spriteBatch, SpriteFont* spriteFont, GLSLPr
 	m_hudProgram = hudProgram;
 	m_justification = justification;
 	m_window = window;
-	m_defaultScreenSize = glm::vec2(1920.0f, 1080.0f);
 }
 
 void HUD::drawHUD(int numObjects, std::string text) {
@@ -121,14 +118,6 @@ void HUD::setJustification(Justification justification) {
 	m_justification = justification;
 }
 
-void HUD::setAutoResize(bool automatic) {
-	m_autoresize = automatic;
-}
-
-void HUD::setDefaultScreenSize(glm::vec2 screenSize) {
-	m_defaultScreenSize = screenSize;
-}
-
 void HUD::updateCamera() {
 
 	if (m_camera->getDefaultPos() != glm::vec2(m_window->getScreenWidth() / 2, m_window->getScreenHeight() /2)){
@@ -144,24 +133,11 @@ void HUD::updateCamera() {
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 }
 
-glm::vec2 HUD::calculateScale() {
-	glm::vec2 newScale;
-	newScale.x = ((float)m_window->getScreenWidth() / m_defaultScreenSize.x) * m_scale.x;
-	newScale.y = ((float)m_window->getScreenHeight() / m_defaultScreenSize.y) * m_scale.y;
-	return newScale;
-}
-
 void HUD::draw(const char* msg) {
 	m_spriteBatch.begin();
 
-	if (!m_autoresize) {
-		m_spriteFont->draw(m_spriteBatch, msg, m_textPos, m_scale, m_depth,
-			m_color, m_justification);
-	}
-	else {
-		m_spriteFont->draw(m_spriteBatch, msg, m_textPos, calculateScale(), m_depth,
-			m_color, m_justification);
-	}
+	m_spriteFont->draw(m_spriteBatch, msg, m_textPos, m_scale, m_depth,
+		m_color, m_justification);
 
 	m_spriteBatch.end();
 	m_spriteBatch.renderBatch();

@@ -18,11 +18,8 @@ Bullet::~Bullet()
 void Bullet::draw(Xenro::SpriteBatch& spriteBatch) {
 	glm::vec4 uv(0.0f, 0.0f, 1.0f, 1.0f);
 	static Xenro::GLTexture texture = Xenro::ResourceManager::getTexture("Textures/Circle.png");
-	Xenro::ColorRGBA color;
-	color.r = 20;
-	color.g = 20;
-	color.b = 20;
-	color.a = 255;
+	Xenro::ColorRGBA color(20,20,20,255);
+
 	glm::vec4 posAndSize = glm::vec4(m_position.x + 30, m_position.y + 20, 20, 20);
 
 	spriteBatch.draw(posAndSize, uv, texture.ID, -1.0f, color);

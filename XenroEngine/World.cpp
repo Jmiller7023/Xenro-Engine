@@ -59,6 +59,13 @@ void World::loadLevelData(const std::string filePath) {
 		m_levelData.clear();
 	}
 
+	//Set the spriteBatch to automatically scale.
+	if (m_window != nullptr) {
+		m_spriteBatch.setWindow(m_window);
+		m_spriteBatch.setAutoScale(m_autoResize);
+		m_spriteBatch.setDefaultWindowSize(m_defaultWindowSize);
+	}
+
 	std::ifstream file;
 	file.open(filePath);
 
@@ -83,9 +90,7 @@ void World::loadLevelData(const std::string filePath) {
 		for (size_t x = 0; x < m_levelData[y].size(); x++) {
 			//Grab the tile.
 			char tile = m_levelData[y][x];
-			float xwidth = 64.0f * m_scale.x;
-			float ywidth = 64.0f * m_scale.y;
-			glm::vec4 destRect(x * xwidth, y * ywidth, xwidth, ywidth);
+			glm::vec4 destRect(x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
 
 			//Process the tile
 			std::string path = m_filePaths.getPath(tile);

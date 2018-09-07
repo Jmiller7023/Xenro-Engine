@@ -28,16 +28,27 @@
 /*************************************************************************/
 
 #include "SpriteBatch.h"
+#include "globals.h"
+#include "Window.h"
 #include <algorithm>
 
 namespace Xenro{
 
 SpriteBatch::SpriteBatch()
-	:m_vbo(0), m_vao(0)
+	:m_vbo(0), m_vao(0), m_window(nullptr), m_autoScale(false)
 {
+	m_defaultWindowSize = glm::vec2(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
+	m_scale = glm::vec2(1.0f);
 	createVertexArray();
 }
-
+SpriteBatch::SpriteBatch(Window* window, bool autoScale, glm::vec2 defaultWindowSize)
+	:m_vbo(0), m_vao(0), m_window(window), m_autoScale(autoScale), m_defaultWindowSize(defaultWindowSize)
+{
+	m_currentWindowSize = glm::vec2(m_window->getScreenWidth(), m_window->getScreenHeight());
+	m_scale = glm::vec2((float)m_window->getScreenWidth() / m_defaultWindowSize.x,
+		(float)m_window->getScreenHeight() / m_defaultWindowSize.y);
+	createVertexArray();
+}
 
 SpriteBatch::~SpriteBatch()
 {
@@ -73,18 +84,36 @@ void SpriteBatch::end() {
 
 void SpriteBatch::draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const ColorRGBA& color) {
 
-	m_sprites.emplace_back(destRect, uvRect, texture, depth, color);
+	if (m_autoScale && m_window != nullptr) {
+		determineScale();
+		m_sprites.emplace_back(applyScale(destRect), uvRect, texture, depth, color);
+	}
+	else {
+		m_sprites.emplace_back(destRect, uvRect, texture, depth, color);
+	}
 }
 
 void SpriteBatch::draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const ColorRGBA& color, float angle) {
 
-	m_sprites.emplace_back(destRect, uvRect, texture, depth, color, angle);
+	if (m_autoScale && m_window != nullptr) {
+		determineScale();
+		m_sprites.emplace_back(applyScale(destRect), uvRect, texture, depth, color, angle);
+	}
+	else {
+		m_sprites.emplace_back(destRect, uvRect, texture, depth, color, angle);
+	}
 }
 
 void SpriteBatch::draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const ColorRGBA& color, glm::vec2 direction) {
 
 	float angle = calcAngle(direction);
-	m_sprites.emplace_back(destRect, uvRect, texture, depth, color, angle);
+	if (m_autoScale && m_window != nullptr) {
+		determineScale();
+		m_sprites.emplace_back(applyScale(destRect), uvRect, texture, depth, color, angle);
+	}
+	else {
+		m_sprites.emplace_back(destRect, uvRect, texture, depth, color, angle);
+	}
 }
 
 void SpriteBatch::renderBatch() {
@@ -113,7 +142,7 @@ void SpriteBatch::createRenderBatches() {
 	int offset = 0;
 	int currentVertex = 0;
 
-	//constructs our first render batch and pushes it back in the vector.
+	//Constructs our first render batch and pushes it back in the vector.
 	m_renderBatches.emplace_back(offset, 6, m_spritePointers[0]->texture);
 	vertices[currentVertex++] = m_spritePointers[0]->topLeft;
 	vertices[currentVertex++] = m_spritePointers[0]->bottomLeft;
@@ -169,7 +198,7 @@ void SpriteBatch::createVertexArray() {
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
 
-	//this is position attribute pointer.
+	//This is position attribute pointer.
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
 
 	//This is the color attribute pointer.
@@ -215,6 +244,26 @@ bool SpriteBatch::compareBackToFront(Sprite* a, Sprite* b) {
 		 angle = -angle;
 	 }
 	 return angle;
+ }
+
+ void SpriteBatch::determineScale() {
+
+	 if (m_window->getScreenWidth() != m_currentWindowSize.x || m_window->getScreenHeight() != m_currentWindowSize.y) {
+		 m_scale = glm::vec2((float)m_window->getScreenWidth() / m_defaultWindowSize.x,
+			 (float)m_window->getScreenHeight() / m_defaultWindowSize.y);
+
+		 //Update current window
+		 m_currentWindowSize = glm::vec2(m_window->getScreenWidth(), m_window->getScreenHeight());
+	 }
+ }
+
+ glm::vec4 SpriteBatch::applyScale(const glm::vec4 & destRect) const {
+
+	 float x = destRect.x * m_scale.x;
+	 float y = destRect.y * m_scale.y;
+	 float z = destRect.z * m_scale.x;
+	 float w = destRect.w * m_scale.y;
+	 return glm::vec4(x,y,z,w);
  }
 
 
