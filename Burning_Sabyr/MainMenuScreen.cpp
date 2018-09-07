@@ -58,7 +58,7 @@ void MainMenuScreen::onEntry() {
 	m_audioEngine.openEngine();
 
 	//Start level music.
-	m_audioEngine.loadSong("Audio/Music/mm2.ogg", 64).play();
+	m_audioEngine.loadSong("Audio/Music/MainMenu.ogg", 64).play();
 
 	//Set the camera properly.
 	m_camera.reset(m_window);
@@ -175,7 +175,8 @@ bool MainMenuScreen::startGame(const CEGUI::EventArgs& args) {
 
 	m_currState = Xenro::ScreenState::CHANGE_TO_NEXT;
 	m_audioEngine.loadSFX("Audio/SFX/Select_Button.wav").playUntilEffectFinishes();
-	m_audioEngine.loadSong("Audio/Music/mm2.ogg").fadeOutSong(50);
+	m_startButton->deactivate();
+	m_audioEngine.loadSong("Audio/Music/MainMenu.ogg").fadeOutSong(50);
 	return true;
 }
 
@@ -183,7 +184,7 @@ bool MainMenuScreen::exitGame(const CEGUI::EventArgs& args) {
 
 	m_currState = Xenro::ScreenState::EXIT_APP;
 	m_audioEngine.loadSFX("Audio/SFX/Select_Button.wav").playUntilEffectFinishes();
-	m_audioEngine.loadSong("Audio/Music/mm2.ogg").fadeOutSong(50);
+	m_audioEngine.loadSong("Audio/Music/MainMenu.ogg").fadeOutSong(50);
 	return true;
 }
 
@@ -193,7 +194,7 @@ bool MainMenuScreen::openOptions(const CEGUI::EventArgs& args) {
 	m_currState = Xenro::ScreenState::CHANGE_TO_PARTICULAR;
 	m_changeToParticular = OPTIONS_SCREEN;
 	m_audioEngine.loadSFX("Audio/SFX/Select_Button.wav").playUntilEffectFinishes();
-	m_audioEngine.loadSong("Audio/Music/mm2.ogg").fadeOutSong(50);
+	m_audioEngine.loadSong("Audio/Music/MainMenu.ogg").fadeOutSong(50);
 	return true;
 }
 

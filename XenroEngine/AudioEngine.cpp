@@ -318,7 +318,7 @@ void AudioEngine::openEngine() {
 	}
 
 	//For third parameter, 1 enables mono and 2 enbales stereo.
-	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, AUDIO_S16SYS, 2, 4096) == -1) {
+	if (Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 4096) == -1) {
 		fatalError("Failed to initialize Mixer!\n Mixer returned: " + std::string(Mix_GetError()));
 	}
 }

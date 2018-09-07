@@ -81,7 +81,7 @@ void GameplayScreen::onEntry() {
 	m_audioEngine.openEngine();
 
 	//Start level music.
-	m_audioEngine.loadSong("Audio/Music/GoodZelda.ogg", 64).play();
+	m_audioEngine.loadSong("Audio/Music/Battle.ogg", 64).play();
 
 	//Set the camera properly.
 	m_camera.reset(m_window);
@@ -278,6 +278,6 @@ bool GameplayScreen::BacktoMainMenu(const CEGUI::EventArgs& args) {
 	m_currState = Xenro::ScreenState::CHANGE_TO_PARTICULAR;
 	m_changeToParticular = MAINMENU_SCREEN;
 	m_audioEngine.loadSFX("Audio/SFX/Select_Button.wav").playUntilEffectFinishes();
-	m_audioEngine.loadSong("Audio/Music/GoodZelda.ogg").fadeOutSong(50);
+	m_audioEngine.loadSong("Audio/Music/Battle.ogg").fadeOutSong(50);
 	return true;
 }
