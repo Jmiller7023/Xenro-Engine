@@ -66,7 +66,6 @@ public:
 
 	void setAutoScaling(bool enabled) { m_autoscalingEnabled = enabled; }
 
-
 	//Getters.
 	CEGUI::OpenGL3Renderer* getRenderer() const { return m_renderer; }
 	const CEGUI::GUIContext* getContext() const { return m_context; }

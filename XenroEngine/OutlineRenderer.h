@@ -45,6 +45,7 @@ public:
 	~OutlineRenderer();
 
 	void end();
+	void drawLine(const glm::vec2& a, const glm::vec2& b, const ColorRGBA& color);
 	void drawBox(const glm::vec4& destRect, const ColorRGBA& color, float angle);
 	void drawCircle(const glm::vec2& center, const ColorRGBA& color, float radius);
 	void render(const glm::mat4& Pmat, float lineWidth);

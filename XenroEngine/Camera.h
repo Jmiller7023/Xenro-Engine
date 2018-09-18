@@ -55,6 +55,9 @@ public:
 
 	void updateUniform(GLSLProgram* textureProgram, const std::string& uniform);
 
+	void offsetPosition(const glm::vec2& offset) { m_position += offset; m_needsUpdate = true; }
+	void offsetScale(float offset) { m_scale = ((offset > 0.001) ? (offset + m_scale) : 0.001f); m_needsUpdate = true; }
+
 	//setters
 	void setPosition(const glm::vec2& newPosition) { m_position = newPosition; m_needsUpdate = true; }
 	void setScale(float newScale) { m_scale = newScale; m_needsUpdate = true; }

@@ -70,7 +70,7 @@ void OptionsScreen::onEntry() {
 	}
 
 	//Disables normal mouse cursor.
-	m_window->showCursor(false);
+	m_window->showCursor(true);
 	
 	//Update the camera
 	m_camera.update();
@@ -241,54 +241,54 @@ void OptionsScreen::updateGUI() {
 
 void OptionsScreen::initGUI() {
 
-	m_GUI.loadScheme("TaharezLook.scheme");
+	m_GUI.loadScheme("GWEN.scheme");
 
 	m_GUI.loadFont("Jura-10");
 
 	//Initialize MainMenu Button.
-	m_mainMenuButton = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("TaharezLook/Button", glm::vec4(0.44f, 0.2f, 0.15f, 0.05f), glm::vec4(0), "MainMenuButton"));
+	m_mainMenuButton = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("GWEN/Button", glm::vec4(0.44f, 0.2f, 0.15f, 0.05f), glm::vec4(0), "MainMenuButton"));
 	m_mainMenuButton->setText("Back");
 	m_mainMenuButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OptionsScreen::backToMainMenu, this));
 
 	//Initialize Resolution Button Window.
-	m_openResolutionWindow = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("TaharezLook/Button", glm::vec4(0.44f, 0.3f, 0.15f, 0.05f), glm::vec4(0), "ResolutionWindowButton"));
+	m_openResolutionWindow = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("GWEN/Button", glm::vec4(0.44f, 0.3f, 0.15f, 0.05f), glm::vec4(0), "ResolutionWindowButton"));
 	m_openResolutionWindow->setText("Change Resolution");
 	m_openResolutionWindow->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OptionsScreen::openResolutionWindow, this));
 	m_openResolutionWindow->setAlwaysOnTop(true);
 
 	//Initialize Resolution Window.
-	m_resolutionWindow = static_cast<CEGUI::FrameWindow*>(m_GUI.createWidget("TaharezLook/FrameWindow", glm::vec4(0.3f, 0.3f, 0.4f, 0.4f), glm::vec4(0), "ResolutionWindow"));
+	m_resolutionWindow = static_cast<CEGUI::FrameWindow*>(m_GUI.createWidget("GWEN/FrameWindow", glm::vec4(0.3f, 0.3f, 0.4f, 0.4f), glm::vec4(0), "ResolutionWindow"));
 	m_resolutionWindow->setText("Test");
 	m_resolutionWindow->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked, CEGUI::Event::Subscriber(&OptionsScreen::onExitClicked, this));
 	m_resolutionWindow->setDragMovingEnabled(false);
 	m_resolutionWindow->setRollupEnabled(false);
 
 	//Initialize Children of Resolution Window.
-	m_resolution1 = static_cast<CEGUI::PushButton*>(m_GUI.createWidget(m_resolutionWindow, "TaharezLook/Button", glm::vec4(0.4f, 0.2f, 0.25f, 0.08f), glm::vec4(0), "800x600"));
+	m_resolution1 = static_cast<CEGUI::PushButton*>(m_GUI.createWidget(m_resolutionWindow, "GWEN/Button", glm::vec4(0.4f, 0.2f, 0.25f, 0.08f), glm::vec4(0), "800x600"));
 	m_resolution1->setText("800x600");
 	m_resolution1->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OptionsScreen::screenResolution1, this));
 
-	m_resolution2 = static_cast<CEGUI::PushButton*>(m_GUI.createWidget(m_resolutionWindow, "TaharezLook/Button", glm::vec4(0.4f, 0.3f, 0.25f, 0.08f), glm::vec4(0), "1024X768"));
+	m_resolution2 = static_cast<CEGUI::PushButton*>(m_GUI.createWidget(m_resolutionWindow, "GWEN/Button", glm::vec4(0.4f, 0.3f, 0.25f, 0.08f), glm::vec4(0), "1024X768"));
 	m_resolution2->setText("1024x768");
 	m_resolution2->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OptionsScreen::screenResolution2, this));
 
-	m_resolution3 = static_cast<CEGUI::PushButton*>(m_GUI.createWidget(m_resolutionWindow, "TaharezLook/Button", glm::vec4(0.4f, 0.4f, 0.25f, 0.08f), glm::vec4(0), "1280x720"));
+	m_resolution3 = static_cast<CEGUI::PushButton*>(m_GUI.createWidget(m_resolutionWindow, "GWEN/Button", glm::vec4(0.4f, 0.4f, 0.25f, 0.08f), glm::vec4(0), "1280x720"));
 	m_resolution3->setText("1280x720");
 	m_resolution3->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OptionsScreen::screenResolution3, this));
 
-	m_resolution4 = static_cast<CEGUI::PushButton*>(m_GUI.createWidget(m_resolutionWindow, "TaharezLook/Button", glm::vec4(0.4f, 0.5f, 0.25f, 0.08f), glm::vec4(0), "1360x768"));
+	m_resolution4 = static_cast<CEGUI::PushButton*>(m_GUI.createWidget(m_resolutionWindow, "GWEN/Button", glm::vec4(0.4f, 0.5f, 0.25f, 0.08f), glm::vec4(0), "1360x768"));
 	m_resolution4->setText("1360x768");
 	m_resolution4->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OptionsScreen::screenResolution4, this));
 
-	m_resolution5 = static_cast<CEGUI::PushButton*>(m_GUI.createWidget(m_resolutionWindow, "TaharezLook/Button", glm::vec4(0.4f, 0.6f, 0.25f, 0.08f), glm::vec4(0), "1600x900"));
+	m_resolution5 = static_cast<CEGUI::PushButton*>(m_GUI.createWidget(m_resolutionWindow, "GWEN/Button", glm::vec4(0.4f, 0.6f, 0.25f, 0.08f), glm::vec4(0), "1600x900"));
 	m_resolution5->setText("1600x900");
 	m_resolution5->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OptionsScreen::screenResolution5, this));
 
-	m_resolution6 = static_cast<CEGUI::PushButton*>(m_GUI.createWidget(m_resolutionWindow, "TaharezLook/Button", glm::vec4(0.4f, 0.7f, 0.25f, 0.08f), glm::vec4(0), "1920x1080"));
+	m_resolution6 = static_cast<CEGUI::PushButton*>(m_GUI.createWidget(m_resolutionWindow, "GWEN/Button", glm::vec4(0.4f, 0.7f, 0.25f, 0.08f), glm::vec4(0), "1920x1080"));
 	m_resolution6->setText("1920x1080");
 	m_resolution6->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OptionsScreen::screenResolution6, this));
 
-	m_resolution7 = static_cast<CEGUI::PushButton*>(m_GUI.createWidget(m_resolutionWindow, "TaharezLook/Button", glm::vec4(0.4f, 0.8f, 0.25f, 0.08f), glm::vec4(0), "3840x2160"));
+	m_resolution7 = static_cast<CEGUI::PushButton*>(m_GUI.createWidget(m_resolutionWindow, "GWEN/Button", glm::vec4(0.4f, 0.8f, 0.25f, 0.08f), glm::vec4(0), "3840x2160"));
 	m_resolution7->setText("3840x2160");
 	m_resolution7->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OptionsScreen::screenResolution7, this));
 
@@ -296,7 +296,6 @@ void OptionsScreen::initGUI() {
 	m_resolutionWindow->setAlpha(0.0f);
 	m_resolutionWindow->disable();
 
-	m_GUI.setMouseCursor("TaharezLook/MouseArrow");
 	if (m_game->isControllerConnected()) {
 		m_GUI.showCursor();
 	}

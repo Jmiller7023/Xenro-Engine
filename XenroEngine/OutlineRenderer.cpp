@@ -162,6 +162,20 @@ void OutlineRenderer::end() {
 	m_vertices.clear();
 }
 
+void OutlineRenderer::drawLine(const glm::vec2 & a, const glm::vec2 & b, const ColorRGBA & color)
+{
+	int i = m_vertices.size();
+	m_vertices.resize(m_vertices.size() + 2);
+
+	m_vertices[i].pos = a;
+	m_vertices[i].color = color;
+	m_vertices[i + 1].pos = b;
+	m_vertices[i + 1].color = color;
+
+	m_indices.push_back(i);
+	m_indices.push_back(i + 1);
+}
+
 glm::vec2 rotatePoint(glm::vec2 pos, float angle) {
 	glm::vec2 newpos;
 

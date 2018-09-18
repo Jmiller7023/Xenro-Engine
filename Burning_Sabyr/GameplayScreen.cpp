@@ -40,13 +40,10 @@ int GameplayScreen::getPrevScrenIndex() const {
 void GameplayScreen::create() {
 	
 	//Init GUI.
-	m_GUI.loadScheme("TaharezLook.scheme");
+	m_GUI.loadScheme("GWEN.scheme");
 	m_GUI.loadFont("Jura-10");
 
-	m_GUI.setMouseCursor("TaharezLook/MouseArrow");
-	m_GUI.showCursor();
-
-	m_mainMenuButton = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("TaharezLook/Button", glm::vec4(0.44f, 0.4f, 0.15f, 0.05f), glm::vec4(0), "MainMenubutton"));
+	m_mainMenuButton = static_cast<CEGUI::PushButton*>(m_GUI.createWidget("GWEN/Button", glm::vec4(0.44f, 0.4f, 0.15f, 0.05f), glm::vec4(0), "MainMenubutton"));
 	m_mainMenuButton->setText("Back");
 	m_mainMenuButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&GameplayScreen::BacktoMainMenu, this));
 	m_mainMenuButton->disable();

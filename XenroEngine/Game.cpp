@@ -63,7 +63,6 @@ void Game::run() {
 	while (m_isRunning) {
 	
 		limiter.startLimiting();
-		printf("fps: %d\n", (int)m_fps);
 
 		update();
 
