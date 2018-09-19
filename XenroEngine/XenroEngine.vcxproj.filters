@@ -67,6 +67,9 @@
     <Filter Include="Header Files\Game">
       <UniqueIdentifier>{833265c0-c348-4f47-ac9a-40ef5f12ec65}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Structs">
+      <UniqueIdentifier>{ab98262d-32f8-44fd-8abb-a3e474e38c13}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ErrorMessages.cpp">
@@ -289,6 +292,12 @@
     </ClInclude>
     <ClInclude Include="FilePathCache.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Header Files\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="UV.h">
+      <Filter>Header Files\Structs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

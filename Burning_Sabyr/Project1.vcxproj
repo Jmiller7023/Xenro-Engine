@@ -130,12 +130,14 @@
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Box.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="GameplayScreen.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuScreen.cpp" />
     <ClCompile Include="OptionsScreen.cpp" />
+    <ClCompile Include="PhysicsScreen.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="StatSet.cpp" />
     <ClCompile Include="Thief.cpp" />
@@ -143,12 +145,14 @@
   <ItemGroup>
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Box.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="GameplayScreen.h" />
     <ClInclude Include="globals.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="MainMenuScreen.h" />
     <ClInclude Include="OptionsScreen.h" />
+    <ClInclude Include="PhysicsScreen.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="StatSet.h" />

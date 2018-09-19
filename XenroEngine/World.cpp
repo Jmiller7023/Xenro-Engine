@@ -113,8 +113,8 @@ void World::determineScale() {
 		loadLevelData(m_currentFilePath);
 
 		//Update current window
-		m_currentWindowSize.x = m_window->getScreenWidth();
-		m_currentWindowSize.y = m_window->getScreenHeight();
+		m_currentWindowSize.x = (float)m_window->getScreenWidth();
+		m_currentWindowSize.y = (float)m_window->getScreenHeight();
 		m_startPlayerPos.x = 128.0f *m_scale.x;
 		m_startPlayerPos.y = 128.0f*m_scale.y;
 	}

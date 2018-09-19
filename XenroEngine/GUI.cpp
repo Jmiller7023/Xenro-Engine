@@ -346,8 +346,8 @@ void GUI::rescaleGUI(int width, int height) {
 		CEGUI::System::getSingleton().notifyDisplaySizeChanged(size);
 
 		//Update m_GUI to know what the new screen size is.
-		m_windowSize.x = width;
-		m_windowSize.y = height;
+		m_windowSize.x = (float)width;
+		m_windowSize.y = (float)height;
 	}
 }
 

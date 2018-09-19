@@ -3,6 +3,7 @@
 #include "GamePlayScreen.h"
 #include "MainMenuScreen.h"
 #include "OptionsScreen.h"
+#include "PhysicsScreen.h"
 
 Application::Application()
 {
@@ -27,11 +28,13 @@ void Application::addScreens() {
 	m_mainMenuScreen = new MainMenuScreen(&m_window);
 	m_gameplayScreen = new GameplayScreen(&m_window);
 	m_optionsScreen = new OptionsScreen(&m_window);
+	m_physicsScreen = new PhysicsScreen(&m_window);
 
 	m_screenList->addScreen(m_mainMenuScreen);
 	m_screenList->addScreen(m_gameplayScreen);
 	m_screenList->addScreen(m_optionsScreen);
-	m_screenList->setScreen(m_mainMenuScreen->getScreenIndex());
+	m_screenList->addScreen(m_physicsScreen);
+	m_screenList->setScreen(m_physicsScreen->getScreenIndex());//m_mainMenuScreen->getScreenIndex());
 }
 
 void Application::onExit() {

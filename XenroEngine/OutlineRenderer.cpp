@@ -246,7 +246,7 @@ void OutlineRenderer::drawCircle(const glm::vec2& center, const ColorRGBA& color
 		m_vertices[start + i].color = color;
 	}
 	//Set up indices for indexed drawing.
-	m_indices.reserve(m_indices.size() + NUM_VERTICES * 2.0f);
+	m_indices.reserve(m_indices.size() + NUM_VERTICES * 2);
 	for (int i = 0; i < NUM_VERTICES - 1; i++) {
 		m_indices.push_back(start + i);
 		m_indices.push_back(start + i + 1);
