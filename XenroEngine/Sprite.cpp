@@ -59,7 +59,7 @@ Sprite::Sprite(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint Textur
 	:texture(Texture), depth(Depth)
 {
 
-	glm::vec2 halfDims(destRect.z / 2.0f, destRect.y / 2.0f);
+	glm::vec2 halfDims(destRect.z / 2.0f, destRect.w / 2.0f);
 
 	//center points at origin.
 	glm::vec2 tl(-halfDims.x, halfDims.y);

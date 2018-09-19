@@ -60,7 +60,7 @@ void PhysicsScreen::onEntry() {
 	b2PolygonShape groundBox;
 	groundBox.SetAsBox(50.0f, 10.0f);
 	groundBody->CreateFixture(&groundBox, 0.0f);
-
+	
 	// Make a bunch of boxes
 	std::mt19937 randGenerator;
 	std::uniform_real_distribution<float> xPos(-10.0, 10.0f);
@@ -127,8 +127,8 @@ void PhysicsScreen::draw() {
 	//draw all boxes
 	for (auto& b : m_boxes) {
 		glm::vec4 destRect;
-		destRect.x = b.getBody()->GetPosition().x - b.getDimensions().x / 2.0f;
-		destRect.y = b.getBody()->GetPosition().y - b.getDimensions().y / 2.0f;
+		destRect.x = b.getBody()->GetPosition().x -b.getDimensions().x / 2.0f;
+		destRect.y = b.getBody()->GetPosition().y -b.getDimensions().y / 2.0f;
 		destRect.z = b.getDimensions().x;
 		destRect.w = b.getDimensions().y;
 		m_spriteBatch.draw(destRect, glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), m_texture.ID, 0.0f, Xenro::ColorRGBA(255, 0, 0, 255), b.getBody()->GetAngle());

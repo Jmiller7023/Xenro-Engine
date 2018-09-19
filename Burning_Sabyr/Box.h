@@ -11,7 +11,7 @@ public:
 	Box();
 	~Box();
 
-	void init(b2World * world, glm::vec2 position, glm::vec2 dimensions, Xenro::ColorRGBA color);
+	void init(b2World * world, const glm::vec2& position,const glm::vec2& dimensions, Xenro::ColorRGBA color);
 
 	b2Body* getBody() const { return m_body; }
 	b2Fixture* getFixture() const { return m_fixture; }

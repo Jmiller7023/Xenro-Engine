@@ -11,8 +11,7 @@ Box::~Box()
 {
 }
 
-void Box::init(b2World * world, glm::vec2 position, glm::vec2 dimensions, Xenro::ColorRGBA color)
-{
+void Box::init(b2World * world, const glm::vec2& position, const glm::vec2& dimensions, Xenro::ColorRGBA color) {
 	m_dimensions = dimensions;
 	m_color = color;
 
