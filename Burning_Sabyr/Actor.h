@@ -9,6 +9,7 @@
 #include <XenroEngine\GLTexture.h>
 #include <XenroEngine\Globals.h>
 #include <XenroEngine\Vertex.h>
+#include <Box2D/Box2D.h>
 
 enum class MoveDir {
 	UP, DOWN, LEFT, RIGHT, UPRIGHT, UPLEFT, DOWNRIGHT, DOWNLEFT, IDLE
@@ -49,6 +50,7 @@ protected:
 
 	void setMoveDir(MoveDir dir) { m_moveDir = dir; }
 
+	b2Body* m_body = nullptr;
 	glm::vec2 m_position;
 	glm::vec2 m_direction = glm::vec2(1.0f, 0.0f);
 	Xenro::ColorRGBA m_color;

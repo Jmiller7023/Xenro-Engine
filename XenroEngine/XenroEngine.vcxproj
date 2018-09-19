@@ -181,6 +181,7 @@
     <ClInclude Include="AudioEngine.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="checked.h" />
+    <ClInclude Include="Color.h" />
     <ClInclude Include="core.h" />
     <ClInclude Include="ErrorMessages.h" />
     <ClInclude Include="FilePathCache.h" />
@@ -216,6 +217,7 @@
     <ClInclude Include="Timing.h" />
     <ClInclude Include="unchecked.h" />
     <ClInclude Include="utf8.h" />
+    <ClInclude Include="UV.h" />
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Vec3.h" />
     <ClInclude Include="Vec4.h" />
