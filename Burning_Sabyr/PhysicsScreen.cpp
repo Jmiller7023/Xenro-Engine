@@ -76,7 +76,8 @@ void PhysicsScreen::onEntry() {
 		randColor.b = color(randGenerator);
 		randColor.a = 255;
 		Box newBox;
-		newBox.init(m_world.get(), glm::vec2(xPos(randGenerator), yPos(randGenerator)), glm::vec2(size(randGenerator), size(randGenerator)), randColor);
+		float s = size(randGenerator);
+		newBox.init(m_world.get(), glm::vec2(xPos(randGenerator), yPos(randGenerator)), glm::vec2(s, s), randColor);
 		m_boxes.push_back(newBox);
 	}
 
@@ -131,7 +132,7 @@ void PhysicsScreen::draw() {
 		destRect.y = b.getBody()->GetPosition().y -b.getDimensions().y / 2.0f;
 		destRect.z = b.getDimensions().x;
 		destRect.w = b.getDimensions().y;
-		m_spriteBatch.draw(destRect, glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), m_texture.ID, 0.0f, Xenro::ColorRGBA(255, 0, 0, 255), b.getBody()->GetAngle());
+		m_spriteBatch.draw(destRect, glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), m_texture.ID, 0.0f, b.getColor(), b.getBody()->GetAngle());
 	}
 
 	m_spriteBatch.end();

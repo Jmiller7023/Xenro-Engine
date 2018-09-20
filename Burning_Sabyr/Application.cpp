@@ -34,7 +34,7 @@ void Application::addScreens() {
 	m_screenList->addScreen(m_gameplayScreen);
 	m_screenList->addScreen(m_optionsScreen);
 	m_screenList->addScreen(m_physicsScreen);
-	m_screenList->setScreen(m_physicsScreen->getScreenIndex());//m_mainMenuScreen->getScreenIndex());
+	m_screenList->setScreen(m_mainMenuScreen->getScreenIndex());
 }
 
 void Application::onExit() {

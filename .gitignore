@@ -233,3 +233,12 @@ ModelManifest.xml
 
 /deps/cegui-0.8.7
 /deps/cegui-cegui-dependencies-0ecdf3a9e49b
+*.lib
+*.dll
+*.wav
+*.lastbuildstate
+*.tlog
+*.ogg
+*.txt
+*.res
+*.idb
