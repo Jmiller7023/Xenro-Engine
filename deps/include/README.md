@@ -11,7 +11,7 @@ Files extracted from upstream source:
 
 - all .c and .h files
 
-##CEGUI
+## CEGUI
 
 -Upstream: http://cegui.org.uk/
 - Version: 0.8.7
@@ -23,7 +23,7 @@ Files extracted from upstream source:
 - Sample UI and XML files
 - Sample fonts
 
-##GLEW
+## GLEW
 
 - Upstream: http://glew.sourceforge.net/
 - Version: 2.1.0
@@ -33,7 +33,7 @@ Files extracted from upstream source:
 
 - all .hpp files
 
-##GLM
+## GLM
 
 - Upstream: https://github.com/g-truc/glm
 - Version: 0.99-a2
