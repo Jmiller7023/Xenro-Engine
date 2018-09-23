@@ -38,10 +38,11 @@
 namespace Xenro{
 
 struct Light {
+	Light() {}
 	Light(ColorRGBA Color, glm::vec2 Pos, glm::vec2 Size);
-	ColorRGBA color;
-	glm::vec2 pos;
-	glm::vec2 size;
+	ColorRGBA color = ColorRGBA(255,255,255,255);
+	glm::vec2 pos = glm::vec2(0,0);
+	glm::vec2 size = glm::vec2(5.0f);
 };
 
 class LightEngine {
@@ -49,8 +50,8 @@ public:
 	LightEngine();
 	~LightEngine();
 
-	//Draws the light to the spritebatch.
-	void drawLight(Light light);
+	//Renders a given light.
+	void renderLight(const Light& light);
 
 	//Render the lights to the screen.
 	void renderAllLights();
@@ -69,7 +70,11 @@ public:
 	//Clear all lights.
 	void reset();
 
-private:
+private:	
+
+	//Draws the light to the spritebatch.
+	void drawLight(Light light);
+
 	std::vector<Light> m_lights;
 	SpriteBatch m_spriteBatch;
 };

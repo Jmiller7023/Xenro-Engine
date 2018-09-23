@@ -253,7 +253,7 @@ void GUI::onEvent(SDL_Event& evnt) {
 	switch (evnt.type) {
 
 		case SDL_MOUSEMOTION:
-			m_context->injectMouseMove(evnt.motion.xrel, evnt.motion.yrel);
+			m_context->injectMouseMove((float)evnt.motion.xrel, (float)evnt.motion.yrel);
 			m_context->injectMousePosition((float)evnt.motion.x, (float)evnt.motion.y);
 			break;
 
