@@ -78,7 +78,7 @@ void PhysicsScreen::onEntry() {
 		Box newBox;
 		float s = size(randGenerator);
 		newBox.init(m_world.get(), glm::vec2(xPos(randGenerator), yPos(randGenerator)), glm::vec2(s, s), randColor);
-		m_boxes.push_back(newBox);
+		m_tiles.push_back(newBox);
 	}
 
 	//Intitialize the shaders.
@@ -126,7 +126,7 @@ void PhysicsScreen::draw() {
 	m_spriteBatch.begin();
 
 	//draw all boxes
-	for (auto& b : m_boxes) {
+	for (auto& b : m_tiles) {
 		glm::vec4 destRect;
 		destRect.x = b.getBody()->GetPosition().x -b.getDimensions().x / 2.0f;
 		destRect.y = b.getBody()->GetPosition().y -b.getDimensions().y / 2.0f;

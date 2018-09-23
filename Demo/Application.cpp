@@ -29,12 +29,14 @@ void Application::addScreens() {
 	m_gameplayScreen = new GameplayScreen(&m_window);
 	m_optionsScreen = new OptionsScreen(&m_window);
 	m_physicsScreen = new PhysicsScreen(&m_window);
+	m_levelEditor = new Xenro::LevelEditor(&m_window);
 
 	m_screenList->addScreen(m_mainMenuScreen);
 	m_screenList->addScreen(m_gameplayScreen);
 	m_screenList->addScreen(m_optionsScreen);
 	m_screenList->addScreen(m_physicsScreen);
-	m_screenList->setScreen(m_mainMenuScreen->getScreenIndex());
+	m_screenList->addScreen(m_levelEditor);
+	m_screenList->setScreen(4);//m_mainMenuScreen->getScreenIndex());
 }
 
 void Application::onExit() {

@@ -69,10 +69,10 @@ public:
 
 	bool isDynamic() const { return m_body->GetType() == b2_dynamicBody; }
 
-	// Test if a point is inside the box
+	//Test if a point is inside the box
 	bool testPoint(float x, float y) const { return m_fixture->TestPoint(b2Vec2(x, y)); }
 	
-	// Beautiful accessors
+	//Setters
 	b2Body*                    getBody()          const { return m_body; }
 	b2Fixture*                 getFixture()       const { return m_fixture; }
 	const glm::vec2&           getDimensions()    const { return m_dimensions; }

@@ -31,5 +31,7 @@ const int RESOLUTION6 = 7;
 const int RESOLUTION7 = 8;
 const int UNDEFINED_BUTTON_INDEX_POSTIVE = 9;
 
+//Music constants
+const int MUSIC_VOLUME = 0;
 
 #endif //GLOBALS_DEFINED

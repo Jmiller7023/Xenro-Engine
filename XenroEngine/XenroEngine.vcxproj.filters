@@ -70,6 +70,12 @@
     <Filter Include="Header Files\Structs">
       <UniqueIdentifier>{ab98262d-32f8-44fd-8abb-a3e474e38c13}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Editor">
+      <UniqueIdentifier>{f179347b-b50a-4b67-a953-9cd1ec8abfb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Editor">
+      <UniqueIdentifier>{7468be8f-e4b8-4eff-993a-886fdd10e016}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ErrorMessages.cpp">
@@ -158,6 +164,12 @@
     </ClCompile>
     <ClCompile Include="FilePathCache.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelEditor.cpp">
+      <Filter>Source Files\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Source Files\Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -298,6 +310,12 @@
     </ClInclude>
     <ClInclude Include="UV.h">
       <Filter>Header Files\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditor.h">
+      <Filter>Header Files\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Header Files\Editor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

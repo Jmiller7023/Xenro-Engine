@@ -79,7 +79,7 @@ void GameplayScreen::onEntry() {
 	m_audioEngine.openEngine();
 
 	//Start level music.
-	m_audioEngine.loadSong("Audio/Music/Battle.ogg", 64).play();
+	m_audioEngine.loadSong("Audio/Music/Battle.ogg", MUSIC_VOLUME).play();
 
 	//Set the camera properly.
 	m_camera.reset(m_window);

@@ -158,6 +158,7 @@
     <ClCompile Include="ImageLoader.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="IOManager.cpp" />
+    <ClCompile Include="LevelEditor.cpp" />
     <ClCompile Include="LightEngine.cpp" />
     <ClCompile Include="LoadManager.cpp" />
     <ClCompile Include="OutlineRenderer.cpp" />
@@ -173,6 +174,7 @@
     <ClCompile Include="SpriteFont.cpp" />
     <ClCompile Include="SpriteSheet.cpp" />
     <ClCompile Include="TextureCache.cpp" />
+    <ClCompile Include="Tile.cpp" />
     <ClCompile Include="Timing.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="World.cpp" />
@@ -195,6 +197,7 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="IOManager.h" />
     <ClInclude Include="IScreen.h" />
+    <ClInclude Include="LevelEditor.h" />
     <ClInclude Include="LightEngine.h" />
     <ClInclude Include="LoadManager.h" />
     <ClInclude Include="Mat2.h" />
@@ -214,6 +217,7 @@
     <ClInclude Include="SpriteFont.h" />
     <ClInclude Include="SpriteSheet.h" />
     <ClInclude Include="TextureCache.h" />
+    <ClInclude Include="Tile.h" />
     <ClInclude Include="Timing.h" />
     <ClInclude Include="unchecked.h" />
     <ClInclude Include="utf8.h" />

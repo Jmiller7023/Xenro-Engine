@@ -59,7 +59,7 @@ void MainMenuScreen::onEntry() {
 	m_audioEngine.openEngine();
 
 	//Start level music.
-	m_audioEngine.loadSong("Audio/Music/MainMenu.ogg", 128).play();
+	m_audioEngine.loadSong("Audio/Music/MainMenu.ogg", MUSIC_VOLUME).play();
 
 	//Set the camera properly.
 	m_camera.reset(m_window);

@@ -37,13 +37,13 @@ public:
 	virtual void draw() override;
 
 private:
-	void checkInput();
+
 
 	Xenro::GLTexture m_texture;
 	Xenro::GLSLProgram m_textureProgram;
 	Xenro::SpriteBatch m_spriteBatch;
 	Xenro::Camera m_camera;
-	std::vector<Box> m_boxes;
+	std::vector<Box> m_tiles;
 	Xenro::Window* m_window;
 	std::unique_ptr<b2World> m_world;
 };

@@ -2,6 +2,7 @@
 #define APPLICATION_DEFINED
 
 #include <XenroEngine\Game.h>
+#include <XenroEngine/LevelEditor.h>
 
 class GameplayScreen;
 class MainMenuScreen;
@@ -28,6 +29,7 @@ private:
 	MainMenuScreen* m_mainMenuScreen;
 	OptionsScreen* m_optionsScreen;
 	PhysicsScreen* m_physicsScreen;
+	Xenro::LevelEditor* m_levelEditor;
 };
 
 #endif //APPLICATION_DEFINED
