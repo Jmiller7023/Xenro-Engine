@@ -35,6 +35,17 @@
 #include <SDL\SDL_events.h>
 #include <glm/glm.hpp>
 
+#include <CEGUI/CEGUI.h>
+
+/// Disable logging in CEGUI for Release build
+#ifndef _DEBUG
+class CeguiNonLogger : public CEGUI::Logger {
+	void logEvent(const CEGUI::String&, CEGUI::LoggingLevel) {}
+	void setLogFilename(const CEGUI::String&, bool) {}
+};
+
+#endif
+
 namespace Xenro{
 
 class Window;
@@ -82,6 +93,11 @@ private:
 	bool m_autoscalingEnabled = true;
 	glm::vec2 m_windowSize;
 	unsigned int m_time = 0;
+
+	/// Disable logging in CEGUI for Release build
+	#ifndef _DEBUG
+		CeguiNonLogger m_ceguiNonLogger;
+	#endif
 };
 
 }

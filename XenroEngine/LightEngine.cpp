@@ -49,6 +49,30 @@ LightEngine::~LightEngine()
 	//Empty
 }
 
+void LightEngine::renderLight(const Light & light)
+{
+	//Use Additive blending for the lights.
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
+	m_spriteBatch.begin();
+
+	glm::vec4 DrawRect;
+
+	DrawRect.x = light.pos.x - light.size.x / 2.0f;
+	DrawRect.y = light.pos.y - light.size.y / 2.0f;
+	DrawRect.z = light.size.x;
+	DrawRect.w = light.size.y;
+
+	//Add DrawRect to be drawn.
+	m_spriteBatch.draw(DrawRect, glm::vec4(-1.0f, -1.0f, 2.0f, 2.0f), 0, 0.0f, light.color);
+
+	m_spriteBatch.end();
+	m_spriteBatch.renderBatch();
+
+	//Reset to regular alpha blending.
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+
 void LightEngine::drawLight(Light light) {
 
 	glm::vec4 DrawRect;
